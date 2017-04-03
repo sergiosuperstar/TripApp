@@ -1,4 +1,4 @@
-﻿# FTN-PMA-E2-17
+﻿# TripApp (FTN-PMA-E2-17)
 
 1. Opšte o aplikaciji
 
