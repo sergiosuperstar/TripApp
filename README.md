@@ -45,4 +45,3 @@
 
 8. Skica aplikacije
 ![Skica 01](https://github.com/sergiosuperstar/FTN-PMA-E2-17/blob/master/Documentation/Images/Android%20App%20-%20Skica%20%231.png "skica 01")
-[[https://github.com/sergiosuperstar/FTN-PMA-E2-17/blob/master/Documentation/Images/Android%20App%20-%20Skica%20%231.png|alt=skica01]]
