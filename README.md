@@ -43,5 +43,6 @@
  Uplaćivanje e-novca za karte (skidanjem kredita/povećavanjem racuna)
 
 
-
 8. Skica aplikacije
+
+[[https://github.com/sergiosuperstar/FTN-PMA-E2-17/blob/master/Documentation/Images/Android%20App%20-%20Skica%20%231.png|alt=skica01]]
