@@ -1,8 +1,8 @@
 ﻿# TripApp (FTN-PMA-E2-17)
 
-1. Opšte o aplikaciji
+#Opšte o aplikaciji#
 
- 1.1 Putnici
+ ##Putnici##
  
   Aplikacija služi za kupovinu i validaciju karata za gradski saobraćajni prevoz. Putnici, koji poseduju naloge, putem mobilnog telefona   kupuju karte, koje mogu biti različitih vrsta, odnosno vremenskog ograničenja ( 1 sat, 1 dan, 7 dana, 30 dana). Njima se potom skidaju   sredstva sa naloga i dobijaju kartu sa QR kodom. Putnici mogu da dopune sredstva kupovinom kartice za dopunu sa QR kodom i skeniranjem   iste.
 
