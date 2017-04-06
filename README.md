@@ -1,26 +1,26 @@
 ﻿# TripApp (FTN-PMA-E2-17)
 
-#Opšte o aplikaciji#
+# Opšte o aplikaciji #
 
- ##Putnici##
+ ## Putnici ##
  
   Aplikacija služi za kupovinu i validaciju karata za gradski saobraćajni prevoz. Putnici, koji poseduju naloge, putem mobilnog telefona   kupuju karte, koje mogu biti različitih vrsta, odnosno vremenskog ograničenja ( 1 sat, 1 dan, 7 dana, 30 dana). Njima se potom skidaju   sredstva sa naloga i dobijaju kartu sa QR kodom. Putnici mogu da dopune sredstva kupovinom kartice za dopunu sa QR kodom i skeniranjem   iste.
 
- 1.2. Kontrolori
+ ## Kontrolori ##
  
   Kontrolori kamerom skeniraju karte (QR kodove) putnicima i proveravaju validnost istih. Ukoliko je karta nevalidna, kontrolor dobija     odgovarajuci ispis i/ili zvučni signal.
 
- 1.3. Administratori
+ ## Administratori ##
  
   Upravljaju nalozima kontrolera i po potrebi putnika.
   Upravljaju linijama prevoza i redom vožnje.
 
- 1.4. Linije i red vožnje
+ ## Linije i red vožnje ##
  
   Aplikacija sadrži i pregled svih linija prevoza na mapi. Postoji mogućnost pregleda pojedinačnih linija na mapi.
   Aplikacija sadrži red vožnje po linijama sa vremenskom tabelom polazaka.
 
- 1.5. Notifikacije
+ ## Notifikacije ##
  
   Aplikacija šalje notifikacije kada je karta postala aktivna (5 minuta posle kupovine, da bi se izbegla kupovina kada počne kontrola).
   Aplikacija šalje notifikacije 10 minuta pre isteka aktivne karte u trajanju od 1 sat.
