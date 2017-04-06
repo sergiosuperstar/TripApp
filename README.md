@@ -75,3 +75,6 @@
 
 8. Skica aplikacije
 ![Skica 01](https://github.com/sergiosuperstar/FTN-PMA-E2-17/blob/master/Documentation/Images/Android%20App%20-%20Skica%20%231.png "skica 01")
+
+9. Model podataka
+![Model podataka](https://github.com/sergiosuperstar/FTN-PMA-E2-17/blob/master/Documentation/Images/android-model.JPG "Model podataka")
