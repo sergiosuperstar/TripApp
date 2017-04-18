@@ -11,24 +11,24 @@ info:
 # all paths will be relative to the basePath specified
 # basePath: /v1
 
+
 # tags are used for organizing operations
 tags:
-- name: admins
-  description: Secured Admin-only calls
-- name: controllers
-  description: Secured Controllers-only calls  
+- name: tickets
+  description: Operations for tickets manipulation
+- name: validation
+  description: Operations for tickets validation  
 - name: users
-  description: Operations available to regular users
+  description: Operations for user management
+  
 # schemes:
 # - http
 # - https
 paths:
   /tickets:
     get:
-      tags:
-      - users
-      - controllers
-      - admins
+      tags: 
+        - tickets
       summary: searches tickets purchases
       operationId: searchTickets
       description: |
@@ -65,8 +65,8 @@ paths:
         400:
           description: bad input parameter
     post:
-      tags:
-      - users
+      tags: 
+        - tickets
       summary: adds an ticket purchase item
       operationId: addTicketPurchase
       description: Adds an item to the system
@@ -89,9 +89,8 @@ paths:
           description: an existing item already exists
   /validation:
     get:
-      tags:
-      - controllers
-      - admins
+      tags: 
+        - validation
       summary: searches tickets validations
       operationId: searchValidations
       description: |
@@ -128,8 +127,8 @@ paths:
         400:
           description: bad input parameter
     post:
-      tags:
-      - users
+      tags: 
+        - validation
       summary: adds an ticket validation item
       operationId: addTicketValidation
       description: Adds an item to the system
@@ -153,9 +152,8 @@ paths:
   
   /user:
     post:
-      tags:
-      - user
-      - admins
+      tags: 
+        - users
       summary: Create user
       description: This can only be done by any user.
       operationId: createUser
@@ -173,8 +171,8 @@ paths:
           description: successful operation
   /user/login:
     get:
-      tags:
-      - user
+      tags: 
+        - users
       summary: Logs user into the system
       operationId: loginUser
       produces:
@@ -208,8 +206,8 @@ paths:
           description: Invalid username/password supplied
   /user/logout:
     get:
-      tags:
-      - user
+      tags: 
+        - users
       summary: Logs out current logged in user session
       operationId: logoutUser
       produces:
@@ -220,8 +218,8 @@ paths:
           description: successful operation
   /user/{username}:
     get:
-      tags:
-      - user
+      tags: 
+        - users
       summary: Get user by user name
       operationId: getUserByName
       produces:
@@ -242,10 +240,8 @@ paths:
         404:
           description: User not found
     put:
-      tags:
-      - user
-      - controllers
-      - admins
+      tags: 
+        - users
       summary: Updated user
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -255,7 +251,7 @@ paths:
       parameters:
       - name: username
         in: path
-        description: name that need to be updated
+        description: username that need to be updated
         required: true
         type: string
       - in: body
@@ -270,8 +266,8 @@ paths:
         404:
           description: User not found
     delete:
-      tags:
-      - user
+      tags: 
+        - users
       summary: Delete user
       description: This can only be done by the logged in user.
       operationId: deleteUser
@@ -281,7 +277,7 @@ paths:
       parameters:
       - name: username
         in: path
-        description: The name that needs to be deleted
+        description: The username that needs to be deleted
         required: true
         type: string
       responses:
@@ -376,6 +372,7 @@ definitions:
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
 basePath: /sergiosuperstar/TripAppSimple/1.0.0
+# basePath: /v1/TripAppSimple/1.0.0
 schemes:
  - https
  - http
