@@ -38,19 +38,21 @@ namespace IO.Swagger.Controllers
     /// <summary>
     /// 
     /// </summary>
-    public class AdminsApiController : Controller
+    public class TicketsApiController : Controller
     { 
 
         /// <summary>
-        /// Create user
+        /// adds an ticket purchase item
         /// </summary>
-        /// <remarks>This can only be done by any user.</remarks>
-        /// <param name="body">Created user object</param>
-        /// <response code="0">successful operation</response>
+        /// <remarks>Adds an item to the system</remarks>
+        /// <param name="ticketPurchase">TicketPurchase item to add</param>
+        /// <response code="201">item created</response>
+        /// <response code="400">invalid input, object invalid</response>
+        /// <response code="409">an existing item already exists</response>
         [HttpPost]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/user")]
-        [SwaggerOperation("CreateUser")]
-        public virtual void CreateUser([FromBody]User body)
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets")]
+        [SwaggerOperation("AddTicketPurchase")]
+        public virtual void AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
         { 
             throw new NotImplementedException();
         }
@@ -77,47 +79,6 @@ namespace IO.Swagger.Controllers
             ? JsonConvert.DeserializeObject<List<TicketPurchase>>(exampleJson)
             : default(List<TicketPurchase>);
             return new ObjectResult(example);
-        }
-
-
-        /// <summary>
-        /// searches tickets validations
-        /// </summary>
-        /// <remarks>By passing in the appropriate options, you can search for available ticket validations in the system </remarks>
-        /// <param name="searchString">pass an optional search string for looking up ticket validations</param>
-        /// <param name="skip">number of records to skip for pagination</param>
-        /// <param name="limit">maximum number of records to return</param>
-        /// <response code="200">search results matching criteria</response>
-        /// <response code="400">bad input parameter</response>
-        [HttpGet]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/validation")]
-        [SwaggerOperation("SearchValidations")]
-        [SwaggerResponse(200, type: typeof(List<TicketValidation>))]
-        public virtual IActionResult SearchValidations([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<TicketValidation>>(exampleJson)
-            : default(List<TicketValidation>);
-            return new ObjectResult(example);
-        }
-
-
-        /// <summary>
-        /// Updated user
-        /// </summary>
-        /// <remarks>This can only be done by the logged in user.</remarks>
-        /// <param name="username">name that need to be updated</param>
-        /// <param name="body">Updated user object</param>
-        /// <response code="400">Invalid user supplied</response>
-        /// <response code="404">User not found</response>
-        [HttpPut]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
-        [SwaggerOperation("UpdateUser")]
-        public virtual void UpdateUser([FromRoute]string username, [FromBody]User body)
-        { 
-            throw new NotImplementedException();
         }
     }
 }

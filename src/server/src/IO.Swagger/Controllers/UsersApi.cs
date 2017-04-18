@@ -42,60 +42,110 @@ namespace IO.Swagger.Controllers
     { 
 
         /// <summary>
-        /// adds an ticket purchase item
+        /// Create user
         /// </summary>
-        /// <remarks>Adds an item to the system</remarks>
-        /// <param name="ticketPurchase">TicketPurchase item to add</param>
-        /// <response code="201">item created</response>
-        /// <response code="400">invalid input, object invalid</response>
-        /// <response code="409">an existing item already exists</response>
+        /// <remarks>This can only be done by any user.</remarks>
+        /// <param name="body">Created user object</param>
+        /// <response code="0">successful operation</response>
         [HttpPost]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets")]
-        [SwaggerOperation("AddTicketPurchase")]
-        public virtual void AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/user")]
+        [SwaggerOperation("CreateUser")]
+        public virtual void CreateUser([FromBody]User body)
         { 
             throw new NotImplementedException();
         }
 
 
         /// <summary>
-        /// adds an ticket validation item
+        /// Delete user
         /// </summary>
-        /// <remarks>Adds an item to the system</remarks>
-        /// <param name="ticketPurchase">TicketValidation item to add</param>
-        /// <response code="201">item created</response>
-        /// <response code="400">invalid input, object invalid</response>
-        /// <response code="409">an existing item already exists</response>
-        [HttpPost]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/validation")]
-        [SwaggerOperation("AddTicketValidation")]
-        public virtual void AddTicketValidation([FromBody]TicketValidation ticketPurchase)
+        /// <remarks>This can only be done by the logged in user.</remarks>
+        /// <param name="username">The username that needs to be deleted</param>
+        /// <response code="400">Invalid username supplied</response>
+        /// <response code="404">User not found</response>
+        [HttpDelete]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
+        [SwaggerOperation("DeleteUser")]
+        public virtual void DeleteUser([FromRoute]string username)
         { 
             throw new NotImplementedException();
         }
 
 
         /// <summary>
-        /// searches tickets purchases
+        /// Get user by user name
         /// </summary>
-        /// <remarks>By passing in the appropriate options, you can search for available ticket in the system </remarks>
-        /// <param name="searchString">pass an optional search string for looking up tickets</param>
-        /// <param name="skip">number of records to skip for pagination</param>
-        /// <param name="limit">maximum number of records to return</param>
-        /// <response code="200">search results matching criteria</response>
-        /// <response code="400">bad input parameter</response>
+        
+        /// <param name="username">The name that needs to be fetched.</param>
+        /// <response code="200">successful operation</response>
+        /// <response code="400">Invalid username supplied</response>
+        /// <response code="404">User not found</response>
         [HttpGet]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets")]
-        [SwaggerOperation("SearchTickets")]
-        [SwaggerResponse(200, type: typeof(List<TicketPurchase>))]
-        public virtual IActionResult SearchTickets([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
+        [SwaggerOperation("GetUserByName")]
+        [SwaggerResponse(200, type: typeof(User))]
+        public virtual IActionResult GetUserByName([FromRoute]string username)
         { 
             string exampleJson = null;
             
             var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<TicketPurchase>>(exampleJson)
-            : default(List<TicketPurchase>);
+            ? JsonConvert.DeserializeObject<User>(exampleJson)
+            : default(User);
             return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Logs user into the system
+        /// </summary>
+        
+        /// <param name="username">The user name for login</param>
+        /// <param name="password">The password for login in clear text</param>
+        /// <response code="200">successful operation</response>
+        /// <response code="400">Invalid username/password supplied</response>
+        [HttpGet]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/login")]
+        [SwaggerOperation("LoginUser")]
+        [SwaggerResponse(200, type: typeof(string))]
+        public virtual IActionResult LoginUser([FromQuery]string username, [FromQuery]string password)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<string>(exampleJson)
+            : default(string);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Logs out current logged in user session
+        /// </summary>
+        
+        /// <response code="0">successful operation</response>
+        [HttpGet]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/logout")]
+        [SwaggerOperation("LogoutUser")]
+        public virtual void LogoutUser()
+        { 
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Updated user
+        /// </summary>
+        /// <remarks>This can only be done by the logged in user.</remarks>
+        /// <param name="username">username that need to be updated</param>
+        /// <param name="body">Updated user object</param>
+        /// <response code="400">Invalid user supplied</response>
+        /// <response code="404">User not found</response>
+        [HttpPut]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
+        [SwaggerOperation("UpdateUser")]
+        public virtual void UpdateUser([FromRoute]string username, [FromBody]User body)
+        { 
+            throw new NotImplementedException();
         }
     }
 }
