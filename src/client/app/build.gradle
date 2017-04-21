@@ -51,8 +51,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "com.google.code.gson:gson:$gson_version"
@@ -63,6 +61,9 @@ dependencies {
     testCompile "junit:junit:$junit_version"
     testCompile "org.robolectric:robolectric:${robolectric_version}"
     testCompile "net.jodah:concurrentunit:${concurrent_unit_version}"
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-v4:25.3.1'
 }
 
 /*dependencies {
