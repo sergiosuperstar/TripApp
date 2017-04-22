@@ -5,7 +5,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ticket_duration">Ticket duration: </string>
     <string name="ticket_price">Ticket Price: </string>
+    <string name="total_price">Total Price: </string>
     <string name="eur">EUR</string>
+    <string name="no_of_cards">No. of tickets:</string>
     <string name="keep_in_mind">Keep in mind that ticket becomes valid 10 minutes after purchase</string>
     <string name="buy_ticket">Buy Ticket</string>
 </resources>
