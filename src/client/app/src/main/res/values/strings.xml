@@ -15,4 +15,9 @@
     <string name="valid_from">Valid from:</string>
     <string name="ticket_title">Your ticket</string>
     <string name="ticket_price_label">Ticket price:</string>
+    <string name="button_onehourticket">Hour ticket</string>
+    <string name="button_onedayticket">Day ticket</string>
+    <string name="button_oneweekticket">Week ticket</string>
+    <string name="button_onemonthticket">Month ticket</string>
+    <string name="main_activity_greeting">Please select your ticket type!</string>
 </resources>
