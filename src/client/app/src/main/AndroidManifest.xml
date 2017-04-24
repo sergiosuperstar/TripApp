@@ -16,13 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TicketPurchase">
-
-        </activity>
-        <activity android:name=".TicketInfo">
-
-
-        </activity>
+        <activity android:name=".TicketPurchase"></activity>
+        <activity android:name=".TicketInfo"></activity>
     </application>
 
 </manifest>
