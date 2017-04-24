@@ -2,6 +2,9 @@ package com.example.icf.tripappclient;
 
 import android.app.Activity;
 import android.support.v4.view.GravityCompat;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,5 +46,24 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
     }
 
+    /** Called when the user touches the button */
+    public void buyOneHourTicket(View view) {
+        Intent intent = new Intent(getApplicationContext(), TicketPurchase.class);
+        startActivity(intent);
+    }
 
+    public void buyOneDayTicket(View view) {
+        Intent intent = new Intent(getApplicationContext(), TicketPurchase.class);
+        startActivity(intent);
+    }
+
+    public void buyWeekDayTicket(View view) {
+        Intent intent = new Intent(getApplicationContext(), TicketPurchase.class);
+        startActivity(intent);
+    }
+
+    public void buyMonthDayTicket(View view) {
+        Intent intent = new Intent(getApplicationContext(), TicketPurchase.class);
+        startActivity(intent);
+    }
 }

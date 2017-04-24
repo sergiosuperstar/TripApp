@@ -8,19 +8,56 @@
     android:layout_height="match_parent"
     tools:context="com.example.icf.tripappclient.MainActivity">
 
-    <android.support.constraint.ConstraintLayout
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="2"
+        android:orientation="horizontal" >
+        <Button
+            android:id="@+id/onehourticket"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_column="0"
+            android:text="@string/button_onehourticket"
+            android:onClick="buyOneHourTicket"
+            />
+        <Button
+            android:id="@+id/onedayticket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:text="@string/button_onedayticket"
+            android:onClick="buyOneDayTicket"
+            />
+        <Button
+            android:id="@+id/oneweekticket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:text="@string/button_oneweekticket"
+            android:onClick="buyWeekDayTicket"
+            />
+        <Button
+            android:id="@+id/onemonthticket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:text="@string/button_onemonthticket"
+            android:onClick="buyMonthDayTicket"
+            />
+    </GridLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_activity_greeting"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -33,7 +70,7 @@
             tools:layout_editor_absoluteY="25dp"
             tools:layout_editor_absoluteX="8dp" />
 
-    </android.support.constraint.ConstraintLayout>
+ 
 
     <ListView
         android:id="@+id/navDrawer"
