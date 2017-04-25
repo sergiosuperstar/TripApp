@@ -77,6 +77,9 @@ public class TicketInfo extends AppCompatActivity implements NavigationView.OnNa
         } else if (id == R.id.nav_ticket_info) {
             Intent intent = new Intent(getApplicationContext(), TicketInfo.class);
             startActivity(intent);
+        } else if (id == R.id.nav_ticket_balance) {
+            Intent intent = new Intent(getApplicationContext(), AccountBalance.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

@@ -15,6 +15,10 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="My ticket" />
         <item
+            android:id="@+id/nav_ticket_balance"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="My balance" />
+        <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools" />
