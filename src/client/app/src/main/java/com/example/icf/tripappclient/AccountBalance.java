@@ -79,12 +79,18 @@ public class AccountBalance extends AppCompatActivity
         } else if (id == R.id.nav_ticket_info) {
             Intent intent = new Intent(getApplicationContext(), TicketInfo.class);
             startActivity(intent);
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_ticket_balance) {
+            Intent intent = new Intent(getApplicationContext(), AccountBalance.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_camera) {
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            startActivity(intent);
+        } else if (id == R.id.nav_ticket_history) {
+            Intent intent = new Intent(getApplicationContext(), TicketHistory.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_login) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
