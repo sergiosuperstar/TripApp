@@ -88,8 +88,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_ticket_info) {
             Intent intent = new Intent(getApplicationContext(), TicketInfo.class);
             startActivity(intent);
-        } else if (id == R.id.nav_manage) {
-
+        } else if (id == R.id.nav_camera) {
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
