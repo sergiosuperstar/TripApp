@@ -108,45 +108,50 @@
                 android:id="@+id/dateFromValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="21.12.2012. 20:53"
-                app:layout_constraintTop_toBottomOf="@+id/qrExample"
+                android:textColor="?attr/colorPrimaryDark"
+                android:visibility="visible"
                 app:layout_constraintLeft_toRightOf="@+id/startDate"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp" />
+                app:layout_constraintTop_toBottomOf="@+id/qrExample" />
 
             <TextView
                 android:id="@+id/dateToValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
                 android:text="21.12.2012. 21:53"
-                app:layout_constraintTop_toBottomOf="@+id/dateFromValue"
+                android:textColor="?attr/colorPrimaryDark"
                 app:layout_constraintLeft_toRightOf="@+id/endDate"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp" />
+                app:layout_constraintTop_toBottomOf="@+id/dateFromValue" />
 
             <TextView
                 android:id="@+id/tiketsNumberValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="1"
-                app:layout_constraintLeft_toRightOf="@+id/ticketsNumber"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@+id/dateToValue"
-                android:layout_marginStart="8dp" />
+                android:text="1"
+                android:textColor="?attr/colorPrimaryDark"
+                app:layout_constraintLeft_toRightOf="@+id/ticketsNumber"
+                app:layout_constraintTop_toBottomOf="@+id/dateToValue" />
 
             <TextView
                 android:id="@+id/ticketPriceValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
                 android:text="1.20 EUR"
+                android:textColor="?attr/colorPrimaryDark"
                 app:layout_constraintLeft_toRightOf="@+id/ticketPrice"
-                app:layout_constraintTop_toBottomOf="@+id/tiketsNumberValue"
-                android:layout_marginStart="8dp" />
+                app:layout_constraintTop_toBottomOf="@+id/tiketsNumberValue" />
 
         </android.support.constraint.ConstraintLayout>
 

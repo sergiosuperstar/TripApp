@@ -24,8 +24,13 @@
             android:title="Tools" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Ticket Inspector">
         <menu>
+            <item
+                android:id="@+id/nav_camera"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="Scan ticket" />
+
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"

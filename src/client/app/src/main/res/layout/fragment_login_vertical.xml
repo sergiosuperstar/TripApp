@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="40dp"
+    tools:context=".fragments.LoginFragmentVertical">
+
+    <ImageView
+        android:id="@+id/loginImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/usernameInput"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ticket" />
+
+    <EditText
+        android:id="@+id/usernameInput"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/passwordInput"
+        android:hint="@string/username"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/passwordInput"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/loginButton"
+        android:hint="@string/password"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="220dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp"
+        android:text="@string/login" />
+
+</RelativeLayout>
