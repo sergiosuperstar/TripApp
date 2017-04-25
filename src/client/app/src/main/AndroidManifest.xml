@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".TicketPurchase" />
         <activity android:name=".TicketInfo" />
+        <activity android:name=".TicketHistory" />
         <activity android:name=".LoginActivity"></activity>
     </application>
 

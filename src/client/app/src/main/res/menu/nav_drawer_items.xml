@@ -15,9 +15,13 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="My ticket" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_ticket_history"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Ticket history" />
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Login" />
     </group>
 
     <item android:title="Ticket Inspector">
