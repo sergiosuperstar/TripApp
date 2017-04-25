@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_ticket_info) {
             Intent intent = new Intent(getApplicationContext(), TicketInfo.class);
             startActivity(intent);
+        } else if (id == R.id.nav_ticket_balance) {
+            Intent intent = new Intent(getApplicationContext(), AccountBalance.class);
+            startActivity(intent);
         } else if (id == R.id.nav_camera) {
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             startActivity(intent);
@@ -104,7 +107,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /** Called when the user touches the button */
     public void buyOneHourTicket(View view) {
         Intent intent = new Intent(getApplicationContext(), TicketPurchase.class);
         startActivity(intent);

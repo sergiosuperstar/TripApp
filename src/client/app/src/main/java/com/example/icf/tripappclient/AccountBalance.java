@@ -11,12 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class TicketInfo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class AccountBalance extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ticket_info);
+        setContentView(R.layout.activity_account_balance);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -77,19 +79,6 @@ public class TicketInfo extends AppCompatActivity implements NavigationView.OnNa
         } else if (id == R.id.nav_ticket_info) {
             Intent intent = new Intent(getApplicationContext(), TicketInfo.class);
             startActivity(intent);
-       
-        } else if (id == R.id.nav_camera) {
-            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-            startActivity(intent);
-        } else if (id == R.id.nav_ticket_history) {
-            Intent intent = new Intent(getApplicationContext(), TicketHistory.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_login) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_ticket_balance) {
-            Intent intent = new Intent(getApplicationContext(), AccountBalance.class);
-            startActivity(intent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -102,5 +91,4 @@ public class TicketInfo extends AppCompatActivity implements NavigationView.OnNa
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }
