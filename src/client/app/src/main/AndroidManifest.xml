@@ -11,7 +11,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <uses-permission android:name="android.permission.CAMERA"> </uses-permission>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -20,11 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TicketPurchase" />
-        <activity android:name=".TicketInfo" />
-        <activity android:name=".TicketHistory" />
-        <activity android:name=".AccountBalance"></activity>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".activities.TicketPurchase" />
+        <activity android:name=".activities.TicketInfo" />
+        <activity android:name=".activities.TicketHistory" />
+        <activity android:name=".activities.AccountBalance"></activity>
+        <activity android:name=".activities.LoginActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,44 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:columnCount="2"
+    android:orientation="horizontal"
+    tools:context="com.example.icf.tripappclient.fragments.Home">
+
+    <Button
+        android:id="@+id/onehourticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:text="@string/button_onehourticket"
+        android:onClick="buyOneHourTicket"
+        />
+    <Button
+        android:id="@+id/onedayticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:text="@string/button_onedayticket"
+        android:onClick="buyOneDayTicket"
+        />
+    <Button
+        android:id="@+id/oneweekticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:text="@string/button_oneweekticket"
+        android:onClick="buyWeekDayTicket"
+        />
+    <Button
+        android:id="@+id/onemonthticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:text="@string/button_onemonthticket"
+        android:onClick="buyMonthDayTicket"
+        />
+
+
+</GridLayout>

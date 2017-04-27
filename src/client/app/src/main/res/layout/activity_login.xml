@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.icf.tripappclient.LoginActivity">
+    tools:context="com.example.icf.tripappclient.activities.LoginActivity">
 
-    <fragment android:name="com.example.icf.tripappclient.fragments.LoginFragmentVertical"
+    <fragment android:name="com.example.icf.tripappclient.fragments.LoginVertical"
         android:id="@+id/fragment_login_vertical"
         android:layout_weight="1"
         android:layout_width="0dp"

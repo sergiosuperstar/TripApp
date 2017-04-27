@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="40dp"
-    tools:context=".fragments.LoginFragmentVertical">
+    tools:context=".fragments.LoginVertical">
 
     <ImageView
         android:id="@+id/loginImage"

@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollHorizontally="false"
-    tools:context="com.example.icf.tripappclient.fragments.TicketPurchaseVertical"
+    tools:context="com.example.icf.tripappclient.fragments.TicketPurchase"
     android:paddingBottom="10dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
@@ -69,7 +70,7 @@
         android:text="@string/no_of_cards"
         android:layout_marginTop="18dp"
         android:layout_above="@+id/totalValue" />
-        <!--android:layout_alignBaseline="@+id/priceValue"-->
+    <!--android:layout_alignBaseline="@+id/priceValue"-->
 
     <EditText
         android:id="@+id/numberValue"
