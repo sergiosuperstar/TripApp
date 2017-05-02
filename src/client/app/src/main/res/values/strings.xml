@@ -34,4 +34,11 @@
     <string name="payment_history">Payment history:</string>
     <string name="currency_used">10.000,00 RSD</string>
     <string name="button_add_money">Add money</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="notifications_turn">Turn On/Off notifications</string>
+    <string name="notifications_disabled">Application notifications are disabled</string>
+    <string name="notifications_enabled">Application notifications are enabled</string>
+    <string name="notifications_time">Notifications time</string>
+    <string name="notifications_time_desc">Set number of minutes for how long in advance you want to recive notofocations</string>
 </resources>

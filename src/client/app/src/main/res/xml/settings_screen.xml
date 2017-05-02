@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/notifications">
+
+        <CheckBoxPreference
+            android:id="@+id/settings_notifications_choose"
+            android:defaultValue="true"
+            android:disableDependentsState="false"
+            android:dependency="@+id/settings_notifications_time"
+            android:title="@string/notifications_turn"
+            android:summaryOff="@string/notifications_disabled"
+            android:summaryOn="@string/notifications_enabled" />
+
+        <ListPreference
+            android:id="@+id/settings_notifications_time"
+            android:title="@string/notifications_time"
+            android:entries="@array/notification_times"
+            android:entryValues="@array/notification_times"
+            android:defaultValue="10"
+            android:summary="@string/notifications_time_desc"/>
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

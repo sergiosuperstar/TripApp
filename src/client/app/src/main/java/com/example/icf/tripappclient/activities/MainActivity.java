@@ -1,7 +1,5 @@
 package com.example.icf.tripappclient.activities;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,10 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.fragments.AccountBalance;
 import com.example.icf.tripappclient.fragments.Home;
+import com.example.icf.tripappclient.fragments.SettingsFragment;
 import com.example.icf.tripappclient.fragments.TicketHistory;
 import com.example.icf.tripappclient.fragments.TicketInfo;
 import com.example.icf.tripappclient.fragments.TicketPurchase;
@@ -111,6 +112,15 @@ public class MainActivity extends AppCompatActivity
             TicketHistory thFragment = new TicketHistory();
             fragmentTransaction.replace(R.id.fragment_container, thFragment);
             fragmentTransaction.commit();
+        } else if (id == R.id.nav_settings) {
+            //android.app.Fragment setingsFragment = new SettingsFragment();
+            //android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            //transaction.add(R.id.fragment_container, setingsFragment, "settings_fragment");
+            //transaction.commit();
+
+            //android.support.v7.preference.PreferenceFragmentCompat setingsFragment = new SettingsFragment();
+            //fragmentTransaction.replace(R.id.fragment_container, setingsFragment);
+            //fragmentTransaction.commit();
         } else if (id == R.id.nav_login) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
