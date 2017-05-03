@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentTransaction;
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.fragments.AccountBalance;
 import com.example.icf.tripappclient.fragments.Home;
-import com.example.icf.tripappclient.fragments.SettingsFragment;
 import com.example.icf.tripappclient.fragments.TicketHistory;
 import com.example.icf.tripappclient.fragments.TicketInfo;
 import com.example.icf.tripappclient.fragments.TicketPurchase;
@@ -117,6 +116,8 @@ public class MainActivity extends AppCompatActivity
             //android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
             //transaction.add(R.id.fragment_container, setingsFragment, "settings_fragment");
             //transaction.commit();
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
 
             //android.support.v7.preference.PreferenceFragmentCompat setingsFragment = new SettingsFragment();
             //fragmentTransaction.replace(R.id.fragment_container, setingsFragment);

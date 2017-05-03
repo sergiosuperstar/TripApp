@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <uses-permission android:name="android.permission.CAMERA"> </uses-permission>
+        <uses-permission android:name="android.permission.CAMERA"></uses-permission>
+
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
@@ -23,8 +24,9 @@
         <activity android:name=".activities.TicketPurchase" />
         <activity android:name=".activities.TicketInfo" />
         <activity android:name=".activities.TicketHistory" />
-        <activity android:name=".activities.AccountBalance"></activity>
-        <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name=".activities.AccountBalance" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.SettingsActivity"></activity>
     </application>
 
 </manifest>
