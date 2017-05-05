@@ -41,4 +41,7 @@
     <string name="notifications_enabled">Application notifications are enabled</string>
     <string name="notifications_time">Notifications time</string>
     <string name="notifications_time_desc">Set number of minutes for how long in advance you want to recive notofocations</string>
+    <string name="active_label">Active tickets:</string>
+    <string name="expired_label">Expired tickets:</string>
+
 </resources>

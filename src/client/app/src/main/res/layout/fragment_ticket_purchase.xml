@@ -74,19 +74,6 @@
         android:layout_above="@+id/totalValue" />
     <!--android:layout_alignBaseline="@+id/priceValue"-->
 
-    <EditText
-        android:id="@+id/numberValue"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/durationLabel"
-        android:layout_alignBaseline="@+id/numberLabel"
-        android:layout_marginTop="10dp"
-        android:gravity="right"
-        android:padding="7dp"
-        android:inputType="number"
-        android:textSize="18dp"
-        android:text="1"/>
-
     <TextView
         android:id="@+id/totalLabel"
         android:layout_width="wrap_content"
@@ -136,5 +123,16 @@
         android:layout_marginBottom="15dp"
         android:layout_alignParentBottom="true"
         android:text="@string/keep_in_mind" />
+
+    <Spinner
+        android:id="@+id/numberValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/ticket_numbers"
+        android:layout_alignBottom="@+id/numberLabel"
+        android:layout_alignEnd="@+id/priceCurrency"
+        android:layout_alignLeft="@+id/priceValue"
+        android:layout_alignRight="@+id/priceCurrency"
+        android:layout_alignStart="@+id/priceValue" />
 
 </RelativeLayout>
