@@ -16,6 +16,12 @@
     <string name="ticket_title">Your ticket</string>
     <string name="ticket_price_label">Ticket price:</string>
 
+    <string name="home_title">Purchase tickets</string>
+    <string name="ticket_info_title">My ticket</string>
+    <string name="ticket_history_title">All tickets</string>
+    <string name="ticket_purchase_title">Buy ticket</string>
+    <string name="account_balance_title">Account balance</string>
+
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
