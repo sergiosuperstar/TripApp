@@ -6,7 +6,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <uses-permission android:name="android.permission.CAMERA"></uses-permission>
@@ -21,10 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TicketPurchase" />
-        <activity android:name=".activities.TicketInfo" />
-        <activity android:name=".activities.TicketHistory" />
-        <activity android:name=".activities.AccountBalance" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.SettingsActivity"></activity>
     </application>

@@ -111,16 +111,8 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, thFragment);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_settings) {
-            //android.app.Fragment setingsFragment = new SettingsFragment();
-            //android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            //transaction.add(R.id.fragment_container, setingsFragment, "settings_fragment");
-            //transaction.commit();
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
-
-            //android.support.v7.preference.PreferenceFragmentCompat setingsFragment = new SettingsFragment();
-            //fragmentTransaction.replace(R.id.fragment_container, setingsFragment);
-            //fragmentTransaction.commit();
         } else if (id == R.id.nav_login) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);

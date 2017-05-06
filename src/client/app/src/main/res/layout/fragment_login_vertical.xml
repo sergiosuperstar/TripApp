@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="40dp"
     tools:context=".fragments.LoginVertical">
 
     <ImageView
@@ -11,7 +10,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/usernameInput"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ticket" />
+        android:layout_margin="10dp"
+        android:src="@drawable/background" />
 
     <EditText
         android:id="@+id/usernameInput"
@@ -41,7 +41,8 @@
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         android:text="@string/login" />
 
 </RelativeLayout>

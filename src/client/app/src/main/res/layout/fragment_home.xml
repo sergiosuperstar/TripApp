@@ -1,44 +1,52 @@
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:columnCount="2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:gravity="center"
     android:orientation="horizontal"
+    android:background="@drawable/home_background"
     tools:context="com.example.icf.tripappclient.fragments.Home">
 
-    <Button
-        android:id="@+id/onehourticket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:text="@string/button_onehourticket"
-        android:onClick="buyOneHourTicket"
-        />
-    <Button
-        android:id="@+id/onedayticket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:text="@string/button_onedayticket"
-        android:onClick="buyOneDayTicket"
-        />
-    <Button
-        android:id="@+id/oneweekticket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:text="@string/button_oneweekticket"
-        android:onClick="buyWeekDayTicket"
-        />
-    <Button
-        android:id="@+id/onemonthticket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:text="@string/button_onemonthticket"
-        android:onClick="buyMonthDayTicket"
-        />
 
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="2">
 
-</GridLayout>
+        <Button
+            android:id="@+id/onehourticket"
+            style="@style/HomeButton"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:text="@string/button_onehourticket"
+            android:onClick="buyOneHourTicket" />
+
+        <Button
+            android:id="@+id/onedayticket"
+            style="@style/HomeButton"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:text="@string/button_onedayticket"
+            android:onClick="buyOneDayTicket" />
+
+        <Button
+            android:id="@+id/oneweekticket"
+            style="@style/HomeButton"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="@string/button_oneweekticket"
+            android:onClick="buyWeekDayTicket" />
+
+        <Button
+            android:id="@+id/onemonthticket"
+            style="@style/HomeButton"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:text="@string/button_onemonthticket"
+            android:onClick="buyMonthDayTicket" />
+    </GridLayout>
+
+</LinearLayout>
