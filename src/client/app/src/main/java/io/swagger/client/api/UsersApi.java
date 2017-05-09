@@ -68,8 +68,8 @@ public class UsersApi {
   }
 
   /**
-  * Create user
-  * This can only be done by any user.
+  * Creates user
+  * This can be done by any user.
    * @param body Created user object
    * @return void
   */
@@ -138,8 +138,8 @@ public class UsersApi {
   }
 
       /**
-   * Create user
-   * This can only be done by any user.
+   * Creates user
+   * This can be done by any user.
    * @param body Created user object
   */
   public void createUser (User body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
@@ -201,8 +201,8 @@ public class UsersApi {
     }
   }
   /**
-  * Delete user
-  * This can only be done by the logged in user.
+  * Deletes user
+  * This can only be done by an administrator.
    * @param username The username that needs to be deleted
    * @return void
   */
@@ -271,8 +271,8 @@ public class UsersApi {
   }
 
       /**
-   * Delete user
-   * This can only be done by the logged in user.
+   * Deletes user
+   * This can only be done by an administrator.
    * @param username The username that needs to be deleted
   */
   public void deleteUser (String username, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
@@ -334,18 +334,18 @@ public class UsersApi {
     }
   }
   /**
-  * Get user by user name
+  * Gets user by username
   * 
-   * @param username The name that needs to be fetched.
+   * @param username The username that needs to be fetched.
    * @return User
   */
-  public User getUserByName (String username) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+  public User getUserByUsername (String username) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
      Object postBody = null;
   
       // verify the required parameter 'username' is set
       if (username == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'username' when calling getUserByName",
-      new ApiException(400, "Missing the required parameter 'username' when calling getUserByName"));
+      VolleyError error = new VolleyError("Missing the required parameter 'username' when calling getUserByUsername",
+      new ApiException(400, "Missing the required parameter 'username' when calling getUserByUsername"));
       }
   
 
@@ -404,18 +404,18 @@ public class UsersApi {
   }
 
       /**
-   * Get user by user name
+   * Gets user by username
    * 
-   * @param username The name that needs to be fetched.
+   * @param username The username that needs to be fetched.
   */
-  public void getUserByName (String username, final Response.Listener<User> responseListener, final Response.ErrorListener errorListener) {
+  public void getUserByUsername (String username, final Response.Listener<User> responseListener, final Response.ErrorListener errorListener) {
     Object postBody = null;
 
   
     // verify the required parameter 'username' is set
     if (username == null) {
-       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling getUserByName",
-         new ApiException(400, "Missing the required parameter 'username' when calling getUserByName"));
+       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling getUserByUsername",
+         new ApiException(400, "Missing the required parameter 'username' when calling getUserByUsername"));
     }
     
 
@@ -625,7 +625,7 @@ public class UsersApi {
     }
   }
   /**
-  * Logs out current logged in user session
+  * Logs out currenty logged in user session
   * 
    * @return void
   */
@@ -688,7 +688,7 @@ public class UsersApi {
   }
 
       /**
-   * Logs out current logged in user session
+   * Logs out currenty logged in user session
    * 
 
   */
@@ -745,13 +745,13 @@ public class UsersApi {
     }
   }
   /**
-  * Updated user
+  * Updates user
   * This can only be done by the logged in user.
-   * @param username username that need to be updated
+   * @param username username of a user that is about to be updated
    * @param body Updated user object
-   * @return void
+   * @return User
   */
-  public void updateUser (String username, User body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+  public User updateUser (String username, User body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
      Object postBody = body;
   
       // verify the required parameter 'username' is set
@@ -800,9 +800,9 @@ public class UsersApi {
       try {
         String localVarResponse = apiInvoker.invokeAPI (basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
         if(localVarResponse != null){
-           return ;
+           return (User) ApiInvoker.deserialize(localVarResponse, "", User.class);
         } else {
-           return ;
+           return null;
         }
       } catch (ApiException ex) {
          throw ex;
@@ -822,11 +822,11 @@ public class UsersApi {
   }
 
       /**
-   * Updated user
+   * Updates user
    * This can only be done by the logged in user.
-   * @param username username that need to be updated   * @param body Updated user object
+   * @param username username of a user that is about to be updated   * @param body Updated user object
   */
-  public void updateUser (String username, User body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+  public void updateUser (String username, User body, final Response.Listener<User> responseListener, final Response.ErrorListener errorListener) {
     Object postBody = body;
 
   
@@ -878,7 +878,11 @@ public class UsersApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-              responseListener.onResponse(localVarResponse);
+            try {
+              responseListener.onResponse((User) ApiInvoker.deserialize(localVarResponse,  "", User.class));
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
           }
       }, new Response.ErrorListener() {
           @Override
