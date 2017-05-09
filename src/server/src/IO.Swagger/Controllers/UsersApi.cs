@@ -42,10 +42,12 @@ namespace IO.Swagger.Controllers
     { 
 
         /// <summary>
-        /// Create user
+        /// Creates user
         /// </summary>
-        /// <remarks>This can only be done by any user.</remarks>
+        /// <remarks>This can be done by any user.</remarks>
         /// <param name="body">Created user object</param>
+        /// <response code="400">bad input parameter</response>
+        /// <response code="409">an existing item already exists</response>
         /// <response code="0">successful operation</response>
         [HttpPost]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user")]
@@ -57,10 +59,11 @@ namespace IO.Swagger.Controllers
 
 
         /// <summary>
-        /// Delete user
+        /// Deletes user
         /// </summary>
-        /// <remarks>This can only be done by the logged in user.</remarks>
+        /// <remarks>This can only be done by an administrator.</remarks>
         /// <param name="username">The username that needs to be deleted</param>
+        /// <response code="200">successful operation</response>
         /// <response code="400">Invalid username supplied</response>
         /// <response code="404">User not found</response>
         [HttpDelete]
@@ -73,18 +76,18 @@ namespace IO.Swagger.Controllers
 
 
         /// <summary>
-        /// Get user by user name
+        /// Gets user by username
         /// </summary>
         
-        /// <param name="username">The name that needs to be fetched.</param>
+        /// <param name="username">The username that needs to be fetched.</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid username supplied</response>
         /// <response code="404">User not found</response>
         [HttpGet]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
-        [SwaggerOperation("GetUserByName")]
+        [SwaggerOperation("GetUserByUsername")]
         [SwaggerResponse(200, type: typeof(User))]
-        public virtual IActionResult GetUserByName([FromRoute]string username)
+        public virtual IActionResult GetUserByUsername([FromRoute]string username)
         { 
             string exampleJson = null;
             
@@ -119,7 +122,7 @@ namespace IO.Swagger.Controllers
 
 
         /// <summary>
-        /// Logs out current logged in user session
+        /// Logs out currenty logged in user session
         /// </summary>
         
         /// <response code="0">successful operation</response>
@@ -133,19 +136,26 @@ namespace IO.Swagger.Controllers
 
 
         /// <summary>
-        /// Updated user
+        /// Updates user
         /// </summary>
         /// <remarks>This can only be done by the logged in user.</remarks>
-        /// <param name="username">username that need to be updated</param>
+        /// <param name="username">username of a user that is about to be updated</param>
         /// <param name="body">Updated user object</param>
+        /// <response code="200">successful operation</response>
         /// <response code="400">Invalid user supplied</response>
         /// <response code="404">User not found</response>
         [HttpPut]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
         [SwaggerOperation("UpdateUser")]
-        public virtual void UpdateUser([FromRoute]string username, [FromBody]User body)
+        [SwaggerResponse(200, type: typeof(User))]
+        public virtual IActionResult UpdateUser([FromRoute]string username, [FromBody]User body)
         { 
-            throw new NotImplementedException();
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<User>(exampleJson)
+            : default(User);
+            return new ObjectResult(example);
         }
     }
 }

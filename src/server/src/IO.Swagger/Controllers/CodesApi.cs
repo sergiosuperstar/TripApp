@@ -38,47 +38,63 @@ namespace IO.Swagger.Controllers
     /// <summary>
     /// 
     /// </summary>
-    public class TicketsApiController : Controller
+    public class CodesApiController : Controller
     { 
 
         /// <summary>
-        /// adds an ticket purchase item
+        /// adds a purchase code
         /// </summary>
         /// <remarks>Adds an item to the system</remarks>
-        /// <param name="ticketPurchase">TicketPurchase item to add</param>
+        /// <param name="purchaseCode">PurchaseCode item to add</param>
         /// <response code="201">item created</response>
         /// <response code="400">invalid input, object invalid</response>
         /// <response code="409">item already exists</response>
         [HttpPost]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets")]
-        [SwaggerOperation("AddTicketPurchase")]
-        public virtual void AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/codes")]
+        [SwaggerOperation("AddPurchaseCode")]
+        public virtual void AddPurchaseCode([FromBody]PurchaseCode purchaseCode)
         { 
             throw new NotImplementedException();
         }
 
 
         /// <summary>
-        /// searches tickets purchases
+        /// searches purchase codes
         /// </summary>
-        /// <remarks>By passing in the appropriate options, you can search for available ticket in the system </remarks>
-        /// <param name="searchString">pass an optional search string for looking up tickets</param>
+        /// <remarks>By passing in the appropriate options, you can search for available purchase codes in the system </remarks>
+        /// <param name="searchString">pass an optional search string for looking up purchase codes</param>
         /// <param name="skip">number of records to skip for pagination</param>
         /// <param name="limit">maximum number of records to return</param>
         /// <response code="200">search results matching criteria</response>
         /// <response code="400">bad input parameter</response>
         [HttpGet]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets")]
-        [SwaggerOperation("SearchTickets")]
-        [SwaggerResponse(200, type: typeof(List<TicketPurchase>))]
-        public virtual IActionResult SearchTickets([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/codes")]
+        [SwaggerOperation("SearchCodes")]
+        [SwaggerResponse(200, type: typeof(List<PurchaseCode>))]
+        public virtual IActionResult SearchCodes([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
         { 
             string exampleJson = null;
             
             var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<TicketPurchase>>(exampleJson)
-            : default(List<TicketPurchase>);
+            ? JsonConvert.DeserializeObject<List<PurchaseCode>>(exampleJson)
+            : default(List<PurchaseCode>);
             return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// updates a purchase code
+        /// </summary>
+        /// <remarks>Updates an item to the system</remarks>
+        /// <param name="purchaseCode">PurchaseCode item to update</param>
+        /// <response code="200">item updated</response>
+        /// <response code="400">invalid input, object invalid</response>
+        [HttpPut]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/codes")]
+        [SwaggerOperation("UpdatePurchaseCode")]
+        public virtual void UpdatePurchaseCode([FromBody]PurchaseCode purchaseCode)
+        { 
+            throw new NotImplementedException();
         }
     }
 }

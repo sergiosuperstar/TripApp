@@ -86,8 +86,70 @@ paths:
         400:
           description: invalid input, object invalid
         409:
-          description: an existing item already exists
-  /validation:
+          description: item already exists
+  /tickets/types:
+    get:
+      tags: 
+        - types
+      summary: searches ticket types
+      operationId: searchTicketTypes
+      description: |
+        By passing in the appropriate options, you can search for
+        available ticket types in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: searchString
+        description: pass an optional search string for looking up ticket types
+        required: false
+        type: string
+      - in: query
+        name: skip
+        description: number of records to skip for pagination
+        type: integer
+        format: int32
+        minimum: 0
+      - in: query
+        name: limit
+        description: maximum number of records to return
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 50
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TicketType'
+        400:
+          description: bad input parameter
+    post:
+      tags: 
+        - types
+      summary: adds an ticket type
+      operationId: addTicketType
+      description: Adds an item to the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: ticketType
+        description: TicketType item to add
+        schema:
+          $ref: '#/definitions/TicketType'
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: item already exists
+  /tickets/validation:
     get:
       tags: 
         - validation
@@ -149,13 +211,95 @@ paths:
           description: invalid input, object invalid
         409:
           description: an existing item already exists
-  
+  /codes:
+    get:
+      tags: 
+        - codes
+      summary: searches purchase codes
+      operationId: searchCodes
+      description: |
+        By passing in the appropriate options, you can search for
+        available purchase codes in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: searchString
+        description: pass an optional search string for looking up purchase codes
+        required: false
+        type: string
+      - in: query
+        name: skip
+        description: number of records to skip for pagination
+        type: integer
+        format: int32
+        minimum: 0
+      - in: query
+        name: limit
+        description: maximum number of records to return
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 50
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PurchaseCode'
+        400:
+          description: bad input parameter
+    post:
+      tags: 
+        - codes
+      summary: adds a purchase code
+      operationId: addPurchaseCode
+      description: Adds an item to the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: purchaseCode
+        description: PurchaseCode item to add
+        schema:
+          $ref: '#/definitions/PurchaseCode'
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: item already exists
+    put:
+      tags: 
+        - codes
+      summary: updates a purchase code
+      operationId: updatePurchaseCode
+      description: Updates an item to the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: purchaseCode
+        description: PurchaseCode item to update
+        schema:
+          $ref: '#/definitions/PurchaseCode'
+      responses:
+        200:
+          description: item updated
+        400:
+          description: invalid input, object invalid
   /user:
     post:
       tags: 
         - users
-      summary: Create user
-      description: This can only be done by any user.
+      summary: Creates user
+      description: This can be done by any user.
       operationId: createUser
       produces:
       - application/json
@@ -169,6 +313,10 @@ paths:
       responses:
         default:
           description: successful operation
+        400:
+          description: bad input parameter
+        409:
+          description: an existing item already exists
   /user/login:
     get:
       tags: 
@@ -208,7 +356,7 @@ paths:
     get:
       tags: 
         - users
-      summary: Logs out current logged in user session
+      summary: Logs out currenty logged in user session
       operationId: logoutUser
       produces:
       - application/json
@@ -220,14 +368,14 @@ paths:
     get:
       tags: 
         - users
-      summary: Get user by user name
-      operationId: getUserByName
+      summary: Gets user by username
+      operationId: getUserByUsername
       produces:
       - application/json
       parameters:
       - name: username
         in: path
-        description: The name that needs to be fetched.
+        description: The username that needs to be fetched.
         required: true
         type: string
       responses:
@@ -242,16 +390,15 @@ paths:
     put:
       tags: 
         - users
-      summary: Updated user
+      summary: Updates user
       description: This can only be done by the logged in user.
       operationId: updateUser
       produces:
       - application/json
-      - application/xml
       parameters:
       - name: username
         in: path
-        description: username that need to be updated
+        description: username of a user that is about to be updated
         required: true
         type: string
       - in: body
@@ -261,6 +408,10 @@ paths:
         schema:
           $ref: '#/definitions/User'
       responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
         400:
           description: Invalid user supplied
         404:
@@ -268,12 +419,11 @@ paths:
     delete:
       tags: 
         - users
-      summary: Delete user
-      description: This can only be done by the logged in user.
+      summary: Deletes user
+      description: This can only be done by an administrator.
       operationId: deleteUser
       produces:
       - application/json
-      - application/xml
       parameters:
       - name: username
         in: path
@@ -281,20 +431,42 @@ paths:
         required: true
         type: string
       responses:
+        200:
+          description: successful operation
         400:
           description: Invalid username supplied
         404:
           description: User not found
 definitions:
-  TicketPurchase:
-    type: object
+  TicketType:
     required:
-    - id
-    - type
-    - startDateTime
-    - endDateTime
+    - name
     properties:
       id:
+        type: integer
+      name:
+        type: string
+        example: 1 hour ticket
+      duration:
+        type: integer
+        example:  60
+        description: duration in minutes
+      price:
+        type: number
+        format: double
+        example: 10.50
+  TicketPurchase:
+    required:
+    - id
+    - code
+    - startDateTime
+    - endDateTime
+    - type
+    - user
+    properties:
+      id:
+        type: integer
+      code:
         type: string
         format: uuid
         example: d290f1ee-6c54-4b01-90e6-d701748f0851
@@ -315,28 +487,14 @@ definitions:
         description: Number of passangers allowed to travel with buyer and including buyer too.
       type:
         $ref: '#/definitions/TicketType'
-  TicketType:
-    required:
-    - name
-    properties:
-      id:
-        type: integer
-      name:
-        type: string
-        example: 1 hour ticket
-      duration:
-        type: integer
-        example:  60
-        description: duration in minutes
-      price:
-        type: number
-        format: double
-        example: 10.50
+      user:
+        $ref: '#/definitions/User'
   TicketValidation:
     required:
     - validationDateTime
     - isValid
     - ticket
+    - controller
     properties:
       id:
         type: integer
@@ -349,9 +507,44 @@ definitions:
       ticket:
         $ref: '#/definitions/TicketType'
       controller:
-        $ref: '#/definitions/TicketType'
+        $ref: '#/definitions/User'
+  PurchaseCode:
+    required:
+    - id
+    - code
+    - value
+    - genarationDateTime
+    - usageDateTime
+    - used
+    properties:
+      id:
+        type: integer
+      code:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      value:
+        type: number
+        format: double
+        example: 50.50
+      genarationDateTime:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z  
+      usageDateTime:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      used:
+        type: boolean
+        description: Already used by a user.
+      user:
+        $ref: '#/definitions/User'
   User:
-    type: object
+    required:
+    - username
+    - password
+    - role
     properties:
       id:
         type: integer
@@ -368,6 +561,12 @@ definitions:
         type: string
       phone:
         type: string
+      role:
+        type: string
+      balance:
+        type: number
+        format: double
+        example: 500.00
 
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com

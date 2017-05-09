@@ -42,21 +42,49 @@ namespace IO.Swagger.Models
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
-        /// <param name="Username">Username.</param>
+        /// <param name="Username">Username (required).</param>
         /// <param name="FirstName">FirstName.</param>
         /// <param name="LastName">LastName.</param>
         /// <param name="Email">Email.</param>
-        /// <param name="Password">Password.</param>
+        /// <param name="Password">Password (required).</param>
         /// <param name="Phone">Phone.</param>
-        public User(long? Id = null, string Username = null, string FirstName = null, string LastName = null, string Email = null, string Password = null, string Phone = null)
+        /// <param name="Role">Role (required).</param>
+        /// <param name="Balance">Balance.</param>
+        public User(long? Id = null, string Username = null, string FirstName = null, string LastName = null, string Email = null, string Password = null, string Phone = null, string Role = null, double? Balance = null)
         {
+            // to ensure "Username" is required (not null)
+            if (Username == null)
+            {
+                throw new InvalidDataException("Username is a required property for User and cannot be null");
+            }
+            else
+            {
+                this.Username = Username;
+            }
+            // to ensure "Password" is required (not null)
+            if (Password == null)
+            {
+                throw new InvalidDataException("Password is a required property for User and cannot be null");
+            }
+            else
+            {
+                this.Password = Password;
+            }
+            // to ensure "Role" is required (not null)
+            if (Role == null)
+            {
+                throw new InvalidDataException("Role is a required property for User and cannot be null");
+            }
+            else
+            {
+                this.Role = Role;
+            }
             this.Id = Id;
-            this.Username = Username;
             this.FirstName = FirstName;
             this.LastName = LastName;
             this.Email = Email;
-            this.Password = Password;
             this.Phone = Phone;
+            this.Balance = Balance;
             
         }
 
@@ -102,6 +130,18 @@ namespace IO.Swagger.Models
         [DataMember(Name="phone")]
         public string Phone { get; set; }
 
+        /// <summary>
+        /// Gets or Sets Role
+        /// </summary>
+        [DataMember(Name="role")]
+        public string Role { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Balance
+        /// </summary>
+        [DataMember(Name="balance")]
+        public double? Balance { get; set; }
+
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -118,6 +158,8 @@ namespace IO.Swagger.Models
             sb.Append("  Email: ").Append(Email).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  Phone: ").Append(Phone).Append("\n");
+            sb.Append("  Role: ").Append(Role).Append("\n");
+            sb.Append("  Balance: ").Append(Balance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -190,6 +232,16 @@ namespace IO.Swagger.Models
                     this.Phone == other.Phone ||
                     this.Phone != null &&
                     this.Phone.Equals(other.Phone)
+                ) && 
+                (
+                    this.Role == other.Role ||
+                    this.Role != null &&
+                    this.Role.Equals(other.Role)
+                ) && 
+                (
+                    this.Balance == other.Balance ||
+                    this.Balance != null &&
+                    this.Balance.Equals(other.Balance)
                 );
         }
 
@@ -218,6 +270,10 @@ namespace IO.Swagger.Models
                     hash = hash * 59 + this.Password.GetHashCode();
                     if (this.Phone != null)
                     hash = hash * 59 + this.Phone.GetHashCode();
+                    if (this.Role != null)
+                    hash = hash * 59 + this.Role.GetHashCode();
+                    if (this.Balance != null)
+                    hash = hash * 59 + this.Balance.GetHashCode();
                 return hash;
             }
         }

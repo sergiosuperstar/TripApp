@@ -38,46 +38,46 @@ namespace IO.Swagger.Controllers
     /// <summary>
     /// 
     /// </summary>
-    public class TicketsApiController : Controller
+    public class TypesApiController : Controller
     { 
 
         /// <summary>
-        /// adds an ticket purchase item
+        /// adds an ticket type
         /// </summary>
         /// <remarks>Adds an item to the system</remarks>
-        /// <param name="ticketPurchase">TicketPurchase item to add</param>
+        /// <param name="ticketType">TicketType item to add</param>
         /// <response code="201">item created</response>
         /// <response code="400">invalid input, object invalid</response>
         /// <response code="409">item already exists</response>
         [HttpPost]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets")]
-        [SwaggerOperation("AddTicketPurchase")]
-        public virtual void AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets/types")]
+        [SwaggerOperation("AddTicketType")]
+        public virtual void AddTicketType([FromBody]TicketType ticketType)
         { 
             throw new NotImplementedException();
         }
 
 
         /// <summary>
-        /// searches tickets purchases
+        /// searches ticket types
         /// </summary>
-        /// <remarks>By passing in the appropriate options, you can search for available ticket in the system </remarks>
-        /// <param name="searchString">pass an optional search string for looking up tickets</param>
+        /// <remarks>By passing in the appropriate options, you can search for available ticket types in the system </remarks>
+        /// <param name="searchString">pass an optional search string for looking up ticket types</param>
         /// <param name="skip">number of records to skip for pagination</param>
         /// <param name="limit">maximum number of records to return</param>
         /// <response code="200">search results matching criteria</response>
         /// <response code="400">bad input parameter</response>
         [HttpGet]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets")]
-        [SwaggerOperation("SearchTickets")]
-        [SwaggerResponse(200, type: typeof(List<TicketPurchase>))]
-        public virtual IActionResult SearchTickets([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets/types")]
+        [SwaggerOperation("SearchTicketTypes")]
+        [SwaggerResponse(200, type: typeof(List<TicketType>))]
+        public virtual IActionResult SearchTicketTypes([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
         { 
             string exampleJson = null;
             
             var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<TicketPurchase>>(exampleJson)
-            : default(List<TicketPurchase>);
+            ? JsonConvert.DeserializeObject<List<TicketType>>(exampleJson)
+            : default(List<TicketType>);
             return new ObjectResult(example);
         }
     }

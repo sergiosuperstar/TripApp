@@ -36,25 +36,24 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class TicketPurchase :  IEquatable<TicketPurchase>
+    public partial class PurchaseCode :  IEquatable<PurchaseCode>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TicketPurchase" /> class.
+        /// Initializes a new instance of the <see cref="PurchaseCode" /> class.
         /// </summary>
         /// <param name="Id">Id (required).</param>
         /// <param name="Code">Code (required).</param>
-        /// <param name="Price">Price.</param>
-        /// <param name="StartDateTime">StartDateTime (required).</param>
-        /// <param name="EndDateTime">EndDateTime (required).</param>
-        /// <param name="NumberOfPassangers">Number of passangers allowed to travel with buyer and including buyer too..</param>
-        /// <param name="Type">Type (required).</param>
-        /// <param name="User">User (required).</param>
-        public TicketPurchase(int? Id = null, Guid? Code = null, double? Price = null, DateTime? StartDateTime = null, DateTime? EndDateTime = null, int? NumberOfPassangers = null, TicketType Type = null, User User = null)
+        /// <param name="Value">Value (required).</param>
+        /// <param name="GenarationDateTime">GenarationDateTime (required).</param>
+        /// <param name="UsageDateTime">UsageDateTime (required).</param>
+        /// <param name="Used">Already used by a user. (required).</param>
+        /// <param name="User">User.</param>
+        public PurchaseCode(int? Id = null, Guid? Code = null, double? Value = null, DateTime? GenarationDateTime = null, DateTime? UsageDateTime = null, bool? Used = null, User User = null)
         {
             // to ensure "Id" is required (not null)
             if (Id == null)
             {
-                throw new InvalidDataException("Id is a required property for TicketPurchase and cannot be null");
+                throw new InvalidDataException("Id is a required property for PurchaseCode and cannot be null");
             }
             else
             {
@@ -63,50 +62,49 @@ namespace IO.Swagger.Models
             // to ensure "Code" is required (not null)
             if (Code == null)
             {
-                throw new InvalidDataException("Code is a required property for TicketPurchase and cannot be null");
+                throw new InvalidDataException("Code is a required property for PurchaseCode and cannot be null");
             }
             else
             {
                 this.Code = Code;
             }
-            // to ensure "StartDateTime" is required (not null)
-            if (StartDateTime == null)
+            // to ensure "Value" is required (not null)
+            if (Value == null)
             {
-                throw new InvalidDataException("StartDateTime is a required property for TicketPurchase and cannot be null");
+                throw new InvalidDataException("Value is a required property for PurchaseCode and cannot be null");
             }
             else
             {
-                this.StartDateTime = StartDateTime;
+                this.Value = Value;
             }
-            // to ensure "EndDateTime" is required (not null)
-            if (EndDateTime == null)
+            // to ensure "GenarationDateTime" is required (not null)
+            if (GenarationDateTime == null)
             {
-                throw new InvalidDataException("EndDateTime is a required property for TicketPurchase and cannot be null");
+                throw new InvalidDataException("GenarationDateTime is a required property for PurchaseCode and cannot be null");
             }
             else
             {
-                this.EndDateTime = EndDateTime;
+                this.GenarationDateTime = GenarationDateTime;
             }
-            // to ensure "Type" is required (not null)
-            if (Type == null)
+            // to ensure "UsageDateTime" is required (not null)
+            if (UsageDateTime == null)
             {
-                throw new InvalidDataException("Type is a required property for TicketPurchase and cannot be null");
+                throw new InvalidDataException("UsageDateTime is a required property for PurchaseCode and cannot be null");
             }
             else
             {
-                this.Type = Type;
+                this.UsageDateTime = UsageDateTime;
             }
-            // to ensure "User" is required (not null)
-            if (User == null)
+            // to ensure "Used" is required (not null)
+            if (Used == null)
             {
-                throw new InvalidDataException("User is a required property for TicketPurchase and cannot be null");
+                throw new InvalidDataException("Used is a required property for PurchaseCode and cannot be null");
             }
             else
             {
-                this.User = User;
+                this.Used = Used;
             }
-            this.Price = Price;
-            this.NumberOfPassangers = NumberOfPassangers;
+            this.User = User;
             
         }
 
@@ -123,35 +121,29 @@ namespace IO.Swagger.Models
         public Guid? Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets Price
+        /// Gets or Sets Value
         /// </summary>
-        [DataMember(Name="price")]
-        public double? Price { get; set; }
+        [DataMember(Name="value")]
+        public double? Value { get; set; }
 
         /// <summary>
-        /// Gets or Sets StartDateTime
+        /// Gets or Sets GenarationDateTime
         /// </summary>
-        [DataMember(Name="startDateTime")]
-        public DateTime? StartDateTime { get; set; }
+        [DataMember(Name="genarationDateTime")]
+        public DateTime? GenarationDateTime { get; set; }
 
         /// <summary>
-        /// Gets or Sets EndDateTime
+        /// Gets or Sets UsageDateTime
         /// </summary>
-        [DataMember(Name="endDateTime")]
-        public DateTime? EndDateTime { get; set; }
+        [DataMember(Name="usageDateTime")]
+        public DateTime? UsageDateTime { get; set; }
 
         /// <summary>
-        /// Number of passangers allowed to travel with buyer and including buyer too.
+        /// Already used by a user.
         /// </summary>
-        /// <value>Number of passangers allowed to travel with buyer and including buyer too.</value>
-        [DataMember(Name="numberOfPassangers")]
-        public int? NumberOfPassangers { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Type
-        /// </summary>
-        [DataMember(Name="type")]
-        public TicketType Type { get; set; }
+        /// <value>Already used by a user.</value>
+        [DataMember(Name="used")]
+        public bool? Used { get; set; }
 
         /// <summary>
         /// Gets or Sets User
@@ -167,14 +159,13 @@ namespace IO.Swagger.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class TicketPurchase {\n");
+            sb.Append("class PurchaseCode {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Price: ").Append(Price).Append("\n");
-            sb.Append("  StartDateTime: ").Append(StartDateTime).Append("\n");
-            sb.Append("  EndDateTime: ").Append(EndDateTime).Append("\n");
-            sb.Append("  NumberOfPassangers: ").Append(NumberOfPassangers).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  Value: ").Append(Value).Append("\n");
+            sb.Append("  GenarationDateTime: ").Append(GenarationDateTime).Append("\n");
+            sb.Append("  UsageDateTime: ").Append(UsageDateTime).Append("\n");
+            sb.Append("  Used: ").Append(Used).Append("\n");
             sb.Append("  User: ").Append(User).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -199,15 +190,15 @@ namespace IO.Swagger.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((TicketPurchase)obj);
+            return Equals((PurchaseCode)obj);
         }
 
         /// <summary>
-        /// Returns true if TicketPurchase instances are equal
+        /// Returns true if PurchaseCode instances are equal
         /// </summary>
-        /// <param name="other">Instance of TicketPurchase to be compared</param>
+        /// <param name="other">Instance of PurchaseCode to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(TicketPurchase other)
+        public bool Equals(PurchaseCode other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -225,29 +216,24 @@ namespace IO.Swagger.Models
                     this.Code.Equals(other.Code)
                 ) && 
                 (
-                    this.Price == other.Price ||
-                    this.Price != null &&
-                    this.Price.Equals(other.Price)
+                    this.Value == other.Value ||
+                    this.Value != null &&
+                    this.Value.Equals(other.Value)
                 ) && 
                 (
-                    this.StartDateTime == other.StartDateTime ||
-                    this.StartDateTime != null &&
-                    this.StartDateTime.Equals(other.StartDateTime)
+                    this.GenarationDateTime == other.GenarationDateTime ||
+                    this.GenarationDateTime != null &&
+                    this.GenarationDateTime.Equals(other.GenarationDateTime)
                 ) && 
                 (
-                    this.EndDateTime == other.EndDateTime ||
-                    this.EndDateTime != null &&
-                    this.EndDateTime.Equals(other.EndDateTime)
+                    this.UsageDateTime == other.UsageDateTime ||
+                    this.UsageDateTime != null &&
+                    this.UsageDateTime.Equals(other.UsageDateTime)
                 ) && 
                 (
-                    this.NumberOfPassangers == other.NumberOfPassangers ||
-                    this.NumberOfPassangers != null &&
-                    this.NumberOfPassangers.Equals(other.NumberOfPassangers)
-                ) && 
-                (
-                    this.Type == other.Type ||
-                    this.Type != null &&
-                    this.Type.Equals(other.Type)
+                    this.Used == other.Used ||
+                    this.Used != null &&
+                    this.Used.Equals(other.Used)
                 ) && 
                 (
                     this.User == other.User ||
@@ -271,16 +257,14 @@ namespace IO.Swagger.Models
                     hash = hash * 59 + this.Id.GetHashCode();
                     if (this.Code != null)
                     hash = hash * 59 + this.Code.GetHashCode();
-                    if (this.Price != null)
-                    hash = hash * 59 + this.Price.GetHashCode();
-                    if (this.StartDateTime != null)
-                    hash = hash * 59 + this.StartDateTime.GetHashCode();
-                    if (this.EndDateTime != null)
-                    hash = hash * 59 + this.EndDateTime.GetHashCode();
-                    if (this.NumberOfPassangers != null)
-                    hash = hash * 59 + this.NumberOfPassangers.GetHashCode();
-                    if (this.Type != null)
-                    hash = hash * 59 + this.Type.GetHashCode();
+                    if (this.Value != null)
+                    hash = hash * 59 + this.Value.GetHashCode();
+                    if (this.GenarationDateTime != null)
+                    hash = hash * 59 + this.GenarationDateTime.GetHashCode();
+                    if (this.UsageDateTime != null)
+                    hash = hash * 59 + this.UsageDateTime.GetHashCode();
+                    if (this.Used != null)
+                    hash = hash * 59 + this.Used.GetHashCode();
                     if (this.User != null)
                     hash = hash * 59 + this.User.GetHashCode();
                 return hash;
@@ -289,12 +273,12 @@ namespace IO.Swagger.Models
 
         #region Operators
 
-        public static bool operator ==(TicketPurchase left, TicketPurchase right)
+        public static bool operator ==(PurchaseCode left, PurchaseCode right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(TicketPurchase left, TicketPurchase right)
+        public static bool operator !=(PurchaseCode left, PurchaseCode right)
         {
             return !Equals(left, right);
         }

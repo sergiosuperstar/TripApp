@@ -50,7 +50,7 @@ namespace IO.Swagger.Controllers
         /// <response code="400">invalid input, object invalid</response>
         /// <response code="409">an existing item already exists</response>
         [HttpPost]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/validation")]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets/validation")]
         [SwaggerOperation("AddTicketValidation")]
         public virtual void AddTicketValidation([FromBody]TicketValidation ticketPurchase)
         { 
@@ -68,7 +68,7 @@ namespace IO.Swagger.Controllers
         /// <response code="200">search results matching criteria</response>
         /// <response code="400">bad input parameter</response>
         [HttpGet]
-        [Route("/sergiosuperstar/TripAppSimple/1.0.0/validation")]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets/validation")]
         [SwaggerOperation("SearchValidations")]
         [SwaggerResponse(200, type: typeof(List<TicketValidation>))]
         public virtual IActionResult SearchValidations([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
