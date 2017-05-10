@@ -30,6 +30,10 @@
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_menu_manage"
             android:title="Login" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Log out" />
     </group>
 
     <item android:title="Ticket Inspector">
