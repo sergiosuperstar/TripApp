@@ -4,14 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.icf.tripappclient.activities.SettingsActivity">
 
+
+    <!--<include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />-->
+
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbaric"
+        android:id="@+id/toolbar_settings"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/imageLightBlue"
-        app:titleTextColor="@color/backgroundColor"
-        />
+        app:titleTextColor="@color/backgroundColor" />
+
+
+    <FrameLayout
+        android:id="@+id/settings_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
