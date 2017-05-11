@@ -35,7 +35,7 @@ public class TicketValidation {
   @SerializedName("id")
   private Integer id = null;
   @SerializedName("validationDateTime")
-  private String validationDateTime = null;
+  private Date validationDateTime = null;
   @SerializedName("isValid")
   private Boolean isValid = null;
   @SerializedName("ticket")
@@ -56,10 +56,10 @@ public class TicketValidation {
   /**
    **/
   @ApiModelProperty(required = true, value = "")
-  public String getValidationDateTime() {
+  public Date getValidationDateTime() {
     return validationDateTime;
   }
-  public void setValidationDateTime(String validationDateTime) {
+  public void setValidationDateTime(Date validationDateTime) {
     this.validationDateTime = validationDateTime;
   }
 

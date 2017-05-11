@@ -48,7 +48,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
 public class TypesApi {
-  String basePath = "https://virtserver.swaggerhub.com/sergiosuperstar/TripAppSimple/1.0.0";
+  String basePath = "http://tripappftn.azurewebsites.net/sergiosuperstar/TripAppSimple/1.0.0";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
