@@ -31,7 +31,10 @@
         android:layout_marginBottom="15dp"
         android:layout_gravity="center_horizontal"
         android:text="One day ticket"
-        android:textSize="24dp"/>
+        android:textSize="24dp"
+        android:textColor="@color/lightBlue"
+        android:textStyle="bold"
+        android:textAllCaps="true" />
 
     <TextView
         android:id="@+id/startDate"
@@ -83,7 +86,8 @@
         android:layout_marginBottom="10dp"
         android:layout_marginRight="5dp"
         android:text="@string/purchase_info"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:textColor="@color/lightBlue" />
 
     <TextView
         android:id="@+id/boughtDate"

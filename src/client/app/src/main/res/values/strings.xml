@@ -40,9 +40,8 @@
     <string name="button_onemonthticket">Month ticket</string>
     <string name="main_activity_greeting">Please select your ticket type!</string>
     <string name="title_activity_test">TestActivity</string>
-    <string name="current_state">Current balance:</string>
+    <string name="current_state">Balance:</string>
     <string name="payment_history">Payment history:</string>
-    <string name="currency_used">10.000,00 RSD</string>
     <string name="button_add_money">Add money</string>
 
     <string name="notifications">Notifications</string>
