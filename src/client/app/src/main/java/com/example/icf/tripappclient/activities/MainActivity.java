@@ -13,8 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.TextView;
 
 import com.example.icf.tripappclient.R;
+import com.example.icf.tripappclient.SessionManager;
 import com.example.icf.tripappclient.fragments.AccountBalance;
 import com.example.icf.tripappclient.fragments.Home;
 import com.example.icf.tripappclient.fragments.TicketHistory;
@@ -24,6 +26,9 @@ import com.example.icf.tripappclient.fragments.TicketPurchase;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private SessionManager session;
+    private DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,14 +36,40 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(R.drawable.ic_dehaze_white_24dp);
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer.isDrawerVisible(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+
+        session = new SessionManager(getApplicationContext());
+
+        if(!session.isLoggedIn()){
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(i);
+        }
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View header=navigationView.getHeaderView(0);
+        TextView name = (TextView)header.findViewById(R.id.user_info);
+        name.setText("Welcome, " + session.getUser().getUsername());
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -60,7 +91,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.test, menu);
+       // getMenuInflater().inflate(R.menu.overflow_items, menu);
+       // menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_more_vert_white_24dp));
+
         return true;
     }
 
@@ -91,10 +124,6 @@ public class MainActivity extends AppCompatActivity
             Home homeFragment = new Home();
             fragmentTransaction.replace(R.id.fragment_container, homeFragment);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_ticket_purchase) {
-            TicketPurchase tpFragment = new TicketPurchase();
-            fragmentTransaction.replace(R.id.fragment_container, tpFragment);
-            fragmentTransaction.commit();
         } else if (id == R.id.nav_ticket_info) {
             TicketInfo tiFragment = new TicketInfo();
             fragmentTransaction.replace(R.id.fragment_container, tiFragment);
@@ -113,7 +142,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_login) {
+        } else if (id == R.id.nav_logout) {
+            session.logOut();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         }

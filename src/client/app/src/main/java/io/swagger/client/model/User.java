@@ -44,6 +44,10 @@ public class User {
   private String password = null;
   @SerializedName("phone")
   private String phone = null;
+  @SerializedName("role")
+  private String role = null;
+  @SerializedName("balance")
+  private Double balance = null;
 
   /**
    **/
@@ -57,7 +61,7 @@ public class User {
 
   /**
    **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public String getUsername() {
     return username;
   }
@@ -97,7 +101,7 @@ public class User {
 
   /**
    **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public String getPassword() {
     return password;
   }
@@ -113,6 +117,26 @@ public class User {
   }
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  public String getRole() {
+    return role;
+  }
+  public void setRole(String role) {
+    this.role = role;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Double getBalance() {
+    return balance;
+  }
+  public void setBalance(Double balance) {
+    this.balance = balance;
   }
 
 
@@ -131,7 +155,9 @@ public class User {
         (this.lastName == null ? user.lastName == null : this.lastName.equals(user.lastName)) &&
         (this.email == null ? user.email == null : this.email.equals(user.email)) &&
         (this.password == null ? user.password == null : this.password.equals(user.password)) &&
-        (this.phone == null ? user.phone == null : this.phone.equals(user.phone));
+        (this.phone == null ? user.phone == null : this.phone.equals(user.phone)) &&
+        (this.role == null ? user.role == null : this.role.equals(user.role)) &&
+        (this.balance == null ? user.balance == null : this.balance.equals(user.balance));
   }
 
   @Override
@@ -144,6 +170,8 @@ public class User {
     result = 31 * result + (this.email == null ? 0: this.email.hashCode());
     result = 31 * result + (this.password == null ? 0: this.password.hashCode());
     result = 31 * result + (this.phone == null ? 0: this.phone.hashCode());
+    result = 31 * result + (this.role == null ? 0: this.role.hashCode());
+    result = 31 * result + (this.balance == null ? 0: this.balance.hashCode());
     return result;
   }
 
@@ -159,6 +187,8 @@ public class User {
     sb.append("  email: ").append(email).append("\n");
     sb.append("  password: ").append(password).append("\n");
     sb.append("  phone: ").append(phone).append("\n");
+    sb.append("  role: ").append(role).append("\n");
+    sb.append("  balance: ").append(balance).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

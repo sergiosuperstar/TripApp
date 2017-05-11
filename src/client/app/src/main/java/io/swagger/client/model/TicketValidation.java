@@ -25,6 +25,7 @@
 package io.swagger.client.model;
 
 import io.swagger.client.model.TicketType;
+import io.swagger.client.model.User;
 import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
@@ -40,7 +41,7 @@ public class TicketValidation {
   @SerializedName("ticket")
   private TicketType ticket = null;
   @SerializedName("controller")
-  private TicketType controller = null;
+  private User controller = null;
 
   /**
    **/
@@ -85,11 +86,11 @@ public class TicketValidation {
 
   /**
    **/
-  @ApiModelProperty(value = "")
-  public TicketType getController() {
+  @ApiModelProperty(required = true, value = "")
+  public User getController() {
     return controller;
   }
-  public void setController(TicketType controller) {
+  public void setController(User controller) {
     this.controller = controller;
   }
 

@@ -45,7 +45,6 @@ import org.apache.http.entity.StringEntity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.UnsupportedCharsetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -440,8 +439,7 @@ public class ApiInvoker {
           }
           catch (UnsupportedEncodingException e1){
 
-          }
-          catch (Exception e) {
+          }          catch (Exception e) {
             // move on to next
           }
         }
@@ -450,76 +448,77 @@ public class ApiInvoker {
     }
     Request request = null;
     try{
-        if ("GET".equals(method)) {
-          request = new GetRequest(url, headers, null, stringRequest, errorListener);
-        }
-        else {
-            if ("POST".equals(method)) {
-                request = null;
-                if (formParamStr != null) {
-                    request = new PostRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
-                } else if (body != null) {
-                    if (body instanceof HttpEntity) {
-                        request = new PostRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
-                    } else {
-                        request = new PostRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
-                    }
-                } else {
-                    request = new PostRequest(url, headers, null, null, stringRequest, errorListener);
-                }
-            } else if ("PUT".equals(method)) {
-                request = null;
-                if (formParamStr != null) {
-                    request = new PutRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
-                } else if (body != null) {
-                    if (body instanceof HttpEntity) {
-                        request = new PutRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
-                    } else {
-                        request = new PutRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
-                    }
-                } else {
-                    request = new PutRequest(url, headers, null, null, stringRequest, errorListener);
-                }
-            } else if ("DELETE".equals(method)) {
-                request = null;
-                if (formParamStr != null) {
-                    request = new DeleteRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
-                } else if (body != null) {
-                    if (body instanceof HttpEntity) {
-                        request = new DeleteRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
-                    } else {
-                        request = new DeleteRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
-                    }
-                } else {
-                    request = new DeleteRequest(url, headers, null, null, stringRequest, errorListener);
-                }
-            } else if ("PATCH".equals(method)) {
-                request = null;
-                if (formParamStr != null) {
-                    request = new PatchRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
-                } else if (body != null) {
-                    if (body instanceof HttpEntity) {
-                        request = new PatchRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
-                    } else {
 
-                            request = new PatchRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
+    if ("GET".equals(method)) {
+      request = new GetRequest(url, headers, null, stringRequest, errorListener);
+    }
+    else if ("POST".equals(method)) {
+       request = null;
+       if (formParamStr != null) {
+          request = new PostRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
+       } else if (body != null) {
+          if (body instanceof HttpEntity) {
+          request = new PostRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
+          } else {
+             request = new PostRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
+          }
+       } else {
+         request = new PostRequest(url, headers, null, null, stringRequest, errorListener);
+       }
+    }
+    else if ("PUT".equals(method)) {
+       request = null;
+       if (formParamStr != null) {
+          request = new PutRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
+       } else if (body != null) {
+          if (body instanceof HttpEntity) {
+             request = new PutRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
+          } else {
+             request = new PutRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
+          }
+       } else {
+          request = new PutRequest(url, headers, null, null, stringRequest, errorListener);
+       }
+    }
+    else if ("DELETE".equals(method)) {
+       request = null;
+          if (formParamStr != null) {
+           request = new DeleteRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
+          } else if (body != null) {
+          if (body instanceof HttpEntity) {
+             request = new DeleteRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
+          } else {
+             request = new DeleteRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
+          }
+       } else {
+          request = new DeleteRequest(url, headers, null, null, stringRequest, errorListener);
+       }
+    }
+    else if ("PATCH".equals(method)) {
+       request = null;
+          if (formParamStr != null) {
+             request = new PatchRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
+          } else if (body != null) {
+             if (body instanceof HttpEntity) {
+                request = new PatchRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
+             } else {
+                request = new PatchRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
+             }
+          } else {
+             request = new PatchRequest(url, headers, null, null, stringRequest, errorListener);
+          }
+    }
 
-                    }
-                } else {
-                    request = new PatchRequest(url, headers, null, null, stringRequest, errorListener);
-                }
-            }
-        }
+    if (request != null) {
+        request.setRetryPolicy(new DefaultRetryPolicy((int)TimeUnit.SECONDS.toMillis(this.connectionTimeout), DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+    }
 
-        if (request != null) {
-            request.setRetryPolicy(new DefaultRetryPolicy((int)TimeUnit.SECONDS.toMillis(this.connectionTimeout), DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        }
     }catch (Exception err) {
         ApiException apiException = new ApiException(1, "Generic ApiException!");
         apiException.initCause(err);
         throw apiException;
     }
-    return request;
+     return request;
   }
 
   private void initConnectionRequest(Cache cache, Network network) {

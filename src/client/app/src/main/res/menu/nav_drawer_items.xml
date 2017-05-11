@@ -4,32 +4,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_main"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Main" />
-        <item
-            android:id="@+id/nav_ticket_purchase"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Ticket purchase" />
+            android:icon="@drawable/ic_shopping"
+            android:title="Purchase tickets" />
         <item
             android:id="@+id/nav_ticket_info"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_view_day_black_24dp"
             android:title="My ticket" />
         <item
             android:id="@+id/nav_ticket_history"
-			android:icon="@drawable/ic_menu_manage"
-            android:title="Ticket history" />
+			android:icon="@drawable/list"
+            android:title="All tickets" />
         <item
             android:id="@+id/nav_ticket_balance"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_credit_card_black_24dp"
             android:title="My balance" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_manage"
             android:title="Settings" />
         <item
-            android:id="@+id/nav_login"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Login" />
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/log_out"
+            android:title="Log out" />
     </group>
 
     <item android:title="Ticket Inspector">

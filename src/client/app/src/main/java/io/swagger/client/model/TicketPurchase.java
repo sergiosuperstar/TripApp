@@ -25,6 +25,7 @@
 package io.swagger.client.model;
 
 import io.swagger.client.model.TicketType;
+import io.swagger.client.model.User;
 import java.util.Date;
 import java.util.UUID;
 import io.swagger.annotations.*;
@@ -34,7 +35,9 @@ import com.google.gson.annotations.SerializedName;
 public class TicketPurchase {
   
   @SerializedName("id")
-  private UUID id = null;
+  private Integer id = null;
+  @SerializedName("code")
+  private UUID code = null;
   @SerializedName("price")
   private Double price = null;
   @SerializedName("startDateTime")
@@ -45,15 +48,27 @@ public class TicketPurchase {
   private Integer numberOfPassangers = null;
   @SerializedName("type")
   private TicketType type = null;
+  @SerializedName("user")
+  private User user = null;
 
   /**
    **/
   @ApiModelProperty(required = true, value = "")
-  public UUID getId() {
+  public Integer getId() {
     return id;
   }
-  public void setId(UUID id) {
+  public void setId(Integer id) {
     this.id = id;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  public UUID getCode() {
+    return code;
+  }
+  public void setCode(UUID code) {
+    this.code = code;
   }
 
   /**
@@ -107,6 +122,16 @@ public class TicketPurchase {
     this.type = type;
   }
 
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  public User getUser() {
+    return user;
+  }
+  public void setUser(User user) {
+    this.user = user;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -118,22 +143,26 @@ public class TicketPurchase {
     }
     TicketPurchase ticketPurchase = (TicketPurchase) o;
     return (this.id == null ? ticketPurchase.id == null : this.id.equals(ticketPurchase.id)) &&
+        (this.code == null ? ticketPurchase.code == null : this.code.equals(ticketPurchase.code)) &&
         (this.price == null ? ticketPurchase.price == null : this.price.equals(ticketPurchase.price)) &&
         (this.startDateTime == null ? ticketPurchase.startDateTime == null : this.startDateTime.equals(ticketPurchase.startDateTime)) &&
         (this.endDateTime == null ? ticketPurchase.endDateTime == null : this.endDateTime.equals(ticketPurchase.endDateTime)) &&
         (this.numberOfPassangers == null ? ticketPurchase.numberOfPassangers == null : this.numberOfPassangers.equals(ticketPurchase.numberOfPassangers)) &&
-        (this.type == null ? ticketPurchase.type == null : this.type.equals(ticketPurchase.type));
+        (this.type == null ? ticketPurchase.type == null : this.type.equals(ticketPurchase.type)) &&
+        (this.user == null ? ticketPurchase.user == null : this.user.equals(ticketPurchase.user));
   }
 
   @Override
   public int hashCode() {
     int result = 17;
     result = 31 * result + (this.id == null ? 0: this.id.hashCode());
+    result = 31 * result + (this.code == null ? 0: this.code.hashCode());
     result = 31 * result + (this.price == null ? 0: this.price.hashCode());
     result = 31 * result + (this.startDateTime == null ? 0: this.startDateTime.hashCode());
     result = 31 * result + (this.endDateTime == null ? 0: this.endDateTime.hashCode());
     result = 31 * result + (this.numberOfPassangers == null ? 0: this.numberOfPassangers.hashCode());
     result = 31 * result + (this.type == null ? 0: this.type.hashCode());
+    result = 31 * result + (this.user == null ? 0: this.user.hashCode());
     return result;
   }
 
@@ -143,11 +172,13 @@ public class TicketPurchase {
     sb.append("class TicketPurchase {\n");
     
     sb.append("  id: ").append(id).append("\n");
+    sb.append("  code: ").append(code).append("\n");
     sb.append("  price: ").append(price).append("\n");
     sb.append("  startDateTime: ").append(startDateTime).append("\n");
     sb.append("  endDateTime: ").append(endDateTime).append("\n");
     sb.append("  numberOfPassangers: ").append(numberOfPassangers).append("\n");
     sb.append("  type: ").append(type).append("\n");
+    sb.append("  user: ").append(user).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

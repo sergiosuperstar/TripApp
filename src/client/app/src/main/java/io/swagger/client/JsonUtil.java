@@ -69,6 +69,10 @@ public class JsonUtil {
   public static Type getListTypeForDeserialization(Class cls) {
     String className = cls.getSimpleName();
     
+    if ("PurchaseCode".equalsIgnoreCase(className)) {
+      return new TypeToken<List<PurchaseCode>>(){}.getType();
+    }
+    
     if ("TicketPurchase".equalsIgnoreCase(className)) {
       return new TypeToken<List<TicketPurchase>>(){}.getType();
     }
@@ -90,6 +94,10 @@ public class JsonUtil {
 
   public static Type getTypeForDeserialization(Class cls) {
     String className = cls.getSimpleName();
+    
+    if ("PurchaseCode".equalsIgnoreCase(className)) {
+      return new TypeToken<PurchaseCode>(){}.getType();
+    }
     
     if ("TicketPurchase".equalsIgnoreCase(className)) {
       return new TypeToken<TicketPurchase>(){}.getType();
