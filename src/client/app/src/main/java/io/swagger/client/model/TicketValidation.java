@@ -29,6 +29,8 @@ import io.swagger.client.model.User;
 import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 @ApiModel(description = "")
 public class TicketValidation {
   

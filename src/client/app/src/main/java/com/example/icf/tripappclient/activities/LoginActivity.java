@@ -9,6 +9,12 @@ import android.widget.EditText;
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.SessionManager;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
+
+import io.swagger.client.ApiException;
+import io.swagger.client.api.UsersApi;
+
 public class LoginActivity extends AppCompatActivity {
 
     private SessionManager session;
@@ -27,6 +33,21 @@ public class LoginActivity extends AppCompatActivity {
 
         String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();
+
+        UsersApi api = new UsersApi();
+
+        // TODO FTN: Test call - for some reason we are getting time out exception!!!
+        /*try {
+            String result = api.loginUser(username, password);
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }*/
 
         session.login(username, password);
 
