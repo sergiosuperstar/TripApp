@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         UsersApi api = new UsersApi();
 
         // TODO FTN: Test call - for some reason we are getting time out exception!!!
+
+        // TODO FTN: FOUND IT. It should be called on another thread (NOT UI THREAD)!!!
         /*try {
             String result = api.loginUser(username, password);
         } catch (TimeoutException e) {
