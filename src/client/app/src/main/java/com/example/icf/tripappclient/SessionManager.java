@@ -20,7 +20,7 @@ public class SessionManager {
     private Context _context;
     private int PRIVATE_MODE = 0;
 
-    /*private boolean loggedIn = false; //TODO: obrisati = "true"
+    /*private boolean loggedIn = false;
     private String username;
     private String role;
     private String email;

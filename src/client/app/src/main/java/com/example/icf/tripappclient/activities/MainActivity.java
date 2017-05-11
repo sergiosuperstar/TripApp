@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.icf.tripappclient.R;
@@ -43,9 +44,6 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
         session = new SessionManager(getApplicationContext());
 
         if(!session.isLoggedIn()){
@@ -53,7 +51,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
         }
 
-        User user = session.getUser();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View header=navigationView.getHeaderView(0);
+        TextView name = (TextView)header.findViewById(R.id.user_info);
+        name.setText("Welcome, " + session.getUser().getUsername());
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -106,10 +109,6 @@ public class MainActivity extends AppCompatActivity
             Home homeFragment = new Home();
             fragmentTransaction.replace(R.id.fragment_container, homeFragment);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_ticket_purchase) {
-            TicketPurchase tpFragment = new TicketPurchase();
-            fragmentTransaction.replace(R.id.fragment_container, tpFragment);
-            fragmentTransaction.commit();
         } else if (id == R.id.nav_ticket_info) {
             TicketInfo tiFragment = new TicketInfo();
             fragmentTransaction.replace(R.id.fragment_container, tiFragment);
@@ -127,9 +126,6 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_login) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             session.logOut();
