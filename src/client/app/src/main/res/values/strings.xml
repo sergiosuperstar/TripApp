@@ -11,8 +11,11 @@
     <string name="keep_in_mind">Keep in mind that ticket becomes valid 10 minutes after purchase</string>
     <string name="buy_ticket">Buy Ticket</string>
     <string name="number_of_tickets">Number of tickets:</string>
-    <string name="valid_through">Valid through:</string>
+    <string name="ticket_type">Ticket type:</string>
     <string name="valid_from">Valid from:</string>
+    <string name="valid_through">Valid through:</string>
+    <string name="ticket_bought">Ticket bought:</string>
+    <string name="purchase_info">Purchase info</string>
     <string name="ticket_title">Your ticket</string>
     <string name="ticket_price_label">Ticket price:</string>
 
@@ -37,9 +40,8 @@
     <string name="button_onemonthticket">Month ticket</string>
     <string name="main_activity_greeting">Please select your ticket type!</string>
     <string name="title_activity_test">TestActivity</string>
-    <string name="current_state">Current balance:</string>
+    <string name="current_state">Balance:</string>
     <string name="payment_history">Payment history:</string>
-    <string name="currency_used">10.000,00 RSD</string>
     <string name="button_add_money">Add money</string>
 
     <string name="notifications">Notifications</string>

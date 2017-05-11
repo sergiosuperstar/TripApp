@@ -5,6 +5,10 @@
     <color name="colorAccent">#FF4081</color>
     <color name="backgroundColor">#fefefe</color>
 
+    <color name="red">#de0000</color>
+    <color name="green">#00a606</color>
+    <color name="lightGrey">#d1d1d1</color>
+
     <color name="imageDarkBlue">#143278</color>
     <color name="imageMediumBlue">#1e5596</color>
     <color name="imageLightBlue">#2378b4</color>
