@@ -32,14 +32,27 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.SwaggerGen.Annotations;
 using IO.Swagger.Models;
+using IO.Swagger.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace IO.Swagger.Controllers
-{ 
+{
     /// <summary>
-    /// 
+    /// Operations for purchase codes manipulation
     /// </summary>
     public class CodesApiController : Controller
-    { 
+    {
+        private readonly TripAppContext _context;
+
+        /// <summary>
+        /// Initializes controller.
+        /// </summary>
+        /// <param name="context">Db context to use.</param>
+        public CodesApiController(TripAppContext context)
+        {
+            _context = context;
+        }
 
         /// <summary>
         /// adds a purchase code
@@ -52,11 +65,27 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/codes")]
         [SwaggerOperation("AddPurchaseCode")]
-        public virtual void AddPurchaseCode([FromBody]PurchaseCode purchaseCode)
-        { 
-            throw new NotImplementedException();
-        }
+        public virtual IActionResult AddPurchaseCode([FromBody]PurchaseCode purchaseCode)
+        {
+            // TODO ftn: Add validation to the purchaseCode parameter!!!
+            // Return 400 - BadRequest if not valid!
+            if (_context.Codes.FirstOrDefault(c => c.Code == purchaseCode.Code) != null)
+            {
+                return StatusCode(StatusCodes.Status409Conflict, purchaseCode); // 409 already exists!
+            }
 
+            try
+            {
+                _context.Codes.Add(purchaseCode);
+                _context.SaveChanges();
+                return Created(Request.Host.ToString(), purchaseCode); // 201 Created successfuly.
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+        }
 
         /// <summary>
         /// searches purchase codes
@@ -72,15 +101,23 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("SearchCodes")]
         [SwaggerResponse(200, type: typeof(List<PurchaseCode>))]
         public virtual IActionResult SearchCodes([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<PurchaseCode>>(exampleJson)
-            : default(List<PurchaseCode>);
-            return new ObjectResult(example);
-        }
+        {
+            int id;
+            if (!int.TryParse(searchString, out id))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            try
+            {
+                var codes = _context.Codes.Where(c => c.Id == id).ToList();
+                return new ObjectResult(codes);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
+        }
 
         /// <summary>
         /// updates a purchase code
@@ -89,12 +126,30 @@ namespace IO.Swagger.Controllers
         /// <param name="purchaseCode">PurchaseCode item to update</param>
         /// <response code="200">item updated</response>
         /// <response code="400">invalid input, object invalid</response>
+        /// <response code="404">invalid input, object not found</response>
         [HttpPut]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/codes")]
         [SwaggerOperation("UpdatePurchaseCode")]
-        public virtual void UpdatePurchaseCode([FromBody]PurchaseCode purchaseCode)
-        { 
-            throw new NotImplementedException();
+        public virtual IActionResult UpdatePurchaseCode([FromBody]PurchaseCode purchaseCode)
+        {
+            // TODO ftn: Add validation to the purchaseCode parameter!!!
+            // Return 400 - BadRequest if not valid!
+            PurchaseCode code = _context.Codes.FirstOrDefault(c => c.Id == purchaseCode.Id);
+            if (code == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, purchaseCode); // 400 not found!
+            }
+
+            try
+            {
+                _context.Entry(purchaseCode).State = EntityState.Modified;
+                _context.SaveChanges();
+                return Ok(purchaseCode);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

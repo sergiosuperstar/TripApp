@@ -38,6 +38,9 @@ namespace IO.Swagger.Models
     [DataContract]
     public partial class TicketValidation :  IEquatable<TicketValidation>
     {
+        public TicketValidation()
+        {
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="TicketValidation" /> class.
         /// </summary>
@@ -46,7 +49,7 @@ namespace IO.Swagger.Models
         /// <param name="IsValid">Is ticket valid? (required).</param>
         /// <param name="Ticket">Ticket (required).</param>
         /// <param name="Controller">Controller (required).</param>
-        public TicketValidation(int? Id = null, string ValidationDateTime = null, bool? IsValid = null, TicketType Ticket = null, User Controller = null)
+        public TicketValidation(int? Id = null, DateTime? ValidationDateTime = null, bool? IsValid = null, TicketType Ticket = null, User Controller = null)
         {
             // to ensure "ValidationDateTime" is required (not null)
             if (ValidationDateTime == null)
@@ -98,7 +101,7 @@ namespace IO.Swagger.Models
         /// Gets or Sets ValidationDateTime
         /// </summary>
         [DataMember(Name="validationDateTime")]
-        public string ValidationDateTime { get; set; }
+        public DateTime? ValidationDateTime { get; set; }
 
         /// <summary>
         /// Is ticket valid?

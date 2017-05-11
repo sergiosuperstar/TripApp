@@ -16,8 +16,12 @@ info:
 tags:
 - name: tickets
   description: Operations for tickets manipulation
+- name: types
+  description: Operations for user ticket types manipulation
 - name: validation
   description: Operations for tickets validation  
+- name: codes
+  description: Operations for purchase codes manipulation
 - name: users
   description: Operations for user management
   
@@ -305,14 +309,14 @@ paths:
       - application/json
       parameters:
       - in: body
-        name: body
+        name: user
         description: Created user object
         required: true
         schema:
           $ref: '#/definitions/User'
       responses:
-        default:
-          description: successful operation
+        201:
+          description: item created
         400:
           description: bad input parameter
         409:
@@ -362,7 +366,7 @@ paths:
       - application/json
       parameters: []
       responses:
-        default:
+        200:
           description: successful operation
   /user/{username}:
     get:
@@ -402,7 +406,7 @@ paths:
         required: true
         type: string
       - in: body
-        name: body
+        name: user
         description: Updated user object
         required: true
         schema:
@@ -500,6 +504,7 @@ definitions:
         type: integer
       validationDateTime:
         type: string
+        format: date-time
         example: 1 hour ticket
       isValid:
         type: boolean
@@ -514,7 +519,6 @@ definitions:
     - code
     - value
     - genarationDateTime
-    - usageDateTime
     - used
     properties:
       id:

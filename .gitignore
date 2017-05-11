@@ -48,3 +48,16 @@ local.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+#Ignore email files delivered to specified pickup directory
+*.eml
+
+#Allow NuGet.exe (do not ignore)
+!NuGet.exe
+
+#Ignore WebDeploy publish profiles
+*.Publish.xml
+
+#Ignore Azure build csdef & Pubxml files
+ServiceDefinition.build.csdef
+*.azurePubxml

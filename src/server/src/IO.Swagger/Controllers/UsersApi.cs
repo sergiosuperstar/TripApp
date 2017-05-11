@@ -32,29 +32,58 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.SwaggerGen.Annotations;
 using IO.Swagger.Models;
+using IO.Swagger.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace IO.Swagger.Controllers
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
     public class UsersApiController : Controller
-    { 
+    {
+        private readonly TripAppContext _context;
+
+        /// <summary>
+        /// Initializes controller.
+        /// </summary>
+        /// <param name="context">Db context to use.</param>
+        public UsersApiController(TripAppContext context)
+        {
+            _context = context;
+        }
 
         /// <summary>
         /// Creates user
         /// </summary>
         /// <remarks>This can be done by any user.</remarks>
-        /// <param name="body">Created user object</param>
+        /// <param name="user">Created user object</param>
         /// <response code="400">bad input parameter</response>
         /// <response code="409">an existing item already exists</response>
-        /// <response code="0">successful operation</response>
+        /// <response code="201">successful operation</response>
         [HttpPost]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user")]
         [SwaggerOperation("CreateUser")]
-        public virtual void CreateUser([FromBody]User body)
-        { 
-            throw new NotImplementedException();
+        public virtual IActionResult CreateUser([FromBody]User user)
+        {
+            // TODO ftn: Add validation to the user parameter!!!
+            // Return 400 - BadRequest if not valid!
+            if (_context.Users.FirstOrDefault(u => u.Username == user.Username) != null)
+            {
+                return StatusCode(StatusCodes.Status409Conflict, user); // 409 already exists!
+            }
+
+            try
+            {
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                return Created(Request.Host.ToString(), user); // 201 Created successfuly.
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
 
@@ -70,7 +99,7 @@ namespace IO.Swagger.Controllers
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
         [SwaggerOperation("DeleteUser")]
         public virtual void DeleteUser([FromRoute]string username)
-        { 
+        {
             throw new NotImplementedException();
         }
 
@@ -78,7 +107,7 @@ namespace IO.Swagger.Controllers
         /// <summary>
         /// Gets user by username
         /// </summary>
-        
+
         /// <param name="username">The username that needs to be fetched.</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid username supplied</response>
@@ -88,20 +117,27 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("GetUserByUsername")]
         [SwaggerResponse(200, type: typeof(User))]
         public virtual IActionResult GetUserByUsername([FromRoute]string username)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<User>(exampleJson)
-            : default(User);
-            return new ObjectResult(example);
+        {
+            try
+            {
+                var user = _context.Users.FirstOrDefault(u => u.Username == username);
+                if (user == null)
+                {
+                    return StatusCode(StatusCodes.Status404NotFound);
+                }
+                return new ObjectResult(user);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
 
         /// <summary>
         /// Logs user into the system
         /// </summary>
-        
+
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <response code="200">successful operation</response>
@@ -111,27 +147,36 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("LoginUser")]
         [SwaggerResponse(200, type: typeof(string))]
         public virtual IActionResult LoginUser([FromQuery]string username, [FromQuery]string password)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<string>(exampleJson)
-            : default(string);
-            return new ObjectResult(example);
+        {
+            try
+            {
+                // TODO FTN: HASH PASSWORD?
+                var user = _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
+                if (user == null)
+                {
+                    return StatusCode(StatusCodes.Status404NotFound);
+                }
+                return new ObjectResult(user);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
 
         /// <summary>
         /// Logs out currenty logged in user session
         /// </summary>
-        
-        /// <response code="0">successful operation</response>
+
+        /// <response code="200">successful operation</response>
         [HttpGet]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/logout")]
         [SwaggerOperation("LogoutUser")]
-        public virtual void LogoutUser()
-        { 
-            throw new NotImplementedException();
+        public IActionResult LogoutUser()
+        {
+            // TODO FTN: Add support for security - read user tocken or whatever!
+            return Ok();
         }
 
 
@@ -140,7 +185,7 @@ namespace IO.Swagger.Controllers
         /// </summary>
         /// <remarks>This can only be done by the logged in user.</remarks>
         /// <param name="username">username of a user that is about to be updated</param>
-        /// <param name="body">Updated user object</param>
+        /// <param name="user">Updated user object</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid user supplied</response>
         /// <response code="404">User not found</response>
@@ -148,14 +193,26 @@ namespace IO.Swagger.Controllers
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
         [SwaggerOperation("UpdateUser")]
         [SwaggerResponse(200, type: typeof(User))]
-        public virtual IActionResult UpdateUser([FromRoute]string username, [FromBody]User body)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<User>(exampleJson)
-            : default(User);
-            return new ObjectResult(example);
+        public virtual IActionResult UpdateUser([FromRoute]string username, [FromBody]User user)
+        {
+            // TODO ftn: Add validation to the user parameter!!!
+            // Return 400 - BadRequest if not valid!
+            var existingUser = _context.Users.FirstOrDefault(u => u.Username == username);
+            if (existingUser == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, username); // 400 not found!
+            }
+
+            try
+            {
+                _context.Entry(existingUser).CurrentValues.SetValues(user);
+                _context.SaveChanges();
+                return Ok(user);
+            }
+            catch (Exception err)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

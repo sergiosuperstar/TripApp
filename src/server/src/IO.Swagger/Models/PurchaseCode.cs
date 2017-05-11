@@ -32,12 +32,10 @@ using Newtonsoft.Json;
 
 namespace IO.Swagger.Models
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [DataContract]
     public partial class PurchaseCode :  IEquatable<PurchaseCode>
     {
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="PurchaseCode" /> class.
         /// </summary>
@@ -86,15 +84,6 @@ namespace IO.Swagger.Models
             {
                 this.GenarationDateTime = GenarationDateTime;
             }
-            // to ensure "UsageDateTime" is required (not null)
-            if (UsageDateTime == null)
-            {
-                throw new InvalidDataException("UsageDateTime is a required property for PurchaseCode and cannot be null");
-            }
-            else
-            {
-                this.UsageDateTime = UsageDateTime;
-            }
             // to ensure "Used" is required (not null)
             if (Used == null)
             {
@@ -104,6 +93,7 @@ namespace IO.Swagger.Models
             {
                 this.Used = Used;
             }
+            this.UsageDateTime = UsageDateTime;
             this.User = User;
             
         }

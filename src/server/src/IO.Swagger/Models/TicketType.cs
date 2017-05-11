@@ -38,6 +38,9 @@ namespace IO.Swagger.Models
     [DataContract]
     public partial class TicketType :  IEquatable<TicketType>
     {
+        public TicketType()
+        {
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="TicketType" /> class.
         /// </summary>

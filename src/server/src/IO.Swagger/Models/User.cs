@@ -32,9 +32,6 @@ using Newtonsoft.Json;
 
 namespace IO.Swagger.Models
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [DataContract]
     public partial class User :  IEquatable<User>
     {

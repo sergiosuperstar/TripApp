@@ -34,6 +34,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.Swagger.Model;
 using Swashbuckle.SwaggerGen.Annotations;
+using IO.Swagger.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace IO.Swagger
 {
@@ -59,6 +61,8 @@ namespace IO.Swagger
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<TripAppContext>(opt => opt.UseInMemoryDatabase());
+
             // Add framework services.
             services.AddMvc()
                 .AddJsonOptions(
@@ -89,6 +93,10 @@ namespace IO.Swagger
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            var context = app.ApplicationServices.GetService<TripAppContext>();
+            TripAppDbInitializer.Seed(context);
+
 
             app.UseMvc();
             
