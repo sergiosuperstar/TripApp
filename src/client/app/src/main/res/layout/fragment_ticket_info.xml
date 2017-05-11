@@ -1,138 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     tools:context="com.example.icf.tripappclient.fragments.TicketInfo"
-    tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+    android:columnCount="2" >
+
+    <ImageView
+        android:id="@+id/qrExample"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp" />
+
+
+    <TextView
+        android:id="@+id/ticketTypeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center_horizontal"
+        android:text="One day ticket"
+        android:textSize="24dp"/>
 
     <TextView
         android:id="@+id/startDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:layout_marginBottom="10dp"
         android:text="@string/valid_from"
-        android:textColor="@android:color/black"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qrExample"
-        android:layout_marginStart="16dp" />
-
-    <TextView
-        android:id="@+id/endDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:text="@string/valid_through"
-        android:textColor="@android:color/black"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/startDate"
-        android:layout_marginStart="16dp" />
-
-    <ImageView
-        android:id="@+id/qrExample"
-        android:layout_width="250dp"
-        android:layout_height="251dp"
-        android:layout_marginTop="64dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <TextView
-        android:id="@+id/ticketTitle"
-        android:layout_width="179dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/ticket_title"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textColorLink="@android:color/black"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/qrExample"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:textAlignment="center"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/ticketsNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/number_of_tickets"
-        android:textColor="@android:color/black"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endDate"
-        android:layout_marginStart="16dp" />
-
-    <TextView
-        android:id="@+id/ticketPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="12dp"
-        android:textColor="@android:color/black"
-        android:text="@string/ticket_price_label"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ticketsNumber"
-        android:layout_marginStart="16dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/dateFromValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_row="2"
+        android:layout_column="1"
         android:text="21.12.2012. 20:53"
-        android:textColor="?attr/colorPrimaryDark"
-        android:visibility="visible"
-        app:layout_constraintLeft_toRightOf="@+id/startDate"
-        app:layout_constraintTop_toBottomOf="@+id/qrExample" />
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/endDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:layout_marginBottom="20dp"
+        android:text="@string/valid_through"
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/dateToValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_row="3"
+        android:layout_column="1"
         android:text="21.12.2012. 21:53"
-        android:textColor="?attr/colorPrimaryDark"
-        app:layout_constraintLeft_toRightOf="@+id/endDate"
-        app:layout_constraintTop_toBottomOf="@+id/dateFromValue" />
+        android:textSize="18dp" />
+
+
+    <TextView
+        android:id="@+id/purchaseInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="4"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/purchase_info"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/boughtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="5"
+        android:layout_column="0"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/ticket_bought"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/dateBought"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="5"
+        android:layout_column="1"
+        android:text="21.12.2012. 20:48"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/ticketsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="6"
+        android:layout_column="0"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/number_of_tickets"
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/tiketsNumberValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_row="6"
+        android:layout_column="1"
         android:text="1"
-        android:textColor="?attr/colorPrimaryDark"
-        app:layout_constraintLeft_toRightOf="@+id/ticketsNumber"
-        app:layout_constraintTop_toBottomOf="@+id/dateToValue" />
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/ticketPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="7"
+        android:layout_column="0"
+        android:text="@string/ticket_price_label"
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/ticketPriceValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_row="7"
+        android:layout_column="1"
+        android:layout_marginBottom="5dp"
         android:text="1.20 EUR"
-        android:textColor="?attr/colorPrimaryDark"
-        app:layout_constraintLeft_toRightOf="@+id/ticketPrice"
-        app:layout_constraintTop_toBottomOf="@+id/tiketsNumberValue" />
+        android:textSize="18dp" />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/ticketPriceSingleValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="8"
+        android:layout_column="1"
+        android:layout_gravity="right"
+        android:text="(1.20 EUR per ticket)"
+        android:textSize="16dp" />
+
+</GridLayout>
