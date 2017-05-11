@@ -63,3 +63,4 @@ src/server/src/IO.Swagger/Properties/PublishProfiles/*
 #Ignore Azure build csdef & Pubxml files
 ServiceDefinition.build.csdef
 *.azurePubxml
+/src/server/src/IO.Swagger/Properties/PublishProfiles

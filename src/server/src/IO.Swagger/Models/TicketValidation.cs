@@ -38,9 +38,6 @@ namespace IO.Swagger.Models
     [DataContract]
     public partial class TicketValidation :  IEquatable<TicketValidation>
     {
-        public TicketValidation()
-        {
-        }
         /// <summary>
         /// Initializes a new instance of the <see cref="TicketValidation" /> class.
         /// </summary>
