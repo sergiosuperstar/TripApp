@@ -49,6 +49,8 @@ local.properties
 ehthumbs.db
 Thumbs.db
 
+src/server/src/IO.Swagger/Properties/PublishProfiles/*
+
 #Ignore email files delivered to specified pickup directory
 *.eml
 
