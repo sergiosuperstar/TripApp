@@ -26,6 +26,9 @@ package io.swagger.client.model;
 
 import io.swagger.client.model.TicketType;
 import io.swagger.client.model.User;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 import io.swagger.annotations.*;
@@ -90,6 +93,10 @@ public class TicketPurchase {
   public void setStartDateTime(Date startDateTime) {
     this.startDateTime = startDateTime;
   }
+  public String getStartDateTimeString(){
+    DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    return df.format(startDateTime);
+  }
 
   /**
    **/
@@ -99,6 +106,10 @@ public class TicketPurchase {
   }
   public void setEndDateTime(Date endDateTime) {
     this.endDateTime = endDateTime;
+  }
+  public String getEndDateTimeString(){
+    DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    return df.format(endDateTime);
   }
 
   /**

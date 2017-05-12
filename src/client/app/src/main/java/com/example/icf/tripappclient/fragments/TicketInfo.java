@@ -18,6 +18,12 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.util.Date;
+import java.util.UUID;
+
+import io.swagger.client.model.*;
+import io.swagger.client.model.TicketPurchase;
+
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
 import static android.graphics.Color.YELLOW;
@@ -40,10 +46,31 @@ public class TicketInfo extends Fragment {
 
         View view=inflater.inflate(R.layout.fragment_ticket_info, container, false);
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.qrExample);
+
+
+        //TODO: get ticket
+        TicketPurchase ticket = new TicketPurchase();
+        TicketType type = new TicketType();
+        type.setName("Daily ticket");
+        ticket.setCode(UUID.randomUUID());
+        ticket.setNumberOfPassangers(3);
+        ticket.setPrice(1.20);
+        ticket.setStartDateTime(new Date());
+        ticket.setEndDateTime(new Date(ticket.getStartDateTime().getTime()+(24*60*60*1000)));
+        ticket.setType(type);
+        /* *************** */
+
+
+
+        ((TextView) view.findViewById(R.id.dateFromValue)).setText(ticket.getStartDateTimeString());
+        ((TextView) view.findViewById(R.id.dateToValue)).setText(ticket.getEndDateTimeString());
+        ((TextView) view.findViewById(R.id.ticketPriceValue)).setText(ticket.getPrice().toString() + " EUR");
+        ((TextView) view.findViewById(R.id.ticketsNumberValue)).setText(ticket.getNumberOfPassangers().toString());
+        ((TextView) view.findViewById(R.id.ticketTypeValue)).setText(ticket.getType().getName());
 
         try {
-            Bitmap bitmap = encodeAsBitmap("Informacije o karti; 22.14.2017.; 1234156; Ovo je to to !; Ime-prezime");
+            ImageView imageView = (ImageView) view.findViewById(R.id.qrExample);
+            Bitmap bitmap = encodeAsBitmap(ticket.getCode().toString());
             imageView.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();

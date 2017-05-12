@@ -121,11 +121,11 @@
         android:textSize="16dp" />
 
     <TextView
-        android:id="@+id/tiketsNumberValue"
+        android:id="@+id/ticketsNumberValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_row="6"
         android:layout_column="1"
+        android:layout_row="6"
         android:text="1"
         android:textSize="18dp" />
 
