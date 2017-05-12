@@ -34,23 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();
 
-        UsersApi api = new UsersApi();
-
-        // TODO FTN: Test call - for some reason we are getting time out exception!!!
-
-        // TODO FTN: FOUND IT. It should be called on another thread (NOT UI THREAD)!!!
-        /*try {
-            String result = api.loginUser(username, password);
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ApiException e) {
-            e.printStackTrace();
-        }*/
-
         session.login(username, password);
 
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
