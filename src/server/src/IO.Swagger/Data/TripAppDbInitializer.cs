@@ -18,14 +18,16 @@ namespace IO.Swagger.Data
         /// <param name="context">Context to use for saving seeded data.</param>
         public static void Seed(TripAppContext context)
         {
+            string str = Hash.sha256("pa$$w0rd" + "p0mpeja");
+
             // Users:
-            User admin = new User(1,"administrator","Pera", "Administratovic","admin@tripapp.com", "Pa$$w0rd", "333-123", "administrator", 2000.0d);
+            User admin = new User(1,"administrator", "Pera", "Administratovic","admin@tripapp.com", str, "333-123", "administrator", 2000.0d);
             context.Users.Add(admin);
 
-            User passenger = new User(2, "darinka.putnik", "Darinka", "Putnik", "daracar@tripapp.com", "Pa$$w0rd", "333-444", "passenger", 1000.0d);
+            User passenger = new User(2, "darinka.putnik", "Darinka", "Putnik", "daracar@tripapp.com", str, "333-444", "passenger", 1000.0d);
             context.Users.Add(passenger);
 
-            User controller = new User(3, "milos.nagib", "Milos", "Nagib", "mrgud@tripapp.com", "Pa$$w0rd", "333-555", "controller", 3000.0d);
+            User controller = new User(3, "milos.nagib", "Milos", "Nagib", "mrgud@tripapp.com", str, "333-555", "controller", 3000.0d);
             context.Users.Add(controller);
 
             // Purchase codes:

@@ -76,6 +76,7 @@ namespace IO.Swagger.Controllers
 
             try
             {
+                user.Password = Hash.sha256(user.Password + "p0mpeja");
                 _context.Users.Add(user);
                 _context.SaveChanges();
                 return Created(Request.Host.ToString(), user); // 201 Created successfuly.
@@ -125,6 +126,7 @@ namespace IO.Swagger.Controllers
                 {
                     return StatusCode(StatusCodes.Status404NotFound);
                 }
+                user.Password = null;
                 return new ObjectResult(user);
             }
             catch (Exception)
@@ -150,12 +152,16 @@ namespace IO.Swagger.Controllers
         {
             try
             {
-                // TODO FTN: HASH PASSWORD?
+
+                // HASH
+                password = Hash.sha256(password + "p0mpeja");
+
                 var user = _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
                 if (user == null)
                 {
                     return StatusCode(StatusCodes.Status404NotFound);
                 }
+                user.Password = null;
                 return new ObjectResult(user);
             }
             catch (Exception)
@@ -205,6 +211,7 @@ namespace IO.Swagger.Controllers
 
             try
             {
+                user.Password = Hash.sha256(user.Password + "p0mpeja");
                 _context.Entry(existingUser).CurrentValues.SetValues(user);
                 _context.SaveChanges();
                 return Ok(user);
