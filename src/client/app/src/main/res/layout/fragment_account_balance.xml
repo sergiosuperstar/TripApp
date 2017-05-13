@@ -11,11 +11,11 @@
 
     <TextView
         android:id="@+id/currentState"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/current_state"
-        android:textSize="18dp" />
+        android:textSize="@dimen/text_header_small" />
 
     <TextView
         android:id="@+id/balanceValue"
@@ -26,7 +26,7 @@
         android:layout_marginTop="30dp"
         android:text="144,30"
         android:textStyle="bold"
-        android:textSize="44dp"
+        android:textSize="@dimen/text_header_big"
         android:textColor="@color/lightBlue"/>
 
     <TextView
@@ -36,13 +36,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:text="@string/eur"
-        android:textSize="24dp" />
+        android:textSize="@dimen/text_header_medium" />
 
     <Button
         android:id="@+id/addMoney"
+        style="@style/SingleButton"
         android:layout_gravity="center_horizontal"
-        android:layout_width="220dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="@string/button_add_money" />
 
@@ -53,13 +54,13 @@
 
     <TextView
         android:id="@+id/paymentHistory"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:text="@string/payment_history"
-        android:textSize="18dp" />
+        android:textSize="@dimen/text_header_small" />
 
     <ScrollView
         android:id="@+id/historyScroll"
@@ -74,39 +75,40 @@
             android:columnCount="5">
 
             <TextView
-                android:layout_height="40dp"
+                android:layout_height="@dimen/payments_row_height"
                 android:layout_row="0"
                 android:layout_column="0"
-                android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:text="-"
                 android:textColor="@color/red"
-                android:textSize="22dp"/>
+                android:textSize="@dimen/text_header_medium"/>
             <TextView
                 android:layout_row="0"
                 android:layout_column="1"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="right"
+                android:layout_marginRight="2dp"
+                android:layout_gravity="end"
                 android:text="2,50"
-                android:textSize="17dp"
+                android:textSize="@dimen/text_header_small"
                 android:textColor="@color/red"/>
             <TextView
                 android:layout_row="0"
                 android:layout_column="2"
                 android:layout_marginRight="5dp"
-                android:text="eur"/>
+                android:text="@string/eur"
+                android:textSize="@dimen/text_label_small" />
             <TextView
                 android:layout_row="0"
                 android:layout_column="3"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 android:text="Hour ticket"
-                android:layout_gravity="right"
-                android:textSize="17dp"/>
+                android:layout_gravity="end"
+                android:textSize="@dimen/text_header_small"/>
             <TextView
                 android:layout_row="0"
                 android:layout_column="4"
+                android:gravity="end"
                 android:text="21.02.'12 (12:12)"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <View
                 android:layout_row="1"
                 android:layout_column="0"
@@ -114,40 +116,42 @@
                 android:layout_height="1dp"
                 android:background="@color/lightGrey" />
 
+
             <TextView
-                android:layout_height="40dp"
+                android:layout_height="@dimen/payments_row_height"
                 android:layout_row="1"
                 android:layout_column="0"
-                android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:text="-"
                 android:textColor="@color/red"
-                android:textSize="22dp"/>
+                android:textSize="@dimen/text_header_medium"/>
             <TextView
                 android:layout_row="1"
                 android:layout_column="1"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="right"
+                android:layout_marginRight="2dp"
+                android:layout_gravity="end"
                 android:text="3,75"
-                android:textSize="17dp"
+                android:textSize="@dimen/text_header_small"
                 android:textColor="@color/red"/>
             <TextView
                 android:layout_row="1"
                 android:layout_column="2"
                 android:layout_marginRight="5dp"
-                android:text="eur"/>
+                android:text="@string/eur"
+                android:textSize="@dimen/text_label_small" />
             <TextView
                 android:layout_row="1"
                 android:layout_column="3"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="end"
                 android:text="Hour ticket"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <TextView
                 android:layout_row="1"
                 android:layout_column="4"
+                android:gravity="end"
                 android:text="11.01.'12 (11:10)"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <View
                 android:layout_row="2"
                 android:layout_column="0"
@@ -155,39 +159,42 @@
                 android:layout_height="1dp"
                 android:background="@color/lightGrey" />
 
+
             <TextView
-                android:layout_height="40dp"
+                android:layout_height="@dimen/payments_row_height"
                 android:layout_row="2"
                 android:layout_column="0"
-                android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:text="-"
                 android:textColor="@color/red"
-                android:textSize="22dp"/>
+                android:textSize="@dimen/text_header_medium"/>
             <TextView
                 android:layout_row="2"
                 android:layout_column="1"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="2dp"
+                android:layout_gravity="end"
                 android:text="13,75"
-                android:textSize="17dp"
+                android:textSize="@dimen/text_header_small"
                 android:textColor="@color/red"/>
             <TextView
                 android:layout_row="2"
                 android:layout_column="2"
                 android:layout_marginRight="5dp"
-                android:text="eur"/>
+                android:text="@string/eur"
+                android:textSize="@dimen/text_label_small" />
             <TextView
                 android:layout_row="2"
                 android:layout_column="3"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="end"
                 android:text="Day ticket"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <TextView
                 android:layout_row="2"
                 android:layout_column="4"
+                android:gravity="end"
                 android:text="08.04.'11 (21:31)"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <View
                 android:layout_row="3"
                 android:layout_column="0"
@@ -195,40 +202,42 @@
                 android:layout_height="1dp"
                 android:background="@color/lightGrey" />
 
+
             <TextView
-                android:layout_height="40dp"
+                android:layout_height="@dimen/payments_row_height"
                 android:layout_row="3"
                 android:layout_column="0"
-                android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:text="+"
                 android:textColor="@color/green"
-                android:textSize="20dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <TextView
                 android:layout_row="3"
                 android:layout_column="1"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="right"
+                android:layout_marginRight="2dp"
+                android:layout_gravity="end"
                 android:text="60,00"
-                android:textSize="17dp"
+                android:textSize="@dimen/text_header_small"
                 android:textColor="@color/green"/>
             <TextView
                 android:layout_row="3"
                 android:layout_column="2"
                 android:layout_marginRight="5dp"
-                android:text="eur"/>
+                android:text="@string/eur"
+                android:textSize="@dimen/text_label_small" />
             <TextView
                 android:layout_row="3"
                 android:layout_column="3"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="end"
                 android:text=""
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <TextView
                 android:layout_row="3"
                 android:layout_column="4"
+                android:gravity="end"
                 android:text="09.03.'11 (16:34)"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <View
                 android:layout_row="4"
                 android:layout_column="0"
@@ -238,39 +247,40 @@
 
 
             <TextView
-                android:layout_height="40dp"
+                android:layout_height="@dimen/payments_row_height"
                 android:layout_row="4"
                 android:layout_column="0"
-                android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:text="-"
                 android:textColor="@color/red"
-                android:textSize="22dp"/>
+                android:textSize="@dimen/text_header_medium"/>
             <TextView
                 android:layout_row="4"
                 android:layout_column="1"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="right"
-                android:text="45,90"
-                android:textSize="17dp"
+                android:layout_marginRight="2dp"
+                android:layout_gravity="end"
+                android:text="245,90"
+                android:textSize="@dimen/text_header_small"
                 android:textColor="@color/red"/>
             <TextView
                 android:layout_row="4"
                 android:layout_column="2"
                 android:layout_marginRight="5dp"
-                android:text="eur"/>
+                android:text="@string/eur"
+                android:textSize="@dimen/text_label_small" />
             <TextView
                 android:layout_row="4"
                 android:layout_column="3"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"
-                android:text="Month ticket"
-                android:textSize="17dp"/>
+                android:layout_marginRight="5dp"
+                android:layout_gravity="end"
+                android:text="Year ticket"
+                android:textSize="@dimen/text_header_small"/>
             <TextView
                 android:layout_row="4"
                 android:layout_column="4"
+                android:gravity="end"
                 android:text="13.02.'11 (09:23)"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <View
                 android:layout_row="5"
                 android:layout_column="0"
@@ -279,42 +289,41 @@
                 android:background="@color/lightGrey" />
 
 
-
-
             <TextView
-                android:layout_height="40dp"
+                android:layout_height="@dimen/payments_row_height"
                 android:layout_row="5"
                 android:layout_column="0"
-                android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:text="-"
                 android:textColor="@color/red"
-                android:textSize="22dp"/>
+                android:textSize="@dimen/text_header_medium"/>
             <TextView
                 android:layout_row="5"
                 android:layout_column="1"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="right"
+                android:layout_marginRight="2dp"
+                android:layout_gravity="end"
                 android:text="45,90"
-                android:textSize="17dp"
+                android:textSize="@dimen/text_header_small"
                 android:textColor="@color/red"/>
             <TextView
                 android:layout_row="5"
                 android:layout_column="2"
                 android:layout_marginRight="5dp"
-                android:text="eur"/>
+                android:text="@string/eur"
+                android:textSize="@dimen/text_label_small" />
             <TextView
                 android:layout_row="5"
                 android:layout_column="3"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="end"
                 android:text="Month ticket"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <TextView
                 android:layout_row="5"
                 android:layout_column="4"
+                android:gravity="end"
                 android:text="13.02.'11 (09:23)"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <View
                 android:layout_row="6"
                 android:layout_column="0"
@@ -323,42 +332,42 @@
                 android:background="@color/lightGrey" />
 
 
-
-
             <TextView
-                android:layout_height="40dp"
+                android:layout_height="@dimen/payments_row_height"
                 android:layout_row="6"
                 android:layout_column="0"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="2dp"
                 android:gravity="center"
                 android:text="-"
                 android:textColor="@color/red"
-                android:textSize="22dp"/>
+                android:textSize="@dimen/text_header_medium"/>
             <TextView
                 android:layout_row="6"
                 android:layout_column="1"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="right"
+                android:layout_marginRight="2dp"
+                android:layout_gravity="end"
                 android:text="45,90"
-                android:textSize="17dp"
+                android:textSize="@dimen/text_header_small"
                 android:textColor="@color/red"/>
             <TextView
                 android:layout_row="6"
                 android:layout_column="2"
                 android:layout_marginRight="5dp"
-                android:text="eur"/>
+                android:text="@string/eur"
+                android:textSize="@dimen/text_label_small" />
             <TextView
                 android:layout_row="6"
                 android:layout_column="3"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="end"
                 android:text="Month ticket"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <TextView
                 android:layout_row="6"
                 android:layout_column="4"
+                android:gravity="end"
                 android:text="13.02.'11 (09:23)"
-                android:textSize="17dp"/>
+                android:textSize="@dimen/text_header_small"/>
             <View
                 android:layout_row="7"
                 android:layout_column="0"

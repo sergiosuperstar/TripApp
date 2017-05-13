@@ -6,4 +6,13 @@
     <dimen name="nav_header_vertical_spacing">5dp</dimen>
     <dimen name="nav_header_height">150dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="payments_row_height">40dp</dimen>
+
+    <dimen name="text_label_small">13sp</dimen>
+    <dimen name="text_label">16sp</dimen>
+    <dimen name="text_value">20sp</dimen>
+    <dimen name="text_header_small">18sp</dimen>
+    <dimen name="text_header_medium">24sp</dimen>
+    <dimen name="text_header_big">44sp</dimen>
 </resources>
