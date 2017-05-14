@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">TripApp</string>
 
+    <string name="ticket_hour_u"><u>Hour ticket</u></string>
+    <string name="ticket_day_u"><u>Day ticket</u></string>
+    <string name="ticket_week_u"><u>Week ticket</u></string>
+    <string name="ticket_month_u"><u>Month ticket</u></string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ticket_duration">Ticket duration: </string>
@@ -12,6 +18,7 @@
     <string name="buy_ticket">Buy Ticket</string>
     <string name="number_of_tickets">Number of tickets:</string>
     <string name="ticket_type">Ticket type:</string>
+    <string name="ticket_status">Ticket status:</string>
     <string name="valid_from">Valid from:</string>
     <string name="valid_through">Valid through:</string>
     <string name="ticket_bought">Ticket bought:</string>
@@ -40,9 +47,11 @@
     <string name="button_onemonthticket">Month ticket</string>
     <string name="main_activity_greeting">Please select your ticket type!</string>
     <string name="title_activity_test">TestActivity</string>
+
     <string name="current_state">Balance:</string>
     <string name="payment_history">Payment history:</string>
     <string name="button_add_money">Add money</string>
+    <string name="no_payment_history">There is no payment history to be displayed</string>
 
     <string name="notifications">Notifications</string>
     <string name="notifications_turn">Turn On/Off notifications</string>
@@ -50,7 +59,10 @@
     <string name="notifications_enabled">Application notifications are enabled</string>
     <string name="notifications_time">Notifications time</string>
     <string name="notifications_time_desc">Set number of minutes for how long in advance you want to recive notofocations</string>
+
     <string name="active_label">Active tickets:</string>
     <string name="expired_label">Expired tickets:</string>
+    <string name="no_active_tickets">There are no active tickets at the moment</string>
+    <string name="no_history_tickets">There are no expired tickets to be displayed</string>
 
 </resources>

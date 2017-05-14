@@ -1,52 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.icf.tripappclient.fragments.TicketHistory"
-    tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
-
-
-    <TextView
-        android:id="@+id/expiredLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/expired_label"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:layout_margin="15dp"
+    tools:context="com.example.icf.tripappclient.fragments.TicketHistory" >
 
     <TextView
         android:id="@+id/activeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/active_label"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="@dimen/text_header_small" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/emptyActiveLabel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:minHeight="80dp"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activeLabel">
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:layout_marginTop="30dp"
+        android:text="@string/no_active_tickets"
+        android:textSize="@dimen/text_header_medium"
+        android:visibility="gone" /><!-- Koristiti za prikaz/sakrivanje labele (iskljucivo: visible/gone) -->
+
+    <ListView
+        android:id="@+id/validTicketsList"
+        android:layout_height="180dp"
+        android:layout_width="wrap_content" >
+    </ListView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/lightBlue" />
+
+    <TextView
+        android:id="@+id/expiredLabel"
+        android:layout_gravity="start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/expired_label"
+        android:textSize="@dimen/text_header_small" />
 
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/emptyHistoryLabel"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:layout_columnSpan="5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:layout_marginTop="90dp"
+        android:text="@string/no_history_tickets"
+        android:textSize="@dimen/text_header_medium"
+        android:visibility="gone" /> <!-- Koristiti za prikaz/sakrivanje labele (iskljucivo: visible/gone) -->
 
-</android.support.constraint.ConstraintLayout>
+    <ListView
+        android:id="@+id/expiredTicketsList"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" >
+    </ListView>
+
+
+</LinearLayout>

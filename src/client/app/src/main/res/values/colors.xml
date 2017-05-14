@@ -15,4 +15,5 @@
     <color name="imageMediumBlue">#1e5596</color>
     <color name="imageLightBlue">#2378b4</color>
     <color name="lightBlue">#3296dc</color>
+    <color name="linkBlue">#3cb4fa</color>
 </resources>

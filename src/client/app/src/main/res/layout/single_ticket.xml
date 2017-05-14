@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="15dp">
+
+
+    <TextView
+        android:id="@+id/ticket_expired"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:gravity="start"
+        android:text="21.02.'12 (12:12)"
+        android:textSize="@dimen/text_header_small"/>
+
+    <TextView
+        android:id="@+id/ticket_type"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ticket_expired"
+        android:layout_alignBaseline="@+id/ticket_expired"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
+        android:text="@string/ticket_hour_u"
+        android:textSize="@dimen/text_header_small"
+        android:textColor="@color/linkBlue" />
+
+    <TextView
+        android:id="@+id/ticket_price"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ticket_type"
+        android:layout_alignBaseline="@+id/ticket_expired"
+        android:layout_marginRight="2dp"
+        android:gravity="end"
+        android:text="2,50"
+        android:textSize="@dimen/text_header_small" />
+
+    <TextView
+        android:id="@+id/ticket_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ticket_price"
+        android:layout_alignBaseline="@+id/ticket_expired"
+        android:layout_gravity="start"
+        android:text="@string/eur"
+        android:textSize="@dimen/text_label_small" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/ticket_currency"
+        android:background="@color/lightGrey" />
+
+</RelativeLayout>
