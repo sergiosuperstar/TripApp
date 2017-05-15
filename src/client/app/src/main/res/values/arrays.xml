@@ -5,42 +5,24 @@
         <item>Ticker example</item>
     </string-array>
     <string-array name="notification_times_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
         <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
         <item>10</item>
-        <item>15</item>
-        <item>20</item>
-        <item>25</item>
         <item>30</item>
-        <item>40</item>
-        <item>50</item>
         <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>720</item>
+        <item>1440</item>
     </string-array>
     <string-array name="notification_times_display">
-        <item>1 min</item>
-        <item>2 min</item>
-        <item>3 min</item>
-        <item>4 min</item>
         <item>5 min</item>
-        <item>6 min</item>
-        <item>7 min</item>
-        <item>8 min</item>
-        <item>9 min</item>
         <item>10 min</item>
-        <item>15 min</item>
-        <item>20 min</item>
-        <item>25 min</item>
         <item>30 min</item>
-        <item>40 min</item>
-        <item>50 min</item>
-        <item>60 min</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>12 hours</item>
+        <item>1 day</item>
     </string-array>
     <string-array name="ticket_numbers">
         <item>1</item>
@@ -49,5 +31,24 @@
         <item>4</item>
         <item>5</item>
         <item>6</item>
+    </string-array>
+
+    <string-array name="history_values">
+        <item>7</item>
+        <item>14</item>
+        <item>21</item>
+        <item>30</item>
+        <item>90</item>
+        <item>180</item>
+        <item>360</item>
+    </string-array>
+    <string-array name="history_display">
+        <item>1 week</item>
+        <item>2 weeks</item>
+        <item>3 weeks</item>
+        <item>1 month</item>
+        <item>3 months</item>
+        <item>6 months</item>
+        <item>1 year</item>
     </string-array>
 </resources>

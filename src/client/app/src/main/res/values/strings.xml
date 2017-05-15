@@ -54,16 +54,22 @@
     <string name="button_add_money">Add money</string>
     <string name="no_payment_history">There is no payment history to be displayed</string>
 
+    <string name="active_label">Active tickets:</string>
+    <string name="expired_label">Expired tickets:</string>
+    <string name="no_active_tickets">There are no active tickets at the moment</string>
+    <string name="no_history_tickets">There are no expired tickets to be displayed</string>
+
     <string name="notifications">Notifications</string>
     <string name="notifications_turn">Turn On/Off notifications</string>
     <string name="notifications_disabled">Application notifications are disabled</string>
     <string name="notifications_enabled">Application notifications are enabled</string>
     <string name="notifications_time">Notifications time</string>
-    <string name="notifications_time_desc">Set number of minutes for how long in advance you want to recive notofocations</string>
+    <string name="notifications_time_desc">Set number of minutes for how long in advance you want to recive notifications</string>
+    <string name="history">History</string>
+    <string name="payments_history">Payments history</string>
+    <string name="payments_history_desc">Display payments occurred in the chosen period</string>
+    <string name="tickets_history">Tickets history</string>
+    <string name="tickets_history_desc">Display tickets occurred in the chosen period</string>
 
-    <string name="active_label">Active tickets:</string>
-    <string name="expired_label">Expired tickets:</string>
-    <string name="no_active_tickets">There are no active tickets at the moment</string>
-    <string name="no_history_tickets">There are no expired tickets to be displayed</string>
 
 </resources>

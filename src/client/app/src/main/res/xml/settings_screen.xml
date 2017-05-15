@@ -21,8 +21,32 @@
             android:dependency="notifications_on"
             android:entries="@array/notification_times_display"
             android:entryValues="@array/notification_times_values"
-            android:defaultValue="10"
+            android:defaultValue="30"
             android:summary="@string/notifications_time_desc"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:id="@+id/history_category"
+        android:title="@string/history">
+
+        <ListPreference
+            android:id="@+id/payments_history"
+            android:key="payments_history"
+            android:title="@string/payments_history"
+            android:entries="@array/history_display"
+            android:entryValues="@array/history_values"
+            android:defaultValue="21"
+            android:summary="@string/payments_history_desc"/>
+
+        <ListPreference
+            android:id="@+id/tickets_history"
+            android:key="tickets_history"
+            android:title="@string/tickets_history"
+            android:entries="@array/history_display"
+            android:entryValues="@array/history_values"
+            android:defaultValue="21"
+            android:summary="@string/tickets_history_desc"/>
 
 
     </PreferenceCategory>
