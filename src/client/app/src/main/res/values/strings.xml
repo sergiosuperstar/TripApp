@@ -25,6 +25,7 @@
     <string name="purchase_info">Purchase info</string>
     <string name="ticket_title">Your ticket</string>
     <string name="ticket_price_label">Ticket price:</string>
+    <string name="eur_per_ticket">EUR per ticket</string>
 
     <string name="home_title">Purchase tickets</string>
     <string name="ticket_info_title">My ticket</string>
