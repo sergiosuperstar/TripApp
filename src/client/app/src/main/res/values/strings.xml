@@ -6,6 +6,7 @@
     <string name="ticket_week_u"><u>Week ticket</u></string>
     <string name="ticket_month_u"><u>Month ticket</u></string>
 
+    <string name="login_failed">Wrong credentials, try again.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

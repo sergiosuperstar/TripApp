@@ -33,6 +33,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        session = new SessionManager(getApplicationContext());
+        if(!session.isLoggedIn()){
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(i);
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,13 +64,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-
-        session = new SessionManager(getApplicationContext());
-
-        if(!session.isLoggedIn()){
-            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(i);
-        }
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);

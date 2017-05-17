@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.SessionManager;
@@ -33,12 +34,16 @@ public class LoginActivity extends AppCompatActivity {
 
         String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();
+        session.login(this, username, password);
+    }
 
-        session.login(username, password);
-
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(i);
-
+    public void respond(boolean succesful) {
+        if (succesful) {
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(this, R.string.login_failed, Toast.LENGTH_LONG).show();
+        }
     }
 
 }

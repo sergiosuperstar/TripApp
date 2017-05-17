@@ -1,14 +1,19 @@
 package com.example.icf.tripappclient;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.example.icf.tripappclient.activities.LoginActivity;
+import com.example.icf.tripappclient.service.ServiceUtils;
 
-import io.swagger.client.api.UsersApi;
 import io.swagger.client.model.User;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Vuletic on 9.5.2017.
@@ -34,29 +39,52 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public boolean login(String username, String password){
+    public boolean login(LoginActivity activity, String username, String password){
+//
+//        UsersApi api = new UsersApi();
+//
+//        // TODO FTN: Test call - for some reason we are getting time out exception!!!
+//
+//        // TODO FTN: FOUND IT. It should be called on another thread (NOT UI THREAD)!!!
+//        /*try {
+//            String result = api.loginUser(username, password);
+//        } catch (TimeoutException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ApiException e) {
+//            e.printStackTrace();
+//        }*/
+//
+//        editor.putBoolean("loggedIn", true);
+//        editor.putString("username", username);
+//        editor.putString("role", "passenger");
+//        editor.commit();
+        final LoginActivity login = activity;
+        Call<User> call = ServiceUtils.userService.login(username, password);
+        call.enqueue(new Callback<User>() {
 
-        UsersApi api = new UsersApi();
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.code() == 200) {
+                    User user = response.body();
+                    if (user != null) {
+                        editor.putBoolean("loggedIn", true);
+                        editor.commit();
+                        login.respond(true);
+                    }
+                } else {
+                    login.respond(false);
+                }
+            }
 
-        // TODO FTN: Test call - for some reason we are getting time out exception!!!
-
-        // TODO FTN: FOUND IT. It should be called on another thread (NOT UI THREAD)!!!
-        /*try {
-            String result = api.loginUser(username, password);
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ApiException e) {
-            e.printStackTrace();
-        }*/
-
-        editor.putBoolean("loggedIn", true);
-        editor.putString("username", username);
-        editor.putString("role", "passenger");
-        editor.commit();
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                login.respond(false);
+            }
+        });
 
         return true; //TODO: vratiti false pri failed login
     }

@@ -22,7 +22,7 @@
         android:hint="@string/username"
         android:textSize="@dimen/text_value"
         android:layout_marginTop="20dp"
-        android:inputType="textPassword" />
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/passwordInput"
