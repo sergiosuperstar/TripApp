@@ -2,6 +2,7 @@ package com.example.icf.tripappclient.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -84,7 +85,10 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+                getSupportFragmentManager().popBackStack();
+            else
+                super.onBackPressed();
         }
     }
 
@@ -115,30 +119,23 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         int id = item.getItemId();
 
         if (id == R.id.nav_main) {  /* MOZDA NE TREBA NEW FRAGMENT NEGO IH CUVATI KAO POLJA */
             Home homeFragment = new Home();
-            fragmentTransaction.replace(R.id.fragment_container, homeFragment);
-            fragmentTransaction.commit();
+            changeFragment(homeFragment);
         } else if (id == R.id.nav_ticket_info) {
             TicketInfo tiFragment = new TicketInfo();
-            fragmentTransaction.replace(R.id.fragment_container, tiFragment);
-            fragmentTransaction.commit();
+            changeFragment(tiFragment);
         } else if (id == R.id.nav_ticket_balance) {
             AccountBalance abFragment = new AccountBalance();
-            fragmentTransaction.replace(R.id.fragment_container, abFragment);
-            fragmentTransaction.commit();
+            changeFragment(abFragment);
         } else if (id == R.id.nav_camera) {
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             startActivity(intent);
         } else if (id == R.id.nav_ticket_history) {
             TicketHistory thFragment = new TicketHistory();
-            fragmentTransaction.replace(R.id.fragment_container, thFragment);
-            fragmentTransaction.commit();
+            changeFragment(thFragment);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
@@ -154,34 +151,31 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void buyOneHourTicket(View view) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         TicketPurchase tpFragment = new TicketPurchase();
-        fragmentTransaction.replace(R.id.fragment_container, tpFragment);
-        fragmentTransaction.commit();
+        changeFragment(tpFragment);
     }
 
     public void buyOneDayTicket(View view) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         TicketPurchase tpFragment = new TicketPurchase();
-        fragmentTransaction.replace(R.id.fragment_container, tpFragment);
-        fragmentTransaction.commit();
+        changeFragment(tpFragment);
     }
 
     public void buyWeekDayTicket(View view) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         TicketPurchase tpFragment = new TicketPurchase();
-        fragmentTransaction.replace(R.id.fragment_container, tpFragment);
-        fragmentTransaction.commit();
+        changeFragment(tpFragment);
     }
 
     public void buyMonthDayTicket(View view) {
+        TicketPurchase tpFragment = new TicketPurchase();
+        changeFragment(tpFragment);
+    }
+
+    private void changeFragment(Fragment destinationFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        TicketPurchase tpFragment = new TicketPurchase();
-        fragmentTransaction.replace(R.id.fragment_container, tpFragment);
+
+        fragmentTransaction.replace(R.id.fragment_container, destinationFragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }
