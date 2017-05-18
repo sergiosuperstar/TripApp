@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/usernameInput"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
+        android:layout_margin="40dp"
         android:src="@drawable/background" />
 
     <EditText

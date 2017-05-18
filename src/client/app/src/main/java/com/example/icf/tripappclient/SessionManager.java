@@ -39,7 +39,7 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public boolean login(LoginActivity activity, String username, String password){
+    public void login(LoginActivity activity, String username, String password){
 //
 //        UsersApi api = new UsersApi();
 //
@@ -86,7 +86,7 @@ public class SessionManager {
             }
         });
 
-        return true; //TODO: vratiti false pri failed login
+        return;
     }
 
     public boolean isLoggedIn(){
@@ -96,10 +96,6 @@ public class SessionManager {
     public void logOut(){
         editor.clear();
         editor.commit();
-
-        Intent i = new Intent(_context, LoginActivity.class);
-
-        _context.startActivity(i);
     }
 
     public User getUser(){

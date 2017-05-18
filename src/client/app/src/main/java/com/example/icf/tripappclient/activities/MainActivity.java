@@ -35,10 +35,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         session = new SessionManager(getApplicationContext());
-        if(!session.isLoggedIn()){
-            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(i);
-        }
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,6 +73,15 @@ public class MainActivity extends AppCompatActivity
         Home homeFragment = new Home();
         fragmentTransaction.add(R.id.fragment_container, homeFragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!session.isLoggedIn()){
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(i);
+        }
     }
 
     @Override
