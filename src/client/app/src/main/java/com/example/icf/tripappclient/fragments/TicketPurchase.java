@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.SessionManager;
 import com.example.icf.tripappclient.activities.LoginActivity;
+import com.example.icf.tripappclient.activities.MainActivity;
 import com.example.icf.tripappclient.service.ServiceUtils;
 
 import io.swagger.client.model.TicketType;
@@ -75,21 +76,17 @@ public class TicketPurchase extends Fragment {
 
                     @Override
                     public void onResponse(Call<io.swagger.client.model.TicketPurchase> call, Response<io.swagger.client.model.TicketPurchase> response) {
-                        if (response.code() == 200) {
-                            io.swagger.client.model.TicketPurchase purchase = response.body();
-                            /*if (user != null) {
-                                editor.putBoolean("loggedIn", true);
-                                editor.commit();
-                                login.respond(true);
-                            }*/
+                        if (response.code() == 201) {
+                            TicketHistory thFragment = new TicketHistory();
+                            ((MainActivity)getActivity()).respondNewPurchase(true);
                         } else {
-                            //login.respond(false);
+                            ((MainActivity)getActivity()).respondNewPurchase(false);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<io.swagger.client.model.TicketPurchase> call, Throwable t) {
-                        int a = 5;
+                        ((MainActivity)getActivity()).respondNewPurchase(false);
                     }
                 });
 

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.SessionManager;
@@ -208,4 +209,14 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+    public void respondNewPurchase(boolean successful) {
+        if (successful) {
+            TicketHistory thFragment = new TicketHistory();
+            changeFragment(thFragment);
+        } else {
+            Toast.makeText(this, "Purchase failed", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

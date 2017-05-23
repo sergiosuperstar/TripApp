@@ -32,6 +32,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.SwaggerGen.Annotations;
 using IO.Swagger.Models;
+using IO.Swagger.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace IO.Swagger.Controllers
 { 
@@ -39,7 +41,14 @@ namespace IO.Swagger.Controllers
     /// 
     /// </summary>
     public class TicketsApiController : Controller
-    { 
+    {
+        private readonly TripAppContext _context;
+
+
+        public TicketsApiController(TripAppContext context)
+        {
+            _context = context;
+        }
 
         /// <summary>
         /// adds an ticket purchase item
@@ -52,9 +61,21 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets")]
         [SwaggerOperation("AddTicketPurchase")]
-        public virtual void AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
-        { 
-            throw new NotImplementedException();
+        public virtual IActionResult AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
+        {
+            ticketPurchase.Code = Guid.NewGuid();
+            ticketPurchase.StartDateTime = DateTime.Now;
+            ticketPurchase.EndDateTime = DateTime.Now.AddHours(ticketPurchase.Type.Duration.Value);
+            ticketPurchase.Price = ticketPurchase.Type.Price;
+            try
+            {
+                _context.Purchases.Add(ticketPurchase);
+               //_context.SaveChanges();
+                return StatusCode(StatusCodes.Status201Created, ticketPurchase);
+            }catch(Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
 
