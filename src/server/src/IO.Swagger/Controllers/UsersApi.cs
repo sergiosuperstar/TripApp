@@ -35,6 +35,7 @@ using IO.Swagger.Models;
 using IO.Swagger.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace IO.Swagger.Controllers
 {
@@ -44,14 +45,16 @@ namespace IO.Swagger.Controllers
     public class UsersApiController : Controller
     {
         private readonly TripAppContext _context;
-
+        private readonly IPasswordHasher<User> _hasher;
         /// <summary>
         /// Initializes controller.
         /// </summary>
         /// <param name="context">Db context to use.</param>
-        public UsersApiController(TripAppContext context)
+        /// <param name="hasher">Hasher for user passwords.</param>
+        public UsersApiController(TripAppContext context, IPasswordHasher<User> hasher)
         {
             _context = context;
+            _hasher = hasher;
         }
 
         /// <summary>
@@ -76,7 +79,7 @@ namespace IO.Swagger.Controllers
 
             try
             {
-                user.Password = Hash.sha256(user.Password + "p0mpeja");
+                user.Password = _hasher.HashPassword(null, user.Password);
                 _context.Users.Add(user);
                 _context.SaveChanges();
                 return Created(Request.Host.ToString(), user); // 201 Created successfuly.
@@ -108,7 +111,6 @@ namespace IO.Swagger.Controllers
         /// <summary>
         /// Gets user by username
         /// </summary>
-
         /// <param name="username">The username that needs to be fetched.</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid username supplied</response>
@@ -152,17 +154,16 @@ namespace IO.Swagger.Controllers
         {
             try
             {
-
-                // HASH
-                password = Hash.sha256(password + "p0mpeja");
-
-                var user = _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
-                if (user == null)
+                var user = _context.Users.FirstOrDefault(u => u.Username == username);
+                
+                if (user != null && _hasher.VerifyHashedPassword(null, user.Password, password).Equals(PasswordVerificationResult.Success))
                 {
-                    return StatusCode(StatusCodes.Status404NotFound);
+                    user.Password = null;
+                    return new ObjectResult(user);
                 }
-                user.Password = null;
-                return new ObjectResult(user);
+                
+                // Set it to null so it is not
+                return StatusCode(StatusCodes.Status404NotFound);
             }
             catch (Exception)
             {
@@ -174,14 +175,13 @@ namespace IO.Swagger.Controllers
         /// <summary>
         /// Logs out currenty logged in user session
         /// </summary>
-
         /// <response code="200">successful operation</response>
         [HttpGet]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/logout")]
         [SwaggerOperation("LogoutUser")]
         public IActionResult LogoutUser()
         {
-            // TODO FTN: Add support for security - read user tocken or whatever!
+            // TODO FTN: Add support for security - read user token or whatever!
             return Ok();
         }
 
@@ -211,12 +211,12 @@ namespace IO.Swagger.Controllers
 
             try
             {
-                user.Password = Hash.sha256(user.Password + "p0mpeja");
+                user.Password = _hasher.HashPassword(null, user.Password);
                 _context.Entry(existingUser).CurrentValues.SetValues(user);
                 _context.SaveChanges();
                 return Ok(user);
             }
-            catch (Exception err)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }

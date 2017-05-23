@@ -36,6 +36,8 @@ using Swashbuckle.Swagger.Model;
 using Swashbuckle.SwaggerGen.Annotations;
 using IO.Swagger.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using IO.Swagger.Models;
 
 namespace IO.Swagger
 {
@@ -62,7 +64,7 @@ namespace IO.Swagger
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TripAppContext>(opt => opt.UseInMemoryDatabase());
-
+            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             // Add framework services.
             services.AddMvc()
                 .AddJsonOptions(
@@ -94,9 +96,7 @@ namespace IO.Swagger
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            var context = app.ApplicationServices.GetService<TripAppContext>();
-            TripAppDbInitializer.Seed(context);
-
+            TripAppDbInitializer.Seed(app.ApplicationServices);
 
             app.UseMvc();
             
