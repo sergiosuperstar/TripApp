@@ -149,7 +149,8 @@
         android:layout_columnSpan="4"
         android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
-        android:text="@string/buy_ticket" />
+        android:text="@string/buy_ticket"
+        />
 
     <TextView
         android:id="@+id/reminder"

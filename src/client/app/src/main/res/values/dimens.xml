@@ -15,4 +15,5 @@
     <dimen name="text_header_small">18sp</dimen>
     <dimen name="text_header_medium">24sp</dimen>
     <dimen name="text_header_big">44sp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

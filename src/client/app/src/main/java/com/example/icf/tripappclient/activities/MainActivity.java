@@ -24,11 +24,15 @@ import com.example.icf.tripappclient.fragments.TicketHistory;
 import com.example.icf.tripappclient.fragments.TicketInfo;
 import com.example.icf.tripappclient.fragments.TicketPurchase;
 
+import io.swagger.client.model.TicketType;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SessionManager session;
     private DrawerLayout drawer;
+
+    private int selectedTicketTypeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,22 +160,43 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void buyOneHourTicket(View view) {
-        TicketPurchase tpFragment = new TicketPurchase();
+        TicketType type = new TicketType();
+        type.setId(1);
+        type.setDuration(1);
+        type.setPrice(1.2);
+        type.setName("Hourly ticket");
+        TicketPurchase tpFragment = TicketPurchase.newInstance(type);
         changeFragment(tpFragment);
     }
 
     public void buyOneDayTicket(View view) {
-        TicketPurchase tpFragment = new TicketPurchase();
+        TicketType type = new TicketType();
+        type.setId(2);
+        type.setDuration(24);
+        type.setPrice(5d);
+        type.setName("Daily ticket");
+        TicketPurchase tpFragment = TicketPurchase.newInstance(type);
         changeFragment(tpFragment);
     }
 
     public void buyWeekDayTicket(View view) {
-        TicketPurchase tpFragment = new TicketPurchase();
+        TicketType type = new TicketType();
+        type.setId(3);
+        type.setDuration(24*7);
+        type.setPrice(16d);
+        type.setName("Weekly ticket");
+        TicketPurchase tpFragment = TicketPurchase.newInstance(type);
         changeFragment(tpFragment);
     }
 
     public void buyMonthDayTicket(View view) {
-        TicketPurchase tpFragment = new TicketPurchase();
+        selectedTicketTypeId = 1;
+        TicketType type = new TicketType();
+        type.setId(4);
+        type.setDuration(24*30);
+        type.setPrice(40d);
+        type.setName("Monthly ticket");
+        TicketPurchase tpFragment = TicketPurchase.newInstance(type);
         changeFragment(tpFragment);
     }
 

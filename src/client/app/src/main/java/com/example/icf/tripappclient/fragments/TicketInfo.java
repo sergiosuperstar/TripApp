@@ -38,6 +38,8 @@ public class TicketInfo extends Fragment {
         // Required empty public constructor
     }
 
+    // TODO: iz ovog fragmenta back strelica a ne navbar
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -35,8 +35,10 @@ namespace IO.Swagger.Data
             context.Codes.Add(code);
 
             // Ticket types:
-            TicketType typeHour = new TicketType(1, "hour", 60, 30.0d);
-            TicketType typeDay = new TicketType(1, "day", 60*24, 30.0d * 12d);
+            TicketType typeHour = new TicketType(1, "hourly", 1, 1.2d);
+            TicketType typeDay = new TicketType(2, "daily", 24, 5d);
+            TicketType typeMonth = new TicketType(3, "monthly", 24*30, 40d);
+            TicketType typeYear = new TicketType(4, "yearly", 24*365, 200d);
 
             // Purchases:
             TicketPurchase purchase = new TicketPurchase(1, Guid.NewGuid(), 30.0d, DateTime.Now, DateTime.Now.AddMinutes(typeHour.Duration.Value), 1,typeHour, passenger);
