@@ -58,10 +58,7 @@ public class SessionManager {
 //            e.printStackTrace();
 //        }*/
 //
-//        editor.putBoolean("loggedIn", true);
-//        editor.putString("username", username);
-//        editor.putString("role", "passenger");
-//        editor.commit();
+
         final LoginActivity login = activity;
         Call<User> call = ServiceUtils.userService.login(username, password);
         call.enqueue(new Callback<User>() {
@@ -72,6 +69,14 @@ public class SessionManager {
                     User user = response.body();
                     if (user != null) {
                         editor.putBoolean("loggedIn", true);
+                        editor.putLong("userId", user.getId());
+                        editor.putString("username", user.getUsername());
+                        editor.putString("email", user.getEmail());
+                        editor.putString("firstName", user.getFirstName());
+                        editor.putString("lastName", user.getLastName());
+                        editor.putString("phone", user.getPhone());
+                        editor.putString("role", user.getRole());
+                        editor.putString("balance", user.getBalance().toString());
                         editor.commit();
                         login.respond(true);
                     }
@@ -102,12 +107,18 @@ public class SessionManager {
         User u = new User();
         u.setUsername(pref.getString("username", null));
         u.setRole(pref.getString("role", null));
+        u.setId(pref.getLong("userId", 0));
+        u.setEmail(pref.getString("email", null));
+        u.setFirstName(pref.getString("firstName", null));
+        u.setLastName(pref.getString("lastName", null));
+        u.setPhone(pref.getString("phone", null));
+        u.setBalance(Double.parseDouble(pref.getString("balance", "0")));
 
         return u;
     }
 
     public String getUserRole(){
-        return pref.getString("role", "passenger");
+        return pref.getString("role", null);
     }
 
 }

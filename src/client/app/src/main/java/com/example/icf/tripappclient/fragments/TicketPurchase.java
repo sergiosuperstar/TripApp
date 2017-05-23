@@ -12,8 +12,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.icf.tripappclient.R;
+import com.example.icf.tripappclient.SessionManager;
+import com.example.icf.tripappclient.activities.LoginActivity;
+import com.example.icf.tripappclient.service.ServiceUtils;
 
 import io.swagger.client.model.TicketType;
+import io.swagger.client.model.User;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Vuletic on 28.4.2017.
@@ -21,14 +29,11 @@ import io.swagger.client.model.TicketType;
 
 public class TicketPurchase extends Fragment {
 
-    private double ticketPrice;
-    private int ticketTypeId;
-
+    private SessionManager session;
     private TicketType type;
 
     public TicketPurchase() {
-        ticketPrice = 6.99;
-        ticketTypeId = 1;
+
     }
 
     public static TicketPurchase newInstance(TicketType type) {
@@ -45,6 +50,8 @@ public class TicketPurchase extends Fragment {
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.ticket_purchase_title);
 
+        session = new SessionManager(getActivity().getApplicationContext());
+
         type = (TicketType) getArguments().getSerializable("ticket_type");
 
         View view = inflater.inflate(R.layout.fragment_ticket_purchase,
@@ -55,7 +62,37 @@ public class TicketPurchase extends Fragment {
             @Override
             public void onClick(View v)
             {
-                //TODO: rest api -> ticket_id, user_id, broj ljudi
+                io.swagger.client.model.TicketPurchase purchase = new io.swagger.client.model.TicketPurchase();
+                purchase.setType(type);
+                purchase.setUser(session.getUser());
+
+                Spinner mySpinner = (Spinner) getView().findViewById(R.id.numberValue);
+                int num = Integer.parseInt(mySpinner.getSelectedItem().toString());
+                purchase.setNumberOfPassangers(num);
+
+                Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketPurchaseService.add(purchase);
+                call.enqueue(new Callback<io.swagger.client.model.TicketPurchase>() {
+
+                    @Override
+                    public void onResponse(Call<io.swagger.client.model.TicketPurchase> call, Response<io.swagger.client.model.TicketPurchase> response) {
+                        if (response.code() == 200) {
+                            io.swagger.client.model.TicketPurchase purchase = response.body();
+                            /*if (user != null) {
+                                editor.putBoolean("loggedIn", true);
+                                editor.commit();
+                                login.respond(true);
+                            }*/
+                        } else {
+                            //login.respond(false);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<io.swagger.client.model.TicketPurchase> call, Throwable t) {
+                        int a = 5;
+                    }
+                });
+
             }
         });
 
@@ -72,7 +109,7 @@ public class TicketPurchase extends Fragment {
         TextView ticketHeader = (TextView) getView().findViewById(R.id.ticketHeader);
         ticketHeader.setText(type.getName());
 
-        TextView duration = (TextView) getView().findViewById(R.id.durationValue); // TODO: obrisati iz dizajna
+        TextView duration = (TextView) getView().findViewById(R.id.durationValue); // TODO: obrisati iz dizajna - dvd
         duration.setText(type.getDuration() + " hours");
 
 
