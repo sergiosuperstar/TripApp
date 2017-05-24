@@ -92,6 +92,7 @@ namespace IO.Swagger
                 var comments = new XPathDocument($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
                 options.OperationFilter<XmlCommentsOperationFilter>(comments);
                 options.ModelFilter<XmlCommentsModelFilter>(comments);
+
             });
 
             services.AddSingleton<IConfiguration>(Configuration);

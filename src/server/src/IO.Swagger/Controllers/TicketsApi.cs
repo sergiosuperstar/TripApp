@@ -36,6 +36,8 @@ using IO.Swagger.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using IO.Swagger.Logging;
 
 namespace IO.Swagger.Controllers
 {
@@ -46,11 +48,13 @@ namespace IO.Swagger.Controllers
     {
         private readonly TripAppContext _context;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public TicketsApiController(TripAppContext context, IConfiguration configuration)
+        public TicketsApiController(TripAppContext context, IConfiguration configuration, ILogger<TicketsApiController> logger)
         {
             _context = context;
             _configuration = configuration;
+            _logger = logger;
         }
 
         /// <summary>
@@ -88,6 +92,7 @@ namespace IO.Swagger.Controllers
                 return StatusCode(StatusCodes.Status201Created, ticketPurchase);
             }catch(Exception)
             {
+                _logger.LogError(LoggingEvents.INSERT_ITEM, "AddTicketPurchase({ticketPurchase}) NOT ADDED", ticketPurchase);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -120,6 +125,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchTickets({searchString}) NOT FOUND", searchString);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

@@ -34,6 +34,8 @@ using Swashbuckle.SwaggerGen.Annotations;
 using IO.Swagger.Models;
 using Microsoft.AspNetCore.Http;
 using IO.Swagger.Data;
+using Microsoft.Extensions.Logging;
+using IO.Swagger.Logging;
 
 namespace IO.Swagger.Controllers
 { 
@@ -43,25 +45,44 @@ namespace IO.Swagger.Controllers
     public class ValidationApiController : Controller
     {
         private readonly TripAppContext _context;
+        private readonly ILogger _logger;
 
-        public ValidationApiController(TripAppContext context)
+        public ValidationApiController(TripAppContext context, ILogger<ValidationApiController> logger)
         {
             _context = context;
+            _logger = logger;
         }
         /// <summary>
         /// adds an ticket validation item
         /// </summary>
         /// <remarks>Adds an item to the system</remarks>
-        /// <param name="ticketPurchase">TicketValidation item to add</param>
+        /// <param name="ticketValidation">TicketValidation item to add</param>
         /// <response code="201">item created</response>
         /// <response code="400">invalid input, object invalid</response>
         /// <response code="409">an existing item already exists</response>
         [HttpPost]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets/validation")]
         [SwaggerOperation("AddTicketValidation")]
-        public virtual void AddTicketValidation([FromBody]TicketValidation ticketPurchase)
-        { 
-            throw new NotImplementedException();
+        public virtual IActionResult AddTicketValidation([FromBody]TicketValidation ticketValidation)
+        {
+            // TODO ftn: Add validation to the ticketValidation parameter!!!
+            // Return 400 - BadRequest if not valid!
+            if (_context.Validations.FirstOrDefault(t => t.Id == ticketValidation.Id) != null)
+            {
+                return StatusCode(StatusCodes.Status409Conflict, ticketValidation); // 409 already exists!
+            }
+
+            try
+            {
+                _context.Validations.Add(ticketValidation);
+                _context.SaveChanges();
+                return Created(Request.Host.ToString(), ticketValidation); // 201 Created successfuly.
+            }
+            catch (Exception)
+            {
+                _logger.LogError(LoggingEvents.INSERT_ITEM, "AddTicketType({ticketValidation}) NOT ADDED", ticketValidation);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
 
@@ -92,6 +113,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchValidations({searchString}) NOT FOUND", searchString);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
