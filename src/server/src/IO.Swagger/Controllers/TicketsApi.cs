@@ -36,6 +36,8 @@ using IO.Swagger.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using IO.Swagger.Logging;
 
 namespace IO.Swagger.Controllers
 {
@@ -46,11 +48,13 @@ namespace IO.Swagger.Controllers
     {
         private readonly TripAppContext _context;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public TicketsApiController(TripAppContext context, IConfiguration configuration)
+        public TicketsApiController(TripAppContext context, IConfiguration configuration, ILogger<TicketsApiController> logger)
         {
             _context = context;
             _configuration = configuration;
+            _logger = logger;
         }
 
         /// <summary>
@@ -88,6 +92,7 @@ namespace IO.Swagger.Controllers
                 return StatusCode(StatusCodes.Status201Created, ticketPurchase);
             }catch(Exception)
             {
+                _logger.LogError(LoggingEvents.INSERT_ITEM, "AddTicketPurchase({ticketPurchase}) NOT ADDED", ticketPurchase);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -109,17 +114,40 @@ namespace IO.Swagger.Controllers
         public virtual IActionResult SearchTickets([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
         {
             int id;
-            if (!int.TryParse(searchString, out id))
+            var searchItems = searchString.Split(':');
+            if (searchItems.Length != 2)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, searchString);
+            }
+            var searchBy = searchItems[0];
+            var searchValue = searchItems[1];
+
+            if (searchBy != "all" && searchBy != "id")
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, searchBy);
+            }
+
+            
+
+            if (!int.TryParse(searchValue, out id))
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
             try
             {
-                var purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.Id == id).ToList();
+                List<TicketPurchase> purchases;
+                if (searchBy == "id") { 
+                    purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.Id == id).ToList();
+                }
+                else
+                {
+                    purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.UserId == id).ToList();
+                }
                 return new ObjectResult(purchases);
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchTickets({searchString}) NOT FOUND", searchString);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

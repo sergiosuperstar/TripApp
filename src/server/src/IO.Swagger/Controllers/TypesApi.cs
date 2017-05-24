@@ -34,6 +34,8 @@ using Swashbuckle.SwaggerGen.Annotations;
 using IO.Swagger.Models;
 using Microsoft.AspNetCore.Http;
 using IO.Swagger.Data;
+using Microsoft.Extensions.Logging;
+using IO.Swagger.Logging;
 
 namespace IO.Swagger.Controllers
 { 
@@ -43,14 +45,16 @@ namespace IO.Swagger.Controllers
     public class TypesApiController : Controller
     {
         private readonly TripAppContext _context;
-        
+        private readonly ILogger _logger;
+
         /// <summary>
         /// Initializes controller.
         /// </summary>
         /// <param name="context">Db context to use.</param>
-        public TypesApiController(TripAppContext context)
+        public TypesApiController(TripAppContext context, ILogger<TypesApiController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <summary>
@@ -81,6 +85,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.INSERT_ITEM, "AddTicketType({ticketType}) NOT ADDED", ticketType);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -113,6 +118,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchTicketTypes({searchString}) NOT FOUND", searchString);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

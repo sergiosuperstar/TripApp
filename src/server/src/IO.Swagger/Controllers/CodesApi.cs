@@ -35,6 +35,8 @@ using IO.Swagger.Models;
 using IO.Swagger.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using IO.Swagger.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace IO.Swagger.Controllers
 {
@@ -44,14 +46,16 @@ namespace IO.Swagger.Controllers
     public class CodesApiController : Controller
     {
         private readonly TripAppContext _context;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes controller.
         /// </summary>
         /// <param name="context">Db context to use.</param>
-        public CodesApiController(TripAppContext context)
+        public CodesApiController(TripAppContext context, ILogger<CodesApiController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <summary>
@@ -82,6 +86,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.INSERT_ITEM, "AddPurchaseCode({purchaseCode}) NOT ADDED", purchaseCode);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -114,6 +119,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchCodes({searchString}) NOT FOUND", searchString);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 

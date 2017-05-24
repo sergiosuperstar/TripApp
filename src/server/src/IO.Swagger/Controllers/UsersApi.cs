@@ -36,6 +36,8 @@ using IO.Swagger.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using IO.Swagger.Logging;
 
 namespace IO.Swagger.Controllers
 {
@@ -46,15 +48,17 @@ namespace IO.Swagger.Controllers
     {
         private readonly TripAppContext _context;
         private readonly IPasswordHasher<User> _hasher;
+        private readonly ILogger _logger;
         /// <summary>
         /// Initializes controller.
         /// </summary>
         /// <param name="context">Db context to use.</param>
         /// <param name="hasher">Hasher for user passwords.</param>
-        public UsersApiController(TripAppContext context, IPasswordHasher<User> hasher)
+        public UsersApiController(TripAppContext context, IPasswordHasher<User> hasher, ILogger<UsersApiController> logger)
         {
             _context = context;
             _hasher = hasher;
+            _logger = logger;
         }
 
         /// <summary>
@@ -86,6 +90,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.INSERT_ITEM, "CreateUser({user}) NOT ADDED", user);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -133,6 +138,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.GET_ITEM, "GetUserByUsername({username}) NOT FOUND", username);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -167,6 +173,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.GET_ITEM, "LoginUser({username}) NOT FOUND", username);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -218,6 +225,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
+                _logger.LogError(LoggingEvents.UPDATE_ITEM, "UpdateUser({username}) NOT UPDATED", username);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
