@@ -103,6 +103,11 @@ public class SessionManager {
         editor.commit();
     }
 
+    public void setBalance(Double balance){
+        editor.putString("balance", balance.toString());
+        editor.commit();
+    }
+
     public User getUser(){
         User u = new User();
         u.setUsername(pref.getString("username", null));
