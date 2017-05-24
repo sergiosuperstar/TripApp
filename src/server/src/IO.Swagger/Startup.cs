@@ -43,6 +43,12 @@ namespace IO.Swagger
 {
     public class Startup
     {
+        public const string LoggingConfigurationSectionKey = "Logging";
+
+        public const string AppSettingsConfigurationSectionKey = "AppSettings";
+
+        public const string AppSettingsMinutesUntilTicketStartKey = "MinutesUntilTicketStart";
+
         private readonly IHostingEnvironment _hostingEnv;
 
         public IConfigurationRoot Configuration { get; }
@@ -87,13 +93,14 @@ namespace IO.Swagger
                 options.OperationFilter<XmlCommentsOperationFilter>(comments);
                 options.ModelFilter<XmlCommentsModelFilter>(comments);
             });
-            
+
+            services.AddSingleton<IConfiguration>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddConsole(Configuration.GetSection(LoggingConfigurationSectionKey));
             loggerFactory.AddDebug();
 
             TripAppDbInitializer.Seed(app.ApplicationServices);

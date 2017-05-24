@@ -32,6 +32,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.SwaggerGen.Annotations;
 using IO.Swagger.Models;
+using Microsoft.AspNetCore.Http;
+using IO.Swagger.Data;
 
 namespace IO.Swagger.Controllers
 { 
@@ -39,8 +41,13 @@ namespace IO.Swagger.Controllers
     /// 
     /// </summary>
     public class ValidationApiController : Controller
-    { 
+    {
+        private readonly TripAppContext _context;
 
+        public ValidationApiController(TripAppContext context)
+        {
+            _context = context;
+        }
         /// <summary>
         /// adds an ticket validation item
         /// </summary>
@@ -72,13 +79,21 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("SearchValidations")]
         [SwaggerResponse(200, type: typeof(List<TicketValidation>))]
         public virtual IActionResult SearchValidations([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<TicketValidation>>(exampleJson)
-            : default(List<TicketValidation>);
-            return new ObjectResult(example);
+        {
+            int id;
+            if (!int.TryParse(searchString, out id))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            try
+            {
+                var validations = _context.Validations.Where(c => c.Id == id).ToList();
+                return new ObjectResult(validations);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

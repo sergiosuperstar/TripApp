@@ -32,6 +32,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.SwaggerGen.Annotations;
 using IO.Swagger.Models;
+using Microsoft.AspNetCore.Http;
+using IO.Swagger.Data;
 
 namespace IO.Swagger.Controllers
 { 
@@ -39,7 +41,17 @@ namespace IO.Swagger.Controllers
     /// 
     /// </summary>
     public class TypesApiController : Controller
-    { 
+    {
+        private readonly TripAppContext _context;
+        
+        /// <summary>
+        /// Initializes controller.
+        /// </summary>
+        /// <param name="context">Db context to use.</param>
+        public TypesApiController(TripAppContext context)
+        {
+            _context = context;
+        }
 
         /// <summary>
         /// adds an ticket type
@@ -52,9 +64,25 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets/types")]
         [SwaggerOperation("AddTicketType")]
-        public virtual void AddTicketType([FromBody]TicketType ticketType)
-        { 
-            throw new NotImplementedException();
+        public IActionResult AddTicketType([FromBody]TicketType ticketType)
+        {
+            // TODO ftn: Add validation to the ticketType parameter!!!
+            // Return 400 - BadRequest if not valid!
+            if (_context.Types.FirstOrDefault(t => t.Id == ticketType.Id) != null)
+            {
+                return StatusCode(StatusCodes.Status409Conflict, ticketType); // 409 already exists!
+            }
+
+            try
+            {
+                _context.Types.Add(ticketType);
+                _context.SaveChanges();
+                return Created(Request.Host.ToString(), ticketType); // 201 Created successfuly.
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
 
@@ -72,13 +100,21 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("SearchTicketTypes")]
         [SwaggerResponse(200, type: typeof(List<TicketType>))]
         public virtual IActionResult SearchTicketTypes([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<TicketType>>(exampleJson)
-            : default(List<TicketType>);
-            return new ObjectResult(example);
+        {
+            int id;
+            if (!int.TryParse(searchString, out id))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            try
+            {
+                var types = _context.Types.Where(c => c.Id == id).ToList();
+                return new ObjectResult(types);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

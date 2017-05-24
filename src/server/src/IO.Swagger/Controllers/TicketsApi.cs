@@ -34,20 +34,23 @@ using Swashbuckle.SwaggerGen.Annotations;
 using IO.Swagger.Models;
 using IO.Swagger.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace IO.Swagger.Controllers
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
     public class TicketsApiController : Controller
     {
         private readonly TripAppContext _context;
+        private readonly IConfiguration _configuration;
 
-
-        public TicketsApiController(TripAppContext context)
+        public TicketsApiController(TripAppContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -63,14 +66,25 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("AddTicketPurchase")]
         public virtual IActionResult AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
         {
-            ticketPurchase.Code = Guid.NewGuid();
-            ticketPurchase.StartDateTime = DateTime.Now;
-            ticketPurchase.EndDateTime = DateTime.Now.AddHours(ticketPurchase.Type.Duration.Value);
-            ticketPurchase.Price = ticketPurchase.Type.Price;
+            var hasTypeAndUser = ticketPurchase.TypeId != null
+                                && ticketPurchase.TypeId > 0
+                                && ticketPurchase.UserId != null
+                                && ticketPurchase.UserId > 0;
+            if (!hasTypeAndUser)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ticketPurchase);
+            }
+
             try
             {
+                var type = _context.Types.First(t => t.Id == ticketPurchase.TypeId);
+                ticketPurchase.Code = Guid.NewGuid();
+                ticketPurchase.StartDateTime = DateTime.Now.AddMinutes(_configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
+                ticketPurchase.EndDateTime = DateTime.Now.AddHours(type.Duration.Value);
+                ticketPurchase.Price = type.Price;
+
                 _context.Purchases.Add(ticketPurchase);
-               //_context.SaveChanges();
+                _context.SaveChanges();
                 return StatusCode(StatusCodes.Status201Created, ticketPurchase);
             }catch(Exception)
             {
@@ -93,13 +107,21 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("SearchTickets")]
         [SwaggerResponse(200, type: typeof(List<TicketPurchase>))]
         public virtual IActionResult SearchTickets([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<TicketPurchase>>(exampleJson)
-            : default(List<TicketPurchase>);
-            return new ObjectResult(example);
+        {
+            int id;
+            if (!int.TryParse(searchString, out id))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            try
+            {
+                var purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.Id == id).ToList();
+                return new ObjectResult(purchases);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

@@ -46,16 +46,22 @@ namespace IO.Swagger.Data
             context.Codes.Add(code);
 
             // Ticket types:
-            TicketType typeHour = new TicketType(1, "Hourly ticket", 1, 1.2d);
-            TicketType typeDay = new TicketType(2, "Daily ticket", 24, 5d);
-            TicketType typeMonth = new TicketType(4, "Monthly ticket", 24*30, 40d);
-            TicketType typeYear = new TicketType(3, "Weekly ticket", 24*7, 16d);
-
+            TicketType typeHour = new TicketType(1, "Hourly ticket", 1, 30d);
+            TicketType typeDay = new TicketType(2, "Daily ticket", 24, 30*5d);
+            TicketType typeMonth = new TicketType(3, "Monthly ticket", 24*30, 30*5*21d);
+            TicketType typeYear = new TicketType(4, "Yearly ticket", 24*365, 30*5*200d);
+            context.Types.Add(typeHour);
+            context.Types.Add(typeDay);
+            context.Types.Add(typeMonth);
+            context.Types.Add(typeYear);
+            
             // Purchases:
             TicketPurchase purchase = new TicketPurchase(1, Guid.NewGuid(), 30.0d, DateTime.Now, DateTime.Now.AddMinutes(typeHour.Duration.Value), 1,typeHour, passenger);
-
+            context.Purchases.Add(purchase);
+            
             // Validations:
             TicketValidation validation = new TicketValidation(1,DateTime.Now.AddMinutes(2), true, typeHour, controller);
+            context.Validations.Add(validation);
 
             context.SaveChanges();
         }
