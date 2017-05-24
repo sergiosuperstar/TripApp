@@ -70,7 +70,8 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("AddTicketPurchase")]
         public virtual IActionResult AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
         {
-            var hasTypeAndUser = ticketPurchase.TypeId != null
+            var hasTypeAndUser = ticketPurchase != null 
+                                && ticketPurchase.TypeId != null
                                 && ticketPurchase.TypeId > 0
                                 && ticketPurchase.UserId != null
                                 && ticketPurchase.UserId > 0;
@@ -82,10 +83,18 @@ namespace IO.Swagger.Controllers
             try
             {
                 var type = _context.Types.First(t => t.Id == ticketPurchase.TypeId);
+                var user = _context.Users.First(u => u.Id == ticketPurchase.UserId);
+
+                if (user.Balance - type.Price < 0.0d)
+                {
+                    return StatusCode(StatusCodes.Status402PaymentRequired, ticketPurchase);
+                }
+
                 ticketPurchase.Code = Guid.NewGuid();
                 ticketPurchase.StartDateTime = DateTime.Now.AddMinutes(_configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
                 ticketPurchase.EndDateTime = DateTime.Now.AddHours(type.Duration.Value);
                 ticketPurchase.Price = type.Price;
+                user.Balance = user.Balance - type.Price;
 
                 _context.Purchases.Add(ticketPurchase);
                 _context.SaveChanges();
