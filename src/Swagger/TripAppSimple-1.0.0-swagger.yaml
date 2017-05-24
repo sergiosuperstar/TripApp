@@ -44,17 +44,19 @@ paths:
       - in: query
         name: searchString
         description: pass an optional search string for looking up tickets
-        required: false
+        required: true
         type: string
       - in: query
         name: skip
         description: number of records to skip for pagination
+        required: false
         type: integer
         format: int32
         minimum: 0
       - in: query
         name: limit
         description: maximum number of records to return
+        required: false
         type: integer
         format: int32
         minimum: 0
@@ -87,10 +89,20 @@ paths:
       responses:
         201:
           description: item created
+          schema:
+            $ref: '#/definitions/TicketPurchase'
         400:
           description: invalid input, object invalid
+          schema:
+            $ref: '#/definitions/TicketPurchase'
+        402:
+          description: payment requried
+          schema:
+            $ref: '#/definitions/TicketPurchase'
         409:
           description: item already exists
+          schema:
+            $ref: '#/definitions/TicketPurchase'
   /tickets/types:
     get:
       tags: 
@@ -106,17 +118,19 @@ paths:
       - in: query
         name: searchString
         description: pass an optional search string for looking up ticket types
-        required: false
+        required: true
         type: string
       - in: query
         name: skip
         description: number of records to skip for pagination
+        required: false
         type: integer
         format: int32
         minimum: 0
       - in: query
         name: limit
         description: maximum number of records to return
+        required: false
         type: integer
         format: int32
         minimum: 0
@@ -149,10 +163,16 @@ paths:
       responses:
         201:
           description: item created
+          schema:
+            $ref: '#/definitions/TicketType'
         400:
           description: invalid input, object invalid
+          schema:
+            $ref: '#/definitions/TicketType'
         409:
           description: item already exists
+          schema:
+            $ref: '#/definitions/TicketType'
   /tickets/validation:
     get:
       tags: 
@@ -168,17 +188,19 @@ paths:
       - in: query
         name: searchString
         description: pass an optional search string for looking up ticket validations
-        required: false
+        required: true
         type: string
       - in: query
         name: skip
         description: number of records to skip for pagination
+        required: false
         type: integer
         format: int32
         minimum: 0
       - in: query
         name: limit
         description: maximum number of records to return
+        required: false
         type: integer
         format: int32
         minimum: 0
@@ -211,10 +233,14 @@ paths:
       responses:
         201:
           description: item created
+          schema:
+            $ref: '#/definitions/TicketValidation'
         400:
           description: invalid input, object invalid
         409:
           description: an existing item already exists
+          schema:
+            $ref: '#/definitions/TicketValidation'
   /codes:
     get:
       tags: 
@@ -230,17 +256,19 @@ paths:
       - in: query
         name: searchString
         description: pass an optional search string for looking up purchase codes
-        required: false
+        required: true
         type: string
       - in: query
         name: skip
         description: number of records to skip for pagination
+        required: false
         type: integer
         format: int32
         minimum: 0
       - in: query
         name: limit
         description: maximum number of records to return
+        required: false
         type: integer
         format: int32
         minimum: 0
@@ -273,10 +301,14 @@ paths:
       responses:
         201:
           description: item created
+          schema:
+            $ref: '#/definitions/PurchaseCode'
         400:
           description: invalid input, object invalid
         409:
           description: item already exists
+          schema:
+            $ref: '#/definitions/PurchaseCode'
     put:
       tags: 
         - codes
@@ -296,6 +328,8 @@ paths:
       responses:
         200:
           description: item updated
+          schema:
+            $ref: '#/definitions/PurchaseCode'
         400:
           description: invalid input, object invalid
   /user:
@@ -317,10 +351,14 @@ paths:
       responses:
         201:
           description: item created
+          schema:
+            $ref: '#/definitions/User'
         400:
           description: bad input parameter
         409:
           description: an existing item already exists
+          schema:
+            $ref: '#/definitions/User'
   /user/login:
     get:
       tags: 
@@ -356,6 +394,36 @@ paths:
               description: date in UTC when token expires
         400:
           description: Invalid username/password supplied
+    post:
+      tags: 
+        - users
+      summary: Logs user into the system
+      operationId: loginUserSafe
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: user
+        description: User for login check
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+          headers:
+            X-Rate-Limit:
+              type: integer
+              format: int32
+              description: calls per hour allowed by the user
+            X-Expires-After:
+              type: string
+              format: date-time
+              description: date in UTC when token expires
+        400:
+          description: Invalid username/password supplied      
   /user/logout:
     get:
       tags: 
@@ -466,7 +534,9 @@ definitions:
     - startDateTime
     - endDateTime
     - type
+    - typeId
     - user
+    - userId
     properties:
       id:
         type: integer
@@ -491,8 +561,13 @@ definitions:
         description: Number of passangers allowed to travel with buyer and including buyer too.
       type:
         $ref: '#/definitions/TicketType'
+      typeId:
+        type: integer
       user:
         $ref: '#/definitions/User'
+      userId:
+        type: integer
+        format: int64
   TicketValidation:
     required:
     - validationDateTime
