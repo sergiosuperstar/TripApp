@@ -99,6 +99,8 @@ namespace IO.Swagger.Controllers
 
                 _context.Purchases.Add(ticketPurchase);
                 _context.SaveChanges();
+
+                ticketPurchase = _context.Purchases.Include(u => u.User).First(p => p.Id == ticketPurchase.Id);
                 return StatusCode(StatusCodes.Status201Created, ticketPurchase);
             }catch(Exception)
             {
