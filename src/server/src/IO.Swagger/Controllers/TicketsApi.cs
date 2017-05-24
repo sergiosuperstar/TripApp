@@ -82,6 +82,7 @@ namespace IO.Swagger.Controllers
 
             try
             {
+                //TODO: skinuti useru novac ili vratiti gresku ako nema dovoljno
                 var type = _context.Types.First(t => t.Id == ticketPurchase.TypeId);
                 var user = _context.Users.First(u => u.Id == ticketPurchase.UserId);
 
@@ -92,7 +93,7 @@ namespace IO.Swagger.Controllers
 
                 ticketPurchase.Code = Guid.NewGuid();
                 ticketPurchase.StartDateTime = DateTime.Now.AddMinutes(_configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
-                ticketPurchase.EndDateTime = DateTime.Now.AddHours(type.Duration.Value);
+                ticketPurchase.EndDateTime = DateTime.Now.AddMinutes(type.Duration.Value*60 + _configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
                 ticketPurchase.Price = type.Price;
                 user.Balance = user.Balance - type.Price;
 

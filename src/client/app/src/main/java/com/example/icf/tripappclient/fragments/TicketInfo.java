@@ -34,11 +34,21 @@ import static android.graphics.Color.YELLOW;
 
 public class TicketInfo extends Fragment {
 
+    private TicketPurchase ticket;
+
     public TicketInfo() {
         // Required empty public constructor
     }
 
-    // TODO: iz ovog fragmenta back strelica a ne navbar
+    // TODO: iz ovog fragmenta back strelica a ne navbar - dvd
+
+    public static TicketInfo newInstance(TicketPurchase ticket) {
+        TicketInfo fragment = new TicketInfo();
+        Bundle args = new Bundle();
+        args.putSerializable("ticket", ticket);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,9 +58,9 @@ public class TicketInfo extends Fragment {
 
         View view=inflater.inflate(R.layout.fragment_ticket_info, container, false);
 
+        ticket = (TicketPurchase) getArguments().getSerializable("ticket");
 
-
-        //TODO: get ticket
+        /*
         TicketPurchase ticket = new TicketPurchase();
         TicketType type = new TicketType();
         type.setName("Daily ticket");
@@ -59,14 +69,13 @@ public class TicketInfo extends Fragment {
         ticket.setPrice(1.20);
         ticket.setStartDateTime(new Date());
         ticket.setEndDateTime(new Date(ticket.getStartDateTime().getTime()+(24*60*60*1000)));
-        ticket.setType(type);
-        /* *************** */
+        ticket.setType(type);*/
 
-
-
+        Double totalPrice = ticket.getPrice()*ticket.getNumberOfPassangers();
         ((TextView) view.findViewById(R.id.dateFromValue)).setText(ticket.getStartDateTimeString());
         ((TextView) view.findViewById(R.id.dateToValue)).setText(ticket.getEndDateTimeString());
-        ((TextView) view.findViewById(R.id.ticketPriceValue)).setText(ticket.getPrice().toString() + " EUR");
+        ((TextView) view.findViewById(R.id.ticketPriceValue)).setText(totalPrice.toString());
+        ((TextView) view.findViewById(R.id.ticketPriceSingleValue)).setText(ticket.getPrice().toString());
         ((TextView) view.findViewById(R.id.ticketsNumberValue)).setText(ticket.getNumberOfPassangers().toString());
         ((TextView) view.findViewById(R.id.ticketTypeValue)).setText(ticket.getType().getName());
 

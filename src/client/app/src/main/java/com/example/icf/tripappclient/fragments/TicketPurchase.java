@@ -77,16 +77,16 @@ public class TicketPurchase extends Fragment {
                     @Override
                     public void onResponse(Call<io.swagger.client.model.TicketPurchase> call, Response<io.swagger.client.model.TicketPurchase> response) {
                         if (response.code() == 201) {
-                            TicketHistory thFragment = new TicketHistory();
-                            ((MainActivity)getActivity()).respondNewPurchase(true);
+                            io.swagger.client.model.TicketPurchase ticket = response.body();
+                            ((MainActivity)getActivity()).respondNewPurchase(true, ticket);
                         } else {
-                            ((MainActivity)getActivity()).respondNewPurchase(false);
+                            ((MainActivity)getActivity()).respondNewPurchase(false, null);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<io.swagger.client.model.TicketPurchase> call, Throwable t) {
-                        ((MainActivity)getActivity()).respondNewPurchase(false);
+                        ((MainActivity)getActivity()).respondNewPurchase(false, null);
                     }
                 });
 

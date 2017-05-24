@@ -27,6 +27,7 @@ package io.swagger.client.model;
 import io.swagger.client.model.TicketType;
 import io.swagger.client.model.User;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +36,7 @@ import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
 @ApiModel(description = "")
-public class TicketPurchase {
+public class TicketPurchase implements Serializable {
   
   @SerializedName("id")
   private Integer id = null;
