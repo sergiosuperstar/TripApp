@@ -53,6 +53,31 @@ public class TicketPurchase {
   private TicketType type = null;
   @SerializedName("user")
   private User user = null;
+  @SerializedName("userId")
+  private Long userId = null;
+  @SerializedName("typeId")
+  private Integer typeId = null;
+
+
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  public Integer getTypeId() {
+    return typeId;
+  }
+  public void setTypeId(Integer typeId) {
+    this.typeId = typeId;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  public Long getUserId() {
+    return userId;
+  }
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
    **/

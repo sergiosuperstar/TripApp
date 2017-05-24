@@ -64,8 +64,8 @@ public class TicketPurchase extends Fragment {
             public void onClick(View v)
             {
                 io.swagger.client.model.TicketPurchase purchase = new io.swagger.client.model.TicketPurchase();
-                purchase.setType(type);
-                purchase.setUser(session.getUser());
+                purchase.setTypeId(type.getId());
+                purchase.setUserId(session.getUser().getId());
 
                 Spinner mySpinner = (Spinner) getView().findViewById(R.id.numberValue);
                 int num = Integer.parseInt(mySpinner.getSelectedItem().toString());

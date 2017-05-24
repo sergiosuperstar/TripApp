@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity
 
     public void respondNewPurchase(boolean successful) {
         if (successful) {
+            Toast.makeText(this, "Purchase successful", Toast.LENGTH_LONG).show();
             TicketHistory thFragment = new TicketHistory();
             changeFragment(thFragment);
         } else {
