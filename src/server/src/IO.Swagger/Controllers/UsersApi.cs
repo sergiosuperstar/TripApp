@@ -86,6 +86,7 @@ namespace IO.Swagger.Controllers
                 user.Password = _hasher.HashPassword(null, user.Password);
                 _context.Users.Add(user);
                 _context.SaveChanges();
+                user.Password = null;
                 return Created(Request.Host.ToString(), user); // 201 Created successfuly.
             }
             catch (Exception)

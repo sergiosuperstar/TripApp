@@ -50,6 +50,12 @@ namespace IO.Swagger.Controllers
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Constructor method.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="configuration"></param>
+        /// <param name="logger"></param>
         public TicketsApiController(TripAppContext context, IConfiguration configuration, ILogger<TicketsApiController> logger)
         {
             _context = context;
@@ -80,8 +86,13 @@ namespace IO.Swagger.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest, ticketPurchase);
             }
 
+
             try
             {
+                if (_context.Purchases.FirstOrDefault(p => p.Id == ticketPurchase.Id) != null)
+                {
+                    return StatusCode(StatusCodes.Status409Conflict, ticketPurchase); // 409 already exists!
+                }
                 //TODO: skinuti useru novac ili vratiti gresku ako nema dovoljno
                 var type = _context.Types.First(t => t.Id == ticketPurchase.TypeId);
                 var user = _context.Users.First(u => u.Id == ticketPurchase.UserId);

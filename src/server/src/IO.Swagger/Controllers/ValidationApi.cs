@@ -47,11 +47,17 @@ namespace IO.Swagger.Controllers
         private readonly TripAppContext _context;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Constructor method.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="logger"></param>
         public ValidationApiController(TripAppContext context, ILogger<ValidationApiController> logger)
         {
             _context = context;
             _logger = logger;
         }
+
         /// <summary>
         /// adds an ticket validation item
         /// </summary>
