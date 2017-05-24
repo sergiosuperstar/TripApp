@@ -114,13 +114,35 @@ namespace IO.Swagger.Controllers
         public virtual IActionResult SearchTickets([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
         {
             int id;
-            if (!int.TryParse(searchString, out id))
+            var searchItems = searchString.Split(':');
+            if (searchItems.Length != 2)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, searchString);
+            }
+            var searchBy = searchItems[0];
+            var searchValue = searchItems[1];
+
+            if (searchBy != "all" && searchBy != "id")
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, searchBy);
+            }
+
+            
+
+            if (!int.TryParse(searchValue, out id))
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
             try
             {
-                var purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.Id == id).ToList();
+                List<TicketPurchase> purchases;
+                if (searchBy == "id") { 
+                    purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.Id == id).ToList();
+                }
+                else
+                {
+                    purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.UserId == id).ToList();
+                }
                 return new ObjectResult(purchases);
             }
             catch (Exception)
