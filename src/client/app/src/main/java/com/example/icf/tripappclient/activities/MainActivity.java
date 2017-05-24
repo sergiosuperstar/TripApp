@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity
     public void respondNewPurchase(boolean successful, io.swagger.client.model.TicketPurchase ticket) {
         if (successful) {
             Toast.makeText(this, "Purchase successful", Toast.LENGTH_LONG).show();
+            session.setBalance(ticket.getUser().getBalance());
             TicketInfo tiFragment = TicketInfo.newInstance(ticket);
             changeFragment(tiFragment);
         } else {
