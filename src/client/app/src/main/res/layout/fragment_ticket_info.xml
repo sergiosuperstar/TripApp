@@ -49,7 +49,7 @@
         android:textSize="@dimen/text_value"
         android:textColor="@color/red"
         android:textStyle="bold"
-        android:visibility="visible" /> <!-- Koristiti za prikaz/sakrivanje labele (iskljucivo: visible/gone) -->
+        android:visibility="gone" /> <!-- Koristiti za prikaz/sakrivanje labele (iskljucivo: visible/gone) -->
 
     <TextView
         android:id="@+id/statusValid"
@@ -121,7 +121,7 @@
         android:textSize="@dimen/text_header_small"
         android:textColor="@color/lightBlue" />
 
-    <TextView
+   <!-- <TextView
         android:id="@+id/boughtDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
         android:layout_column="1"
         android:layout_columnSpan="2"
         android:text="21.12.2012. 20:48"
-        android:textSize="@dimen/text_value" />
+        android:textSize="@dimen/text_value" /> -->
 
     <TextView
         android:id="@+id/ticketsNumber"

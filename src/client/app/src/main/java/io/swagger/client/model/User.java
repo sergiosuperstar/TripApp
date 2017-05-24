@@ -27,8 +27,10 @@ package io.swagger.client.model;
 import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @ApiModel(description = "")
-public class User {
+public class User implements Serializable{
   
   @SerializedName("id")
   private Long id = null;

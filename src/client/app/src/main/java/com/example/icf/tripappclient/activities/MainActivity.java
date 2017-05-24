@@ -134,9 +134,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_main) {  /* MOZDA NE TREBA NEW FRAGMENT NEGO IH CUVATI KAO POLJA */
             Home homeFragment = new Home();
             changeFragment(homeFragment);
-        } else if (id == R.id.nav_ticket_info) {
+        } else if (id == R.id.nav_ticket_info) {      //TODO: Implementirati logiku odabira karte za prikaz. Prikazati najpozeljniju  - dvd
             TicketInfo tiFragment = new TicketInfo();
-            changeFragment(tiFragment);
+            //changeFragment(tiFragment);
         } else if (id == R.id.nav_ticket_balance) {
             AccountBalance abFragment = new AccountBalance();
             changeFragment(abFragment);
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void buyOneHourTicket(View view) {
-        TicketType type = new TicketType();
+        TicketType type = new TicketType();    // TODO: ne hardkoridirano, nego iz baze
         type.setId(1);
         type.setDuration(1);
         type.setPrice(1.2);
@@ -210,11 +210,11 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-    public void respondNewPurchase(boolean successful) {
+    public void respondNewPurchase(boolean successful, io.swagger.client.model.TicketPurchase ticket) {
         if (successful) {
             Toast.makeText(this, "Purchase successful", Toast.LENGTH_LONG).show();
-            TicketHistory thFragment = new TicketHistory();
-            changeFragment(thFragment);
+            TicketInfo tiFragment = TicketInfo.newInstance(ticket);
+            changeFragment(tiFragment);
         } else {
             Toast.makeText(this, "Purchase failed", Toast.LENGTH_LONG).show();
         }
