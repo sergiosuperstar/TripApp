@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="15dp" >
+
+    <TextView
+        android:id="@+id/payment_sign_plus"
+        android:layout_width="9dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/payment_ticket"
+        android:text="+"
+        android:textColor="@color/green"
+        android:textSize="@dimen/text_header_small"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/payment_sign_minus"
+        android:layout_width="9dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/payment_ticket"
+        android:paddingLeft="3dp"
+        android:text="-"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_header_small"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/payment_value_plus"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/payment_sign_plus"
+        android:layout_alignBaseline="@+id/payment_ticket"
+        android:gravity="end"
+        android:text="998,50"
+        android:textSize="@dimen/text_header_small"
+        android:textColor="@color/green"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/payment_value_minus"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/payment_sign_minus"
+        android:layout_alignBaseline="@+id/payment_ticket"
+        android:gravity="end"
+        android:text="998,50"
+        android:textSize="@dimen/text_header_small"
+        android:textColor="@color/red"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/payment_currency_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/payment_value_minus"
+        android:layout_alignBaseline="@+id/payment_ticket"
+        android:layout_marginLeft="2dp"
+        android:text="@string/eur"
+        android:textSize="@dimen/text_label_small"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/payment_currency_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/payment_value_plus"
+        android:layout_alignBaseline="@+id/payment_ticket"
+        android:layout_marginLeft="2dp"
+        android:text="@string/eur"
+        android:textSize="@dimen/text_label_small"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/payment_ticket"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/payment_date"
+        android:gravity="center_horizontal"
+        android:text="Month ticket"
+        android:textSize="@dimen/text_header_small"/>
+
+    <TextView
+        android:id="@+id/payment_date"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/payment_ticket"
+        android:gravity="end"
+        android:text="88.88.'88 (28:88)"
+        android:textSize="@dimen/text_header_small"/>
+
+    <View
+        android:id="@+id/payment_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/payment_date"
+        android:background="@color/lightGrey" />
+
+</RelativeLayout>

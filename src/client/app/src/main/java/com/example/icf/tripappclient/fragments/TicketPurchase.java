@@ -118,7 +118,7 @@ public class TicketPurchase extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 int count = Integer.parseInt(countSpinner.getSelectedItem().toString());
-                String totalString = Double.toString(count * type.getPrice());
+                String totalString = String.format("%.2f", count * type.getPrice());
                 totalText.setText(totalString);
             }
 
