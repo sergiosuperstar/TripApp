@@ -15,6 +15,8 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "")
 public class AdapterPayment implements Serializable {
 
+    @SerializedName("paymentId")
+    private Integer paymentId = null;
     @SerializedName("price")
     private Double price = null;
     @SerializedName("endDateTime")
@@ -27,10 +29,20 @@ public class AdapterPayment implements Serializable {
     /**
      **/
     @ApiModelProperty(value = "")
+    public Integer getPaymentId() {
+        return paymentId;
+    }
+    public void setPaymentId(Integer paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
     public Double getPrice() {
         return price;
     }
-    public void setId(Double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -40,7 +52,7 @@ public class AdapterPayment implements Serializable {
     public Date getEndDateTime() {
         return endDateTime;
     }
-    public void setId(Date endDateTime) {
+    public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
     }
 
@@ -50,7 +62,7 @@ public class AdapterPayment implements Serializable {
     public String getTicketName() {
         return ticketName;
     }
-    public void setId(String ticketName) {
+    public void setTicketName(String ticketName) {
         this.ticketName = ticketName;
     }
 
@@ -60,7 +72,7 @@ public class AdapterPayment implements Serializable {
     public boolean getIsExpense() {
         return isExpense;
     }
-    public void setId(boolean isExpense) {
+    public void setIsExpense(boolean isExpense) {
         this.isExpense = isExpense;
     }
 

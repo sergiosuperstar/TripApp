@@ -30,7 +30,7 @@ public class AdapterTicket implements Serializable {
     public Integer getTicketId() {
         return ticketId;
     }
-    public void setId(Integer ticketId) {
+    public void setTicketId(Integer ticketId) {
         this.ticketId = ticketId;
     }
 
@@ -40,7 +40,7 @@ public class AdapterTicket implements Serializable {
     public String getTicketName() {
         return ticketName;
     }
-    public void setId(String ticketName) {
+    public void setTicketName(String ticketName) {
         this.ticketName = ticketName;
     }
 
@@ -50,7 +50,7 @@ public class AdapterTicket implements Serializable {
     public Double getPrice() {
         return price;
     }
-    public void setId(Double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -60,7 +60,7 @@ public class AdapterTicket implements Serializable {
     public Date getEndDateTime() {
         return endDateTime;
     }
-    public void setId(Date endDateTime) {
+    public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
     }
 
