@@ -14,7 +14,7 @@ namespace IO.Swagger.Data
     /// </summary>
     public class TripAppDbInitializer
     {
-        private const string defaultPassword = "Pa$$w0rd";
+        private const string defaultPassword = "a";
         private const string devPassword = "dev";
         /// <summary>
         /// Seed database with predefined data.
@@ -29,13 +29,13 @@ namespace IO.Swagger.Data
             string devPass = hasher.HashPassword(null, devPassword);
             
             // Users:
-            User admin = new User(1,"administrator", "Pera", "Administratovic","admin@tripapp.com", defaultPass, "333-123", "administrator", 2000.0d);
+            User admin = new User(1,"admin", "Pera", "Administratovic","admin@tripapp.com", defaultPass, "333-123", "administrator", 2000.0d);
             context.Users.Add(admin);
 
-            User passenger = new User(2, "darinka.putnik", "Darinka", "Putnik", "daracar@tripapp.com", defaultPass, "333-444", "passenger", 1000.0d);
+            User passenger = new User(2, "a", "Darinka", "Putnik", "daracar@tripapp.com", defaultPass, "333-444", "passanger", 1000.0d);
             context.Users.Add(passenger);
 
-            User controller = new User(3, "milos.nagib", "Milos", "Nagib", "mrgud@tripapp.com", defaultPass, "333-555", "controller", 3000.0d);
+            User controller = new User(3, "ctrl", "Milos", "Nagib", "mrgud@tripapp.com", defaultPass, "333-555", "controller", 3000.0d);
             context.Users.Add(controller);
 
             User devadmin = new User(4, "dev", "Bill", "Linux Idol", "billy@tripapp.com", devPass, "123-456", "administrator", 5000.0d);

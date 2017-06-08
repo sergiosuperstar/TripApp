@@ -73,6 +73,12 @@ public class MainActivity extends AppCompatActivity
         TextView name = (TextView)header.findViewById(R.id.user_info);
         name.setText("Welcome, " + session.getUser().getUsername());
 
+
+
+        Menu menu = navigationView.getMenu();
+        MenuItem inspectorMenu = menu.findItem(R.id.inspector_menu);
+        inspectorMenu.setVisible(session.getUserRole().equals("controller"));
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Home homeFragment = new Home();
