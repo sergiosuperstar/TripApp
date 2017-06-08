@@ -1,5 +1,6 @@
 package com.example.icf.tripappclient.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,8 +25,12 @@ import com.example.icf.tripappclient.fragments.Home;
 import com.example.icf.tripappclient.fragments.TicketHistory;
 import com.example.icf.tripappclient.fragments.TicketInfo;
 import com.example.icf.tripappclient.fragments.TicketPurchase;
+import com.example.icf.tripappclient.service.ServiceUtils;
 
 import io.swagger.client.model.TicketType;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,12 +39,14 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawer;
 
     private int selectedTicketTypeId;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         session = new SessionManager(getApplicationContext());
+        progress = new ProgressDialog(this);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -72,8 +79,6 @@ public class MainActivity extends AppCompatActivity
         View header=navigationView.getHeaderView(0);
         TextView name = (TextView)header.findViewById(R.id.user_info);
         name.setText("Welcome, " + session.getUser().getUsername());
-
-
 
         Menu menu = navigationView.getMenu();
         MenuItem inspectorMenu = menu.findItem(R.id.inspector_menu);
@@ -140,9 +145,32 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_main) {  /* MOZDA NE TREBA NEW FRAGMENT NEGO IH CUVATI KAO POLJA */
             Home homeFragment = new Home();
             changeFragment(homeFragment);
-        } else if (id == R.id.nav_ticket_info) {      //TODO: Implementirati logiku odabira karte za prikaz. Prikazati najpozeljniju  - dvd
-            TicketInfo tiFragment = new TicketInfo();
-            //changeFragment(tiFragment);
+        } else if (id == R.id.nav_ticket_info) {
+
+            progress.setMessage("Collecting data. Please wait...");
+            progress.show();
+
+            Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketPurchaseService.get("my:" + session.getUser().getId());
+            call.enqueue(new Callback<io.swagger.client.model.TicketPurchase>() {
+
+                @Override
+                public void onResponse(Call<io.swagger.client.model.TicketPurchase> call, Response<io.swagger.client.model.TicketPurchase> response) {
+                    if (response.code() == 200) {
+                        progress.dismiss();
+                        TicketInfo tiFragment = TicketInfo.newInstance(response.body());
+                        changeFragment(tiFragment);
+                    } else {
+                        //((MainActivity)getActivity()).respondNewPurchase(false, null);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<io.swagger.client.model.TicketPurchase> call, Throwable t) {
+                    //((MainActivity)getActivity()).respondNewPurchase(false, null);
+                }
+            });
+
+
         } else if (id == R.id.nav_ticket_balance) {
             AccountBalance abFragment = new AccountBalance();
             changeFragment(abFragment);

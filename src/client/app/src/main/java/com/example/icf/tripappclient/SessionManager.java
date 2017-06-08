@@ -111,7 +111,7 @@ public class SessionManager {
     public User getUser(){
         User u = new User();
         u.setUsername(pref.getString("username", null));
-        u.setRole(pref.getString("role", null));
+        u.setRole(pref.getString("role", "none"));
         u.setId(pref.getLong("userId", 0));
         u.setEmail(pref.getString("email", null));
         u.setFirstName(pref.getString("firstName", null));
@@ -123,7 +123,7 @@ public class SessionManager {
     }
 
     public String getUserRole(){
-        return pref.getString("role", null);
+        return pref.getString("role", "none");
     }
 
 }

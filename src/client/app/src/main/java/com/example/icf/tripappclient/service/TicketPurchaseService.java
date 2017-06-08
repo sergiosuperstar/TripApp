@@ -1,5 +1,7 @@
 package com.example.icf.tripappclient.service;
 
+import java.util.List;
+
 import io.swagger.client.model.TicketPurchase;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -8,6 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 /**
@@ -19,8 +22,15 @@ public interface TicketPurchaseService {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
-    @GET("tickets/{id}")
-    Call<TicketPurchase> get(@Path("id") int id);
+    @GET("tickets/")
+    Call<TicketPurchase> get(@Query("searchString") String id);
+
+   @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @GET("tickets/")
+    Call<List<TicketPurchase>> getList(@Query("searchString") String id);
 
 
     @Headers({

@@ -60,17 +60,6 @@ public class TicketInfo extends Fragment {
 
         ticket = (TicketPurchase) getArguments().getSerializable("ticket");
 
-        /*
-        TicketPurchase ticket = new TicketPurchase();
-        TicketType type = new TicketType();
-        type.setName("Daily ticket");
-        ticket.setCode(UUID.randomUUID());
-        ticket.setNumberOfPassangers(3);
-        ticket.setPrice(1.20);
-        ticket.setStartDateTime(new Date());
-        ticket.setEndDateTime(new Date(ticket.getStartDateTime().getTime()+(24*60*60*1000)));
-        ticket.setType(type);*/
-
         Double totalPrice = ticket.getPrice()*ticket.getNumberOfPassangers();
         ((TextView) view.findViewById(R.id.dateFromValue)).setText(ticket.getStartDateTimeString());
         ((TextView) view.findViewById(R.id.dateToValue)).setText(ticket.getEndDateTimeString());

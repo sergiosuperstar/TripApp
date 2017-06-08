@@ -140,6 +140,9 @@ namespace IO.Swagger.Controllers
         public virtual IActionResult SearchTickets([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
         {
             int id;
+
+            searchString = System.Net.WebUtility.HtmlDecode(searchString);
+
             var searchItems = searchString.Split(':');
             if (searchItems.Length != 2)
             {
@@ -148,7 +151,7 @@ namespace IO.Swagger.Controllers
             var searchBy = searchItems[0];
             var searchValue = searchItems[1];
 
-            if (searchBy != "all" && searchBy != "id")
+            if (searchBy != "all" && searchBy != "id" && searchBy != "my")
             {
                 return StatusCode(StatusCodes.Status400BadRequest, searchBy);
             }
@@ -162,14 +165,22 @@ namespace IO.Swagger.Controllers
             try
             {
                 List<TicketPurchase> purchases;
+                TicketPurchase purchase;
                 if (searchBy == "id") { 
-                    purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.Id == id).ToList();
+                    purchase = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.Id == id).FirstOrDefault();
+                    return new ObjectResult(purchase);
                 }
-                else
+                else if(searchBy == "all")
                 {
                     purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.UserId == id).ToList();
+                    return new ObjectResult(purchases);
                 }
-                return new ObjectResult(purchases);
+                else // searchBy == "my"
+                {
+                    purchase = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => (c.UserId == id && c.EndDateTime > DateTime.Now)).OrderByDescending(p => p.StartDateTime).FirstOrDefault();
+                    return new ObjectResult(purchase);
+                }
+                
             }
             catch (Exception)
             {

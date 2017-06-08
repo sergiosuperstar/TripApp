@@ -32,7 +32,7 @@ namespace IO.Swagger.Data
             User admin = new User(1,"admin", "Pera", "Administratovic","admin@tripapp.com", defaultPass, "333-123", "administrator", 2000.0d);
             context.Users.Add(admin);
 
-            User passenger = new User(2, "a", "Darinka", "Putnik", "daracar@tripapp.com", defaultPass, "333-444", "passanger", 1000.0d);
+            User passenger = new User(2, "a", "Darinka", "Putnik", "daracar@tripapp.com", defaultPass, "333-444", "passenger", 1000.0d);
             context.Users.Add(passenger);
 
             User controller = new User(3, "ctrl", "Milos", "Nagib", "mrgud@tripapp.com", defaultPass, "333-555", "controller", 3000.0d);
@@ -56,9 +56,13 @@ namespace IO.Swagger.Data
             context.Types.Add(typeWeek);
             
             // Purchases:
-            TicketPurchase purchase = new TicketPurchase(750, Guid.NewGuid(), 30.0d, DateTime.Now, DateTime.Now.AddMinutes(typeHour.Duration.Value), 1,typeHour, passenger);
+            TicketPurchase purchase = new TicketPurchase(750, Guid.NewGuid(), 30.0d, DateTime.Now, DateTime.Now.AddMinutes(typeHour.Duration.Value*60), 1,typeHour, passenger);
+            TicketPurchase purchase2 = new TicketPurchase(751, Guid.NewGuid(), 30.0d, DateTime.Now.AddHours(-3), DateTime.Now.AddHours(-2), 2, typeHour, passenger);
+            TicketPurchase purchase3 = new TicketPurchase(752, Guid.NewGuid(), 30.0d, DateTime.Now.AddHours(-12), DateTime.Now.AddHours(12), 1, typeDay, passenger);
             context.Purchases.Add(purchase);
-            
+            context.Purchases.Add(purchase2);
+            context.Purchases.Add(purchase3);
+
             // Validations:
             TicketValidation validation = new TicketValidation(1,DateTime.Now.AddMinutes(2), true, typeHour, controller);
             context.Validations.Add(validation);
