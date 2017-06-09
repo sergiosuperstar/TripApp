@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+repositories {
+    jcenter()
+}
+
 android {
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion 25
@@ -64,6 +68,7 @@ dependencies {
     testCompile "junit:junit:$junit_version"
     testCompile "org.robolectric:robolectric:${robolectric_version}"
     testCompile "net.jodah:concurrentunit:${concurrent_unit_version}"
+    compile 'com.journeyapps:zxing-android-embedded:3.5.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.3.1'

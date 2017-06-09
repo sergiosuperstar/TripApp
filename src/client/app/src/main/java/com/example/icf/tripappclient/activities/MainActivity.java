@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,8 +27,14 @@ import com.example.icf.tripappclient.fragments.TicketHistory;
 import com.example.icf.tripappclient.fragments.TicketInfo;
 import com.example.icf.tripappclient.fragments.TicketPurchase;
 import com.example.icf.tripappclient.service.ServiceUtils;
+import com.google.zxing.client.android.Intents;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+import java.util.concurrent.TimeUnit;
 
 import io.swagger.client.model.TicketType;
+import io.swagger.client.model.TicketValidation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -175,8 +182,16 @@ public class MainActivity extends AppCompatActivity
             AccountBalance abFragment = new AccountBalance();
             changeFragment(abFragment);
         } else if (id == R.id.nav_camera) {
-            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-            startActivity(intent);
+            IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+            integrator.setPrompt("Scan ticket");
+            integrator.setOrientationLocked(false);
+            integrator.initiateScan();
+
+            //TODO: continuous - fix or delete - dvd
+            /*Intent intent = new Intent(this, ContinuousCaptureActivity.class);
+            startActivity(intent);*/
+
         } else if (id == R.id.nav_ticket_history) {
             TicketHistory thFragment = new TicketHistory();
             changeFragment(thFragment);
@@ -188,6 +203,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         }
+        //TODO: dopuna kredita - dvd
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -252,6 +268,59 @@ public class MainActivity extends AppCompatActivity
             changeFragment(tiFragment);
         } else {
             Toast.makeText(this, "Purchase failed", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Log.d("MainActivity", "Cancelled scan");
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                TicketValidation validation = new TicketValidation();
+                validation.setController(session.getUser());
+                //TODO: postavljanje ticket uid u validation   validation.setTicket(new Ticket(UID)); - dvd
+                //TODO: unmock odgovor - dvd
+               /* Call<Boolean> call = ServiceUtils.ticketValidationService.add(validation);
+                call.enqueue(new Callback<Boolean>() {
+
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if (response.code() == 200) {
+                            Boolean resp = response.body();
+
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+
+                    }
+                });*/
+
+                //***** MOCK *****//
+
+                try {
+                    TimeUnit.MILLISECONDS.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Boolean resp = (Math.random() < 0.5);
+                //****************//
+
+                if (resp) {
+                    Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(this, "Ticket invalid", Toast.LENGTH_LONG).show();
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
