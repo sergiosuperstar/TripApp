@@ -140,17 +140,34 @@ namespace IO.Swagger.Controllers
         {
             // TODO ftn: Add validation to the purchaseCode parameter!!!
             // Return 400 - BadRequest if not valid!
-            PurchaseCode code = _context.Codes.FirstOrDefault(c => c.Id == purchaseCode.Id);
+            PurchaseCode code = _context.Codes.FirstOrDefault(c => c.Code == purchaseCode.Code);
             if (code == null)
             {
-                return StatusCode(StatusCodes.Status404NotFound, purchaseCode); // 400 not found!
+                //return StatusCode(StatusCodes.Status404NotFound, purchaseCode); // 400 not found!
+                return new ObjectResult(false);
+            }
+
+            if (code.Used == null)
+            {
+                return new ObjectResult(false);
+            }
+
+            if ((bool)code.Used)
+            {
+                return new ObjectResult(false);
             }
 
             try
             {
-                _context.Entry(purchaseCode).State = EntityState.Modified;
+                code.Used = true;
+                code.User = purchaseCode.User;
+                code.UsageDateTime = DateTime.Now;
+                code.User.Balance += code.Value;
+                _context.Entry(code).State = EntityState.Modified;
+                _context.Entry(code.User).State = EntityState.Modified;
                 _context.SaveChanges();
-                return Ok(purchaseCode);
+                return new ObjectResult(true);
+                //return Ok(purchaseCode);
             }
             catch (Exception)
             {

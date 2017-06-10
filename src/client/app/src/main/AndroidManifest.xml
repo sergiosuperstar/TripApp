@@ -33,6 +33,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.icf.tripappclient.activities.MainActivity" />
         </activity>
+
+        <activity android:name=".activities.ContinuousCaptureActivity"></activity>
+
     </application>
 
 </manifest>

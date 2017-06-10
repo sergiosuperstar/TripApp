@@ -43,6 +43,10 @@ namespace IO.Swagger.Data
 
             // Purchase codes:
             PurchaseCode code = new PurchaseCode(1, Guid.NewGuid(), 500.0d, DateTime.Now, null, false, null);
+            PurchaseCode code2 = new PurchaseCode(2, Guid.NewGuid(), 5.0d, DateTime.Now, null, false, null);
+            PurchaseCode code3 = new PurchaseCode(3, Guid.NewGuid(), 30.0d, DateTime.Now, null, false, null);
+            PurchaseCode code4 = new PurchaseCode(4, Guid.NewGuid(), 10.0d, DateTime.Now, null, false, null);
+            PurchaseCode code5 = new PurchaseCode(5, Guid.NewGuid(), 100.0d, DateTime.Now, null, false, null);
             context.Codes.Add(code);
 
             // Ticket types:
@@ -64,7 +68,7 @@ namespace IO.Swagger.Data
             context.Purchases.Add(purchase3);
 
             // Validations:
-            TicketValidation validation = new TicketValidation(1,DateTime.Now.AddMinutes(2), true, typeHour, controller);
+            TicketValidation validation = new TicketValidation(1,DateTime.Now.AddMinutes(2), true, purchase, controller);
             context.Validations.Add(validation);
 
             context.SaveChanges();

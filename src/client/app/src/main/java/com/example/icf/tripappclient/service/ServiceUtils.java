@@ -24,8 +24,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceUtils {
 
-    public static final String SERVICE_API_PATH = "http://tripappftn.azurewebsites.net/sergiosuperstar/TripAppSimple/1.0.0/";
-    //public static final String SERVICE_API_PATH = "http://10.0.2.2:5000/sergiosuperstar/TripAppSimple/1.0.0/";
+    //public static final String SERVICE_API_PATH = "http://tripappftn.azurewebsites.net/sergiosuperstar/TripAppSimple/1.0.0/";
+    public static final String SERVICE_API_PATH = "http://10.0.2.2:5000/sergiosuperstar/TripAppSimple/1.0.0/";
 
     public static OkHttpClient test(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -49,4 +49,5 @@ public class ServiceUtils {
     public static UserService userService = retrofit.create(UserService.class);
     public static TicketPurchaseService ticketPurchaseService = retrofit.create(TicketPurchaseService.class);
     public static TicketValidationService ticketValidationService = retrofit.create(TicketValidationService.class);
+    public static CodeService codeService = retrofit.create(CodeService.class);
 }

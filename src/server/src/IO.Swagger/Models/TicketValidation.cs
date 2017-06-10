@@ -46,7 +46,7 @@ namespace IO.Swagger.Models
         /// <param name="IsValid">Is ticket valid? (required).</param>
         /// <param name="Ticket">Ticket (required).</param>
         /// <param name="Controller">Controller (required).</param>
-        public TicketValidation(int? Id = null, DateTime? ValidationDateTime = null, bool? IsValid = null, TicketType Ticket = null, User Controller = null)
+        public TicketValidation(int? Id = null, DateTime? ValidationDateTime = null, bool? IsValid = null, TicketPurchase Ticket = null, User Controller = null)
         {
             // to ensure "ValidationDateTime" is required (not null)
             if (ValidationDateTime == null)
@@ -111,7 +111,7 @@ namespace IO.Swagger.Models
         /// Gets or Sets Ticket
         /// </summary>
         [DataMember(Name="ticket")]
-        public TicketType Ticket { get; set; }
+        public TicketPurchase Ticket { get; set; }
 
         /// <summary>
         /// Gets or Sets Controller

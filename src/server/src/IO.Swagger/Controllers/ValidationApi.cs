@@ -73,16 +73,39 @@ namespace IO.Swagger.Controllers
         {
             // TODO ftn: Add validation to the ticketValidation parameter!!!
             // Return 400 - BadRequest if not valid!
+
             if (_context.Validations.FirstOrDefault(t => t.Id == ticketValidation.Id) != null)
             {
-                return StatusCode(StatusCodes.Status409Conflict, ticketValidation); // 409 already exists!
+                return StatusCode(StatusCodes.Status409Conflict); // 409 already exists!
+            }
+
+            TicketPurchase ticket = _context.Purchases.FirstOrDefault(p => p.Code == ticketValidation.Ticket.Code);
+
+            if (ticket == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+
+            if (ticket.EndDateTime < DateTime.Now)
+            {
+                return StatusCode(StatusCodes.Status406NotAcceptable, ticket);
             }
 
             try
             {
+                ticketValidation.Ticket = ticket;
+                ticketValidation.IsValid = true;
+                ticketValidation.ValidationDateTime = DateTime.Now;
+
+                Random r = new Random();
+                int rInt = r.Next(1, 1000000000);
+                ticketValidation.Id = rInt; 
+
                 _context.Validations.Add(ticketValidation);
+                _context.Entry(ticketValidation.Controller).State = Microsoft.EntityFrameworkCore.EntityState.Unchanged;
                 _context.SaveChanges();
-                return Created(Request.Host.ToString(), ticketValidation); // 201 Created successfuly.
+                return new ObjectResult(ticket);
+                //return Created(Request.Host.ToString(), ticketValidation); // 201 Created successfuly.
             }
             catch (Exception)
             {

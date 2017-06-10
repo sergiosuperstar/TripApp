@@ -31,8 +31,10 @@ import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import io.swagger.client.model.PurchaseCode;
 import io.swagger.client.model.TicketType;
 import io.swagger.client.model.TicketValidation;
 import retrofit2.Call;
@@ -181,16 +183,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_ticket_balance) {
             AccountBalance abFragment = new AccountBalance();
             changeFragment(abFragment);
-        } else if (id == R.id.nav_camera) {
-            IntentIntegrator integrator = new IntentIntegrator(this);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-            integrator.setPrompt("Scan ticket");
-            integrator.setOrientationLocked(false);
-            integrator.initiateScan();
-
-            //TODO: continuous - fix or delete - dvd
+        } else if (id == R.id.nav_camera) { // TODO: ispistati kontroloru podatke o ocitanoj karti (broj osoba itd) - dvd
             /*Intent intent = new Intent(this, ContinuousCaptureActivity.class);
             startActivity(intent);*/
+
+            mockValidation();
 
         } else if (id == R.id.nav_ticket_history) {
             TicketHistory thFragment = new TicketHistory();
@@ -202,8 +199,17 @@ public class MainActivity extends AppCompatActivity
             session.logOut();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_add){
+            /*IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+            integrator.setPrompt("Scan voucher");
+            integrator.setOrientationLocked(false);
+            integrator.initiateScan();*/
+
+            mockCode();
+
         }
-        //TODO: dopuna kredita - dvd
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -276,6 +282,76 @@ public class MainActivity extends AppCompatActivity
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            // This is important, otherwise the result will not be passed to the fragment
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    protected void mockCode() {
+
+        PurchaseCode code = new PurchaseCode();
+        code.setCode(UUID.fromString("7454723f-d20d-40d9-88b1-3f63d12e9d07"));
+        code.setUser(session.getUser());
+
+        Call<Boolean> call = ServiceUtils.codeService.put(code);
+        call.enqueue(new Callback<Boolean>() {
+
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.code() == 200) {
+                    Boolean resp = response.body();
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+    }
+
+    protected void mockValidation() {
+
+        TicketValidation validation = new TicketValidation();
+        validation.setController(session.getUser());
+        validation.setTicket(new io.swagger.client.model.TicketPurchase("4d628fe2-bf62-4c4e-9d17-78b432041530"));
+        
+        Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketValidationService.add(validation);
+        call.enqueue(new Callback<io.swagger.client.model.TicketPurchase>() {
+
+            @Override
+            public void onResponse(Call<io.swagger.client.model.TicketPurchase> call, Response<io.swagger.client.model.TicketPurchase> response) {
+                if (response.code() == 200) {   // uspelo
+                    io.swagger.client.model.TicketPurchase ticket = response.body();
+
+                } else {   //  fail
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<io.swagger.client.model.TicketPurchase> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+
+    /*
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
                 Log.d("MainActivity", "Cancelled scan");
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
@@ -283,7 +359,7 @@ public class MainActivity extends AppCompatActivity
                 validation.setController(session.getUser());
                 //TODO: postavljanje ticket uid u validation   validation.setTicket(new Ticket(UID)); - dvd
                 //TODO: unmock odgovor - dvd
-               /* Call<Boolean> call = ServiceUtils.ticketValidationService.add(validation);
+                Call<Boolean> call = ServiceUtils.ticketValidationService.add(validation);
                 call.enqueue(new Callback<Boolean>() {
 
                     @Override
@@ -300,9 +376,9 @@ public class MainActivity extends AppCompatActivity
                     public void onFailure(Call<Boolean> call, Throwable t) {
 
                     }
-                });*/
+                });
 
-                //***** MOCK *****//
+
 
                 try {
                     TimeUnit.MILLISECONDS.sleep(1500);
@@ -311,7 +387,7 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 Boolean resp = (Math.random() < 0.5);
-                //****************//
+
 
                 if (resp) {
                     Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
@@ -322,6 +398,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
+    }*/
 
 }

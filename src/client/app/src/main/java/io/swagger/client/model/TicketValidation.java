@@ -41,7 +41,7 @@ public class TicketValidation {
   @SerializedName("isValid")
   private Boolean isValid = null;
   @SerializedName("ticket")
-  private TicketType ticket = null;
+  private TicketPurchase ticket = null;
   @SerializedName("controller")
   private User controller = null;
 
@@ -79,10 +79,10 @@ public class TicketValidation {
   /**
    **/
   @ApiModelProperty(required = true, value = "")
-  public TicketType getTicket() {
+  public TicketPurchase getTicket() {
     return ticket;
   }
-  public void setTicket(TicketType ticket) {
+  public void setTicket(TicketPurchase ticket) {
     this.ticket = ticket;
   }
 

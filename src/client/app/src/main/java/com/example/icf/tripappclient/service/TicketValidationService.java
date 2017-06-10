@@ -1,5 +1,6 @@
 package com.example.icf.tripappclient.service;
 
+import io.swagger.client.model.TicketPurchase;
 import io.swagger.client.model.TicketValidation;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,6 +18,6 @@ public interface TicketValidationService {
             "Content-Type:application/json"
     })
     @POST("tickets/validation/")
-    Call<Boolean> add(@Body TicketValidation validation);
+    Call<TicketPurchase> add(@Body TicketValidation validation);
 
 }

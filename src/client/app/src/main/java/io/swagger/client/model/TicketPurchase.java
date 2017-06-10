@@ -59,6 +59,13 @@ public class TicketPurchase implements Serializable {
   @SerializedName("typeId")
   private Integer typeId = null;
 
+  public TicketPurchase(){
+
+  }
+
+  public TicketPurchase(String guid){
+    code = UUID.fromString(guid);
+  }
 
   /**
    **/
