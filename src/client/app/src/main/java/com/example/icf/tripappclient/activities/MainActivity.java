@@ -200,14 +200,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_add){
-            /*IntentIntegrator integrator = new IntentIntegrator(this);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-            integrator.setPrompt("Scan voucher");
-            integrator.setOrientationLocked(false);
-            integrator.initiateScan();*/
-
-            mockCode();
-
+            View view = findViewById(R.id.addMoney);
+            scanVoucher(view);
         }
 
 
@@ -285,6 +279,43 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                final AppCompatActivity a = this;
+
+                PurchaseCode code = new PurchaseCode();
+                try {
+                    code.setCode(UUID.fromString(result.getContents()));
+                    code.setUser(session.getUser());
+                }catch(Exception e){
+                    Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
+                }
+
+                Call<Boolean> call = ServiceUtils.codeService.put(code);
+                call.enqueue(new Callback<Boolean>() {
+
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if (response.code() == 200) {
+                            Boolean resp = response.body();
+
+                            if (resp){
+                                Toast.makeText(a, "Successfully added funds.", Toast.LENGTH_LONG).show();
+                                session.reloadUser();
+                               /* AccountBalance abFragment = new AccountBalance();   // TODO: neki refresh balance stranice
+                                changeFragment(abFragment);*/
+                            }else{
+                                Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
+                            }
+
+                        } else {
+                            Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+                        Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         } else {
             // This is important, otherwise the result will not be passed to the fragment
@@ -292,7 +323,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    protected void mockCode() {
+    public void scanVoucher(View view){
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+        integrator.setPrompt("Scan voucher");
+        integrator.setOrientationLocked(false);
+        integrator.initiateScan();
+
+    }
+
+    /*protected void mockCode() {
 
         PurchaseCode code = new PurchaseCode();
         code.setCode(UUID.fromString("7454723f-d20d-40d9-88b1-3f63d12e9d07"));
@@ -316,7 +356,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-    }
+    }*/
 
     protected void mockValidation() {
 
@@ -343,8 +383,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
-
-
 
     /*
     @Override

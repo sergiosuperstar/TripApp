@@ -44,7 +44,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_add_money" />
+        android:text="@string/button_add_money"
+        android:onClick="scanVoucher"/>
 
     <View
         android:layout_width="fill_parent"

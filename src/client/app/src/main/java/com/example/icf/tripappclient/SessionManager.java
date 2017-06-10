@@ -108,6 +108,12 @@ public class SessionManager {
         editor.commit();
     }
 
+    public void addBalance(Double balance){
+        User user = getUser();
+        user.setBalance(user.getBalance() + balance);
+        setBalance(user.getBalance());
+    }
+
     public User getUser(){
         User u = new User();
         u.setUsername(pref.getString("username", null));
@@ -124,6 +130,38 @@ public class SessionManager {
 
     public String getUserRole(){
         return pref.getString("role", "none");
+    }
+
+    public void reloadUser(){
+
+        Call<User> call = ServiceUtils.userService.get(getUser().getUsername());
+        call.enqueue(new Callback<User>() {
+
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.code() == 200) {
+                    User user = response.body();
+                    if (user != null) {
+                        editor.putBoolean("loggedIn", true);
+                        editor.putLong("userId", user.getId());
+                        editor.putString("username", user.getUsername());
+                        editor.putString("email", user.getEmail());
+                        editor.putString("firstName", user.getFirstName());
+                        editor.putString("lastName", user.getLastName());
+                        editor.putString("phone", user.getPhone());
+                        editor.putString("role", user.getRole());
+                        editor.putString("balance", user.getBalance().toString());
+                        editor.commit();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+            }
+        });
+
     }
 
 }
