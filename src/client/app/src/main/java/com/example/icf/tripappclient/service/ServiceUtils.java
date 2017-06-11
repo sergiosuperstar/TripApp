@@ -1,18 +1,7 @@
 package com.example.icf.tripappclient.service;
 
-import android.content.Context;
-
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
-
-import io.swagger.client.model.TicketValidation;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -49,5 +38,7 @@ public class ServiceUtils {
     public static UserService userService = retrofit.create(UserService.class);
     public static TicketPurchaseService ticketPurchaseService = retrofit.create(TicketPurchaseService.class);
     public static TicketValidationService ticketValidationService = retrofit.create(TicketValidationService.class);
-    public static CodeService codeService = retrofit.create(CodeService.class);
+    public static PurchaseCodeService purchaseCodeService = retrofit.create(PurchaseCodeService.class);
+    public static UserTicketsService userTicketsService = retrofit.create(UserTicketsService.class);
+    public static TickeTypeService tickeTypeService = retrofit.create(TickeTypeService.class);
 }

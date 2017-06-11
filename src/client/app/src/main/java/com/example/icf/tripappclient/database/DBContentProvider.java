@@ -23,7 +23,8 @@ public class DBContentProvider extends ContentProvider {
 
     private SQLiteDatabase sqlDB;
 
-    public static final String PROVIDER_NAME = "com.example.icf.tripappclient";
+    public static final String PROVIDER_NAME = "com.example.icf.tripappclient.database";
+    public static final String AUTHORITY = "com.example.icf.tripappclient";
 
     public static final Uri CONTENT_URL_TT = Uri.parse("content://" + PROVIDER_NAME + "/" + TrippSQLiteHelper.TABLE_TICKET_TYPE);
     public static final Uri CONTENT_URL_T = Uri.parse("content://" + PROVIDER_NAME + "/" + TrippSQLiteHelper.TABLE_PAYMENT);
@@ -160,5 +161,12 @@ public class DBContentProvider extends ContentProvider {
 
         getContext().getContentResolver().notifyChange(uri, null);
         return rowsUpdated;
+    }
+
+    public void emptyDatabase(){
+        sqlDB.execSQL("delete from "+ TrippSQLiteHelper.TABLE_TICKET_TYPE);
+        sqlDB.execSQL("delete from "+ TrippSQLiteHelper.TABLE_PAYMENT);
+        sqlDB.execSQL("delete from "+ TrippSQLiteHelper.TABLE_TICKET);
+        return;
     }
 }
