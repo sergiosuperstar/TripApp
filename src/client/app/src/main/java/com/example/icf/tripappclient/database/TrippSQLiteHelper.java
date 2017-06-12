@@ -25,9 +25,12 @@ public class TrippSQLiteHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_TICKET = "ticket";
     public static final String COLUMN_T_ID = "_id";
-    public static final String COLUMN_T_TICKET = "ticket";
-    public static final String COLUMN_T_DATE = "date";
+    public static final String COLUMN_T_CODE = "code";
     public static final String COLUMN_T_PRICE = "price";
+    public static final String COLUMN_T_START = "startDateTime";
+    public static final String COLUMN_T_END = "endDateTime";
+    public static final String COLUMN_T_PASSANGERS = "numberOfPassangers";
+    public static final String COLUMN_T_TICKET = "ticket";
 
     private static final String DATABASE_NAME = "trippApp.db";
     private static final int DATABASE_VERSION = 1;
@@ -51,10 +54,12 @@ public class TrippSQLiteHelper extends SQLiteOpenHelper {
     private static final String DB_TABLE_TICKET_CREATE = "create table "
             + TABLE_TICKET + "("
             + COLUMN_T_ID  + " integer primary key, "
-            + COLUMN_T_TICKET + " text, "
-            + COLUMN_T_DATE + " datetime, "
-            + COLUMN_T_PRICE + " real)";
-
+            + COLUMN_T_CODE  + " text, "
+            + COLUMN_T_PRICE + " real, "
+            + COLUMN_T_START + " datetime, "
+            + COLUMN_T_END + " datetime, "
+            + COLUMN_T_PASSANGERS  + " integer, "
+            + COLUMN_T_TICKET + " text)";
 
     public TrippSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
