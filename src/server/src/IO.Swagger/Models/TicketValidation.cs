@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IO.Swagger.Models
 {
@@ -91,6 +92,7 @@ namespace IO.Swagger.Models
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [DataMember(Name="id")]
         public int? Id { get; set; }
 

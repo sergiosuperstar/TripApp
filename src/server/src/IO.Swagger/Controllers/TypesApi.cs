@@ -110,7 +110,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
-                _logger.LogError(LoggingEvents.LIST_ITEMS, "GetTicketTypes({searchString}) NOT FOUND", searchString);
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "GetTicketTypes method have failed.");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

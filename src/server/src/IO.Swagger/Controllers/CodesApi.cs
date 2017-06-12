@@ -117,7 +117,7 @@ namespace IO.Swagger.Controllers
             }
             catch (Exception)
             {
-                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchCodes({username}) NOT FOUND", username);
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchCodes({userId}) NOT FOUND", userId);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
