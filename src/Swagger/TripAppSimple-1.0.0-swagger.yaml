@@ -646,6 +646,10 @@ definitions:
         type: number
         format: double
         example: 500.00
+      refreshtoken:
+        type: string
+        format: uuid
+        example: bc495959-9aa7-447d-905d-0dfc74c16188
 
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
@@ -654,3 +658,8 @@ basePath: /sergiosuperstar/TripAppSimple/1.0.0
 schemes:
  - https
  - http
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
