@@ -92,6 +92,31 @@ namespace IO.Swagger.Controllers
 
 
         /// <summary>
+        /// get all ticket types
+        /// </summary>
+        /// <remarks>Return all ticket types </remarks>
+        /// <response code="200">search results matching criteria</response>
+        /// <response code="400">bad input parameter</response>
+        [HttpGet]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets/alltypes")]
+        [SwaggerOperation("GetTicketTypes")]
+        [SwaggerResponse(200, type: typeof(List<TicketType>))]
+        public virtual IActionResult GetTicketTypes()
+        {
+            try
+            {
+                var types = _context.Types.ToList();
+                return new ObjectResult(types);
+            }
+            catch (Exception)
+            {
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "GetTicketTypes method have failed.");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
+        /// <summary>
         /// searches ticket types
         /// </summary>
         /// <remarks>By passing in the appropriate options, you can search for available ticket types in the system </remarks>

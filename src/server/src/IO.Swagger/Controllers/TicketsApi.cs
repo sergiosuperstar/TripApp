@@ -78,7 +78,7 @@ namespace IO.Swagger.Controllers
         {
             // TODO FTN: Add validation!
 
-            var hasTypeAndUser = ticketPurchase != null 
+            var hasTypeAndUser = ticketPurchase != null
                                 && ticketPurchase.TypeId != null
                                 && ticketPurchase.TypeId > 0
                                 && ticketPurchase.UserId != null
@@ -107,7 +107,7 @@ namespace IO.Swagger.Controllers
 
                 ticketPurchase.Code = Guid.NewGuid();
                 ticketPurchase.StartDateTime = DateTime.Now.AddMinutes(_configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
-                ticketPurchase.EndDateTime = DateTime.Now.AddMinutes(type.Duration.Value*60 + _configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
+                ticketPurchase.EndDateTime = DateTime.Now.AddMinutes(type.Duration.Value * 60 + _configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
                 ticketPurchase.Price = type.Price;
                 user.Balance = user.Balance - type.Price * ticketPurchase.NumberOfPassangers;
 
@@ -116,7 +116,8 @@ namespace IO.Swagger.Controllers
 
                 ticketPurchase = _context.Purchases.Include(u => u.User).First(p => p.Id == ticketPurchase.Id);
                 return StatusCode(StatusCodes.Status201Created, ticketPurchase);
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 _logger.LogError(LoggingEvents.INSERT_ITEM, "AddTicketPurchase({ticketPurchase}) NOT ADDED", ticketPurchase);
                 return StatusCode(StatusCodes.Status500InternalServerError);
@@ -128,7 +129,13 @@ namespace IO.Swagger.Controllers
         /// searches tickets purchases
         /// </summary>
         /// <remarks>By passing in the appropriate options, you can search for available ticket in the system </remarks>
-        /// <param name="searchString">pass an optional search string for looking up tickets</param>
+        /// <param name="searchString">pass an optional search string for looking up tickets.
+        /// format: [command]:[value]
+        /// examples:
+        /// all:1 -> takes all tickets for user with id: 1
+        /// my:1 -> takes all ticket purchased for user id: 1 where end datetime is >= datetime.now
+        /// id:1 -> takes ticket purchase with id: 1
+        /// </param>
         /// <param name="skip">number of records to skip for pagination</param>
         /// <param name="limit">maximum number of records to return</param>
         /// <response code="200">search results matching criteria</response>
@@ -140,8 +147,8 @@ namespace IO.Swagger.Controllers
         public virtual IActionResult SearchTickets([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
         {
             int id;
-
-            searchString = System.Net.WebUtility.HtmlDecode(searchString);
+            string[] commands = { "all", "id", "my" };
+            searchString = WebUtility.HtmlDecode(searchString).ToLower();
 
             var searchItems = searchString.Split(':');
             if (searchItems.Length != 2)
@@ -151,12 +158,10 @@ namespace IO.Swagger.Controllers
             var searchBy = searchItems[0];
             var searchValue = searchItems[1];
 
-            if (searchBy != "all" && searchBy != "id" && searchBy != "my")
+            if (!commands.Contains(searchBy))
             {
                 return StatusCode(StatusCodes.Status400BadRequest, searchBy);
             }
-
-            
 
             if (!int.TryParse(searchValue, out id))
             {
@@ -166,21 +171,21 @@ namespace IO.Swagger.Controllers
             {
                 List<TicketPurchase> purchases;
                 TicketPurchase purchase;
-                if (searchBy == "id") { 
-                    purchase = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.Id == id).FirstOrDefault();
-                    return new ObjectResult(purchase);
-                }
-                else if(searchBy == "all")
+                switch (searchBy)
                 {
-                    purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.UserId == id).ToList();
-                    return new ObjectResult(purchases);
-                }
-                else // searchBy == "my"
-                {
-                    purchase = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => (c.UserId == id && c.EndDateTime > DateTime.Now)).OrderByDescending(p => p.StartDateTime).FirstOrDefault();
-                    return new ObjectResult(purchase);
-                }
-                
+                    case "id":
+                        purchase = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.Id == id).FirstOrDefault();
+                        return new ObjectResult(purchase);
+                    case "all":
+                        purchases = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => c.UserId == id).ToList();
+                        return new ObjectResult(purchases);
+                    case "my":
+                        purchase = _context.Purchases.Include(t => t.Type).Include(u => u.User).Where(c => (c.UserId == id && c.EndDateTime > DateTime.Now)).OrderByDescending(p => p.StartDateTime).FirstOrDefault();
+                        return new ObjectResult(purchase);
+                    default:
+                        _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchTickets({searchString}) BAD SEARCH REQUEST", searchString);
+                        return StatusCode(StatusCodes.Status400BadRequest);
+                };
             }
             catch (Exception)
             {

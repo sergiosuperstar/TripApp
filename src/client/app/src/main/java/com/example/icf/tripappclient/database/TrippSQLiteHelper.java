@@ -23,7 +23,7 @@ public class TrippSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_P_PRICE = "price";
     public static final String COLUMN_P_EXPENSE = "expense";
 
-    public static final String TABLE_TICKET = "payment";
+    public static final String TABLE_TICKET = "ticket";
     public static final String COLUMN_T_ID = "_id";
     public static final String COLUMN_T_TICKET = "ticket";
     public static final String COLUMN_T_DATE = "date";

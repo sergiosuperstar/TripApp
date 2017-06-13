@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,12 +26,10 @@ import com.example.icf.tripappclient.fragments.TicketHistory;
 import com.example.icf.tripappclient.fragments.TicketInfo;
 import com.example.icf.tripappclient.fragments.TicketPurchase;
 import com.example.icf.tripappclient.service.ServiceUtils;
-import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import io.swagger.client.model.PurchaseCode;
 import io.swagger.client.model.TicketType;
@@ -289,7 +286,7 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
                 }
 
-                Call<Boolean> call = ServiceUtils.codeService.put(code);
+                Call<Boolean> call = ServiceUtils.purchaseCodeService.put(code);
                 call.enqueue(new Callback<Boolean>() {
 
                     @Override
@@ -338,7 +335,7 @@ public class MainActivity extends AppCompatActivity
         code.setCode(UUID.fromString("7454723f-d20d-40d9-88b1-3f63d12e9d07"));
         code.setUser(session.getUser());
 
-        Call<Boolean> call = ServiceUtils.codeService.put(code);
+        Call<Boolean> call = ServiceUtils.purchaseCodeService.put(code);
         call.enqueue(new Callback<Boolean>() {
 
             @Override

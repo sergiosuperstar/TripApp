@@ -84,6 +84,11 @@ namespace IO.Swagger.Controllers
             try
             {
                 user.Password = _hasher.HashPassword(null, user.Password);
+                // Ensure token is created:
+                if (user.RefreshToken == null)
+                {
+                    user.RefreshToken = Guid.NewGuid();
+                }
                 _context.Users.Add(user);
                 _context.SaveChanges();
                 user.Password = null;
@@ -220,6 +225,8 @@ namespace IO.Swagger.Controllers
             try
             {
                 user.Password = _hasher.HashPassword(null, user.Password);
+                // Ensure token is changed:
+                user.RefreshToken = Guid.NewGuid();
                 _context.Entry(existingUser).CurrentValues.SetValues(user);
                 _context.SaveChanges();
                 return Ok(user);

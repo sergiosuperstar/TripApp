@@ -93,6 +93,37 @@ namespace IO.Swagger.Controllers
         }
 
         /// <summary>
+        /// searches purchase codes for specified user
+        /// </summary>
+        /// <remarks>By passing in the appropriate options, you can search for purchase codes that were used by user </remarks>
+        /// <param name="userId">pass an user id for desired user</param>
+        /// <response code="200">search results matching criteria</response>
+        /// <response code="400">bad input parameter</response>
+        [HttpGet]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/codes/user")]
+        [SwaggerOperation("SearchCodesForUser")]
+        [SwaggerResponse(200, type: typeof(List<PurchaseCode>))]
+        public virtual IActionResult SearchCodesForUser([FromQuery]string userId)
+        {
+            int id;
+            if (!int.TryParse(userId, out id))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            try
+            {
+                var codes = _context.Codes.Where(c => c.User.Id == id).ToList();
+                return new ObjectResult(codes);
+            }
+            catch (Exception)
+            {
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchCodes({userId}) NOT FOUND", userId);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+        }
+
+        /// <summary>
         /// searches purchase codes
         /// </summary>
         /// <remarks>By passing in the appropriate options, you can search for available purchase codes in the system </remarks>

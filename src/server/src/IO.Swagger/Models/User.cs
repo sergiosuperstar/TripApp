@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IO.Swagger.Models
 {
@@ -47,7 +48,8 @@ namespace IO.Swagger.Models
         /// <param name="Phone">Phone.</param>
         /// <param name="Role">Role (required).</param>
         /// <param name="Balance">Balance.</param>
-        public User(long? Id = null, string Username = null, string FirstName = null, string LastName = null, string Email = null, string Password = null, string Phone = null, string Role = null, double? Balance = null)
+        /// <param name="RefreshToken">RefreshToken.</param>
+        public User(long Id = 0, string Username = null, string FirstName = null, string LastName = null, string Email = null, string Password = null, string Phone = null, string Role = null, double? Balance = null, Guid? RefreshToken = null)
         {
             // to ensure "Username" is required (not null)
             if (Username == null)
@@ -76,6 +78,17 @@ namespace IO.Swagger.Models
             {
                 this.Role = Role;
             }
+
+            // to ensure "RefreshToken" is required (not null)
+            if (RefreshToken == null)
+            {
+                this.RefreshToken = Guid.NewGuid();
+            }
+            else
+            {
+                this.RefreshToken = RefreshToken;
+            }
+
             this.Id = Id;
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -89,7 +102,8 @@ namespace IO.Swagger.Models
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id")]
-        public long? Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Username
@@ -139,6 +153,11 @@ namespace IO.Swagger.Models
         [DataMember(Name="balance")]
         public double? Balance { get; set; }
 
+        /// <summary>
+        /// Gets or Sets Code
+        /// </summary>
+        [DataMember(Name = "RefreshToken")]
+        public Guid? RefreshToken { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -157,6 +176,7 @@ namespace IO.Swagger.Models
             sb.Append("  Phone: ").Append(Phone).Append("\n");
             sb.Append("  Role: ").Append(Role).Append("\n");
             sb.Append("  Balance: ").Append(Balance).Append("\n");
+            sb.Append("  RefreshToken: ").Append(RefreshToken).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -197,7 +217,6 @@ namespace IO.Swagger.Models
             return 
                 (
                     this.Id == other.Id ||
-                    this.Id != null &&
                     this.Id.Equals(other.Id)
                 ) && 
                 (
@@ -253,7 +272,7 @@ namespace IO.Swagger.Models
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (this.Id != null)
+                    if (this.Id != 0)
                     hash = hash * 59 + this.Id.GetHashCode();
                     if (this.Username != null)
                     hash = hash * 59 + this.Username.GetHashCode();
