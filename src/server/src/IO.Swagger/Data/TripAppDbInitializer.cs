@@ -63,9 +63,11 @@ namespace IO.Swagger.Data
             TicketPurchase purchase = new TicketPurchase(750, Guid.NewGuid(), 30.0d, DateTime.Now, DateTime.Now.AddMinutes(typeHour.Duration.Value*60), 1,typeHour, passenger);
             TicketPurchase purchase2 = new TicketPurchase(751, Guid.NewGuid(), 30.0d, DateTime.Now.AddHours(-3), DateTime.Now.AddHours(-2), 2, typeHour, passenger);
             TicketPurchase purchase3 = new TicketPurchase(752, Guid.NewGuid(), 30.0d, DateTime.Now.AddHours(-12), DateTime.Now.AddHours(12), 1, typeDay, passenger);
+            TicketPurchase purchase4 = new TicketPurchase(753, Guid.NewGuid(), 30.0d, DateTime.Now, DateTime.Now.AddHours(24*30), 1, typeMonth, passenger);
             context.Purchases.Add(purchase);
             context.Purchases.Add(purchase2);
             context.Purchases.Add(purchase3);
+            context.Purchases.Add(purchase4);
 
             // Validations:
             TicketValidation validation = new TicketValidation(1,DateTime.Now.AddMinutes(2), true, purchase, controller);

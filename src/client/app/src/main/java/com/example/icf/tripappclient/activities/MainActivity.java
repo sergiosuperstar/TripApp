@@ -184,10 +184,10 @@ public class MainActivity extends AppCompatActivity
             AccountBalance abFragment = new AccountBalance();
             changeFragment(abFragment);
         } else if (id == R.id.nav_camera) { // TODO: ispistati kontroloru podatke o ocitanoj karti (broj osoba itd) - dvd
-            /*Intent intent = new Intent(this, ContinuousCaptureActivity.class);
-            startActivity(intent);*/
+            Intent intent = new Intent(this, ContinuousCaptureActivity.class);
+            startActivity(intent);
 
-            mockValidation();
+            //mockValidation();
 
         } else if (id == R.id.nav_ticket_history) {
             TicketHistory thFragment = new TicketHistory();
