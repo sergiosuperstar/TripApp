@@ -1,5 +1,6 @@
 package com.example.icf.tripappclient.activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity
 
     private int selectedTicketTypeId;
     private ProgressDialog progress;
+
+    private Activity that = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,13 +169,19 @@ public class MainActivity extends AppCompatActivity
                         TicketInfo tiFragment = TicketInfo.newInstance(response.body());
                         changeFragment(tiFragment);
                     } else {
-                        //((MainActivity)getActivity()).respondNewPurchase(false, null);
+                        progress.dismiss();
+                        Toast.makeText(that, "No active tickets", Toast.LENGTH_LONG).show();
+                        Home homeFragment = new Home();
+                        changeFragment(homeFragment);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<io.swagger.client.model.TicketPurchase> call, Throwable t) {
-                    //((MainActivity)getActivity()).respondNewPurchase(false, null);
+                    progress.dismiss();
+                    Toast.makeText(that, "Could not connect to server.", Toast.LENGTH_LONG).show();
+                    Home homeFragment = new Home();
+                    changeFragment(homeFragment);
                 }
             });
 
@@ -180,12 +189,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_ticket_balance) {
             AccountBalance abFragment = new AccountBalance();
             changeFragment(abFragment);
-        } else if (id == R.id.nav_camera) { // TODO: ispistati kontroloru podatke o ocitanoj karti (broj osoba itd) - dvd
+        } else if (id == R.id.nav_camera) {
             Intent intent = new Intent(this, ContinuousCaptureActivity.class);
             startActivity(intent);
-
-            //mockValidation();
-
         } else if (id == R.id.nav_ticket_history) {
             TicketHistory thFragment = new TicketHistory();
             changeFragment(thFragment);
@@ -329,110 +335,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    /*protected void mockCode() {
 
-        PurchaseCode code = new PurchaseCode();
-        code.setCode(UUID.fromString("7454723f-d20d-40d9-88b1-3f63d12e9d07"));
-        code.setUser(session.getUser());
-
-        Call<Boolean> call = ServiceUtils.purchaseCodeService.put(code);
-        call.enqueue(new Callback<Boolean>() {
-
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if (response.code() == 200) {
-                    Boolean resp = response.body();
-
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-
-            }
-        });
-    }*/
-
-    protected void mockValidation() {
-
-        TicketValidation validation = new TicketValidation();
-        validation.setController(session.getUser());
-        validation.setTicket(new io.swagger.client.model.TicketPurchase("4d628fe2-bf62-4c4e-9d17-78b432041530"));
-        
-        Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketValidationService.add(validation);
-        call.enqueue(new Callback<io.swagger.client.model.TicketPurchase>() {
-
-            @Override
-            public void onResponse(Call<io.swagger.client.model.TicketPurchase> call, Response<io.swagger.client.model.TicketPurchase> response) {
-                if (response.code() == 200) {   // uspelo
-                    io.swagger.client.model.TicketPurchase ticket = response.body();
-
-                } else {   //  fail
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<io.swagger.client.model.TicketPurchase> call, Throwable t) {
-
-            }
-        });
-    }
-
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
-            if(result.getContents() == null) {
-                Log.d("MainActivity", "Cancelled scan");
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
-            } else {
-                TicketValidation validation = new TicketValidation();
-                validation.setController(session.getUser());
-                //TODO: postavljanje ticket uid u validation   validation.setTicket(new Ticket(UID)); - dvd
-                //TODO: unmock odgovor - dvd
-                Call<Boolean> call = ServiceUtils.ticketValidationService.add(validation);
-                call.enqueue(new Callback<Boolean>() {
-
-                    @Override
-                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                        if (response.code() == 200) {
-                            Boolean resp = response.body();
-
-                        } else {
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Boolean> call, Throwable t) {
-
-                    }
-                });
-
-
-
-                try {
-                    TimeUnit.MILLISECONDS.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                Boolean resp = (Math.random() < 0.5);
-
-
-                if (resp) {
-                    Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(this, "Ticket invalid", Toast.LENGTH_LONG).show();
-                }
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }*/
 
 }

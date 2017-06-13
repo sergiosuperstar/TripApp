@@ -49,7 +49,7 @@ public class ContinuousCaptureActivity extends Activity {
             lastText = result.getText();
             */
 
-            //TODO: activity should not sleep
+            //TODO: testiraj da li se gasi ekran - dvd
             Toast.makeText(that, "Scanned", Toast.LENGTH_SHORT).show();
 
             final TextView passengerCount = (TextView) findViewById(R.id.scanned_ticket_number_value);
