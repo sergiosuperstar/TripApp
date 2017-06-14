@@ -191,7 +191,7 @@ namespace IO.Swagger.Controllers
             try
             {
                 code.Used = true;
-                code.User = purchaseCode.User;
+                code.User = _context.Users.FirstOrDefault(u => u.Username == purchaseCode.User.Username);
                 code.UsageDateTime = DateTime.Now;
                 code.User.Balance += code.Value;
                 _context.Entry(code).State = EntityState.Modified;

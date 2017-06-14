@@ -203,8 +203,10 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_add){
-            View view = findViewById(R.id.addMoney);
-            scanVoucher(view);
+           /* View view = findViewById(R.id.addMoney);
+            scanVoucher(view);*/
+
+           mockCode();
         }
 
 
@@ -333,6 +335,26 @@ public class MainActivity extends AppCompatActivity
         integrator.setOrientationLocked(false);
         integrator.initiateScan();
 
+    }
+
+    protected void mockCode() {
+        PurchaseCode code = new PurchaseCode();
+        code.setCode(UUID.fromString("33994bf3-0489-4897-9b87-853c76124ee1"));
+        code.setUser(session.getUser());
+        Call<Boolean> call = ServiceUtils.purchaseCodeService.put(code);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.code() == 200) {
+                    Boolean resp = response.body();
+                    session.reloadUserBalance((MainActivity) that);
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+            }
+        });
     }
 
 
