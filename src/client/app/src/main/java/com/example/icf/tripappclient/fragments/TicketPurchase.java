@@ -106,8 +106,8 @@ public class TicketPurchase extends Fragment {
         TextView ticketHeader = (TextView) getView().findViewById(R.id.ticketHeader);
         ticketHeader.setText(type.getName());
 
-        TextView duration = (TextView) getView().findViewById(R.id.durationValue); // TODO: obrisati iz dizajna - dvd
-        duration.setText(type.getDuration() + " hours");
+       /* TextView duration = (TextView) getView().findViewById(R.id.durationValue);
+        duration.setText(type.getDuration() + " hours");*/
 
 
         //View view=inflater.inflate(R.layout.fragment_ticket_purchase, container, false);

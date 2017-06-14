@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,18 +8,80 @@
         android:id="@+id/barcode_scanner"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@+id/buttonsLayout"
-        android:layout_alignParentTop="true">
+        android:layout_above="@+id/infoLayout"
+        android:layout_alignParentTop="true"
+        android:keepScreenOn="true">
 
     </com.journeyapps.barcodescanner.DecoratedBarcodeView>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/buttonsLayout"
-        android:layout_toLeftOf="@+id/centerHorizont">
+        android:stretchColumns="*"
+        android:id="@+id/infoLayout"
+        >
+
+        <TableRow>
+            <TextView
+                android:id="@+id/scanned_ticket_validity_label"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="@string/scanned_ticket_validity_label" />
+
+            <TextView
+                android:id="@+id/scanned_ticket_validity_value"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="" />
+
+        </TableRow>
+
+
+        <TableRow>
+            <TextView
+                android:id="@+id/scanned_ticket_number_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Number of people:" />
+
+            <TextView
+                android:id="@+id/scanned_ticket_number_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="" />
+
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/scanned_ticket_date_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Valid through:" />
+
+            <TextView
+                android:id="@+id/scanned_ticket_date_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="" />
+
+        </TableRow>
+
+
+
+
+
+    </TableLayout>
+
+
+  <!--  <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/buttonsLayout2"
+        android:layout_toRightOf="@+id/centerHorizont">
 
         <Button
             android:layout_width="match_parent"
@@ -31,21 +94,6 @@
             android:layout_height="wrap_content"
             android:text="Resume"
             android:onClick="resume" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/centerHorizont" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/centerHorizont"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/buttonsLayout"
-        android:id="@+id/barcodePreview" />
+    </LinearLayout> -->
 
 </RelativeLayout>
