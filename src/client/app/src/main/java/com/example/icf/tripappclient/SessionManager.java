@@ -138,7 +138,7 @@ public class SessionManager {
                         editor.putString("balance", user.getBalance().toString());
                         editor.commit();
 
-                        AccountBalance abFragment = new AccountBalance();   // TODO: neki refresh balance stranice
+                        AccountBalance abFragment = new AccountBalance();
                         main.changeFragment(abFragment);
 
                     }

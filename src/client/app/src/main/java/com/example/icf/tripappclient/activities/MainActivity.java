@@ -305,8 +305,6 @@ public class MainActivity extends AppCompatActivity
                             if (resp){
                                 Toast.makeText(a, "Successfully added funds.", Toast.LENGTH_LONG).show();
                                 session.reloadUserBalance((MainActivity) that);
-                               /* AccountBalance abFragment = new AccountBalance();   // TODO: neki refresh balance stranice
-                                changeFragment(abFragment);*/
                             }else{
                                 Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
                             }
