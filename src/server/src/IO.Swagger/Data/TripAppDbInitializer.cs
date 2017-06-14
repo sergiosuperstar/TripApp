@@ -42,11 +42,11 @@ namespace IO.Swagger.Data
             context.Users.Add(devadmin);
 
             // Purchase codes:
-            PurchaseCode code = new PurchaseCode(1, Guid.Parse("bc495959-9aa7-447d-905d-0dfc74c16188"), 500.0d, DateTime.Now, null, false, null);
-            PurchaseCode code2 = new PurchaseCode(2, Guid.Parse("e1f80425-7f55-4a2a-b777-f6833c1758ae"), 5.0d, DateTime.Now, null, false, null);
-            PurchaseCode code3 = new PurchaseCode(3, Guid.Parse("33994bf3-0489-4897-9b87-853c76124ee1"), 30.0d, DateTime.Now, null, false, null);
-            PurchaseCode code4 = new PurchaseCode(4, Guid.Parse("6d043fbc-5fdc-40a0-9cbb-58bf7aef1744"), 10.0d, DateTime.Now, null, false, null);
-            PurchaseCode code5 = new PurchaseCode(5, Guid.Parse("6d043fac-5fdc-40a0-9cbb-58bf7aef1741"), 100.0d, DateTime.Now, null, false, null);
+            PurchaseCode code = new PurchaseCode(1, Guid.Parse("bc495959-9aa7-447d-905d-0dfc74c16188"), 500.0d, DateTime.Now.ToUniversalTime(), null, false, null);
+            PurchaseCode code2 = new PurchaseCode(2, Guid.Parse("e1f80425-7f55-4a2a-b777-f6833c1758ae"), 5.0d, DateTime.Now.ToUniversalTime(), null, false, null);
+            PurchaseCode code3 = new PurchaseCode(3, Guid.Parse("33994bf3-0489-4897-9b87-853c76124ee1"), 30.0d, DateTime.Now.ToUniversalTime(), null, false, null);
+            PurchaseCode code4 = new PurchaseCode(4, Guid.Parse("6d043fbc-5fdc-40a0-9cbb-58bf7aef1744"), 10.0d, DateTime.Now.ToUniversalTime(), null, false, null);
+            PurchaseCode code5 = new PurchaseCode(5, Guid.Parse("6d043fac-5fdc-40a0-9cbb-58bf7aef1741"), 100.0d, DateTime.Now.ToUniversalTime(), null, false, null);
             context.Codes.Add(code);
             context.Codes.Add(code2);
             context.Codes.Add(code3);
