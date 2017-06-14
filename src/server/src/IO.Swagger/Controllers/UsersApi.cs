@@ -38,6 +38,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using IO.Swagger.Logging;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace IO.Swagger.Controllers
 {
@@ -72,8 +74,15 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user")]
         [SwaggerOperation("CreateUser")]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public virtual IActionResult CreateUser([FromBody]User user)
         {
+            // How to use logged in user identity example:
+            var userName = User.Identity.Name;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userFirstName = User.FindFirst(ClaimTypes.GivenName).Value;
+            var userLastName = User.FindFirst(ClaimTypes.Surname).Value;
+
             // TODO ftn: Add validation to the user parameter!!!
             // Return 400 - BadRequest if not valid!
             if (_context.Users.FirstOrDefault(u => u.Username == user.Username) != null)
