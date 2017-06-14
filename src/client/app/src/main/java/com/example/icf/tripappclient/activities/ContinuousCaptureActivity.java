@@ -59,9 +59,9 @@ public class ContinuousCaptureActivity extends Activity {
             validity.setTypeface(null, Typeface.BOLD);
 
             TicketValidation validation = new TicketValidation();
-
+            TicketPurchase ticket;
             try {
-                TicketPurchase ticket = new io.swagger.client.model.TicketPurchase(result.getText());
+                ticket = new io.swagger.client.model.TicketPurchase(result.getText());
             }catch (Exception e){
                 beepManager.playBeepSound();
                 validity.setText("INVALID");
@@ -70,7 +70,7 @@ public class ContinuousCaptureActivity extends Activity {
                 validThrough.setText("");
                 return;
             }
-            validation.setTicket(new io.swagger.client.model.TicketPurchase(result.getText()));
+            validation.setTicket(ticket);
 
             Call<TicketPurchase> call = ServiceUtils.ticketValidationService.add(validation);
             call.enqueue(new Callback<TicketPurchase>() {
