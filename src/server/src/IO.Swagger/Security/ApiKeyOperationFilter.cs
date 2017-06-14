@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Swashbuckle.Swagger.Model;
 using Swashbuckle.SwaggerGen.Generator;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace IO.Swagger.Security
@@ -26,12 +27,16 @@ namespace IO.Swagger.Security
 
             if (isAuthorized && !allowAnonymous)
             {
-                
+                if (operation.Parameters == null)
+                {
+                    operation.Parameters = new List<IParameter>();
+                }
+
                 operation.Parameters.Add(new NonBodyParameter
                 {
                     Name = "Authorization",
                     In = "header",
-                    Description = "access token",
+                    Description = "Custom access token / api key",
                     Required = true,
                     Type = "string"
                 });

@@ -20,31 +20,23 @@
  * limitations under the License.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Swashbuckle.SwaggerGen.Annotations;
-using IO.Swagger.Models;
 using IO.Swagger.Data;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using IO.Swagger.Logging;
+using IO.Swagger.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Swashbuckle.SwaggerGen.Annotations;
+using System;
+using System.Linq;
 using System.Security.Claims;
 
 namespace IO.Swagger.Controllers
 {
     /// <summary>
-    /// 
+    /// Users API 
     /// </summary>
     public class UsersApiController : Controller
     {
@@ -64,7 +56,7 @@ namespace IO.Swagger.Controllers
         }
 
         /// <summary>
-        /// Creates user
+        /// Creates / Registers user
         /// </summary>
         /// <remarks>This can be done by any user.</remarks>
         /// <param name="user">Created user object</param>
@@ -74,15 +66,8 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user")]
         [SwaggerOperation("CreateUser")]
-        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public virtual IActionResult CreateUser([FromBody]User user)
         {
-            // How to use logged in user identity example:
-            var userName = User.Identity.Name;
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userFirstName = User.FindFirst(ClaimTypes.GivenName).Value;
-            var userLastName = User.FindFirst(ClaimTypes.Surname).Value;
-
             // TODO ftn: Add validation to the user parameter!!!
             // Return 400 - BadRequest if not valid!
             if (_context.Users.FirstOrDefault(u => u.Username == user.Username) != null)
@@ -122,11 +107,11 @@ namespace IO.Swagger.Controllers
         [HttpDelete]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
         [SwaggerOperation("DeleteUser")]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public virtual void DeleteUser([FromRoute]string username)
         {
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Gets user by username
@@ -139,8 +124,18 @@ namespace IO.Swagger.Controllers
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
         [SwaggerOperation("GetUserByUsername")]
         [SwaggerResponse(200, type: typeof(User))]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public virtual IActionResult GetUserByUsername([FromRoute]string username)
         {
+            // EXAMPLE: How to use logged in user identity:
+            var userName = User.Identity.Name;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userFirstName = User.FindFirst(ClaimTypes.GivenName).Value;
+            var userLastName = User.FindFirst(ClaimTypes.Surname).Value;
+
+            // TODO: Check if your role allows you to get user by username?
+            // if (!User.IsInRole("administrator")){ return StatusCode(StatusCodes.YOU HAVE NO RIGHT....
+
             try
             {
                 var user = _context.Users.FirstOrDefault(u => u.Username == username);
@@ -162,7 +157,6 @@ namespace IO.Swagger.Controllers
         /// <summary>
         /// Logs user into the system
         /// </summary>
-
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <response code="200">successful operation</response>
@@ -201,6 +195,7 @@ namespace IO.Swagger.Controllers
         [HttpGet]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/logout")]
         [SwaggerOperation("LogoutUser")]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public IActionResult LogoutUser()
         {
             // TODO FTN: Add support for security - read user token or whatever!
@@ -221,6 +216,7 @@ namespace IO.Swagger.Controllers
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
         [SwaggerOperation("UpdateUser")]
         [SwaggerResponse(200, type: typeof(User))]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public virtual IActionResult UpdateUser([FromRoute]string username, [FromBody]User user)
         {
             // TODO ftn: Add validation to the user parameter!!!
