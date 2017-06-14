@@ -111,8 +111,8 @@ namespace IO.Swagger.Controllers
                 }
 
                 ticketPurchase.Code = Guid.NewGuid();
-                ticketPurchase.StartDateTime = DateTime.Now.AddMinutes(_configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
-                ticketPurchase.EndDateTime = DateTime.Now.AddMinutes(type.Duration.Value * 60 + _configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
+                ticketPurchase.StartDateTime = DateTime.Now.ToUniversalTime().AddMinutes(_configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
+                ticketPurchase.EndDateTime = DateTime.Now.ToUniversalTime().AddMinutes(type.Duration.Value * 60 + _configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<int>(Startup.AppSettingsMinutesUntilTicketStartKey));
                 ticketPurchase.Price = type.Price;
                 user.Balance = user.Balance - type.Price * ticketPurchase.NumberOfPassangers;
 
