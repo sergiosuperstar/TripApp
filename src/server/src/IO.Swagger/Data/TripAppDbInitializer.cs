@@ -48,6 +48,10 @@ namespace IO.Swagger.Data
             PurchaseCode code4 = new PurchaseCode(4, Guid.Parse("6d043fbc-5fdc-40a0-9cbb-58bf7aef1744"), 10.0d, DateTime.Now, null, false, null);
             PurchaseCode code5 = new PurchaseCode(5, Guid.Parse("6d043fac-5fdc-40a0-9cbb-58bf7aef1741"), 100.0d, DateTime.Now, null, false, null);
             context.Codes.Add(code);
+            context.Codes.Add(code2);
+            context.Codes.Add(code3);
+            context.Codes.Add(code4);
+            context.Codes.Add(code5);
 
             // Ticket types:
             TicketType typeHour = new TicketType(1, "Hourly ticket", 1, 1.2d);

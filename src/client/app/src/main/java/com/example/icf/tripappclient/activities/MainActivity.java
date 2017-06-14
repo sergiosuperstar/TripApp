@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         changeFragment(tpFragment);
     }
 
-    private void changeFragment(Fragment destinationFragment) {
+    public void changeFragment(Fragment destinationFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity
 
                             if (resp){
                                 Toast.makeText(a, "Successfully added funds.", Toast.LENGTH_LONG).show();
-                                session.reloadUser();
+                                session.reloadUserBalance((MainActivity) that);
                                /* AccountBalance abFragment = new AccountBalance();   // TODO: neki refresh balance stranice
                                 changeFragment(abFragment);*/
                             }else{
