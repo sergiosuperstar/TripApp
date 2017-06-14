@@ -13,13 +13,10 @@ import android.widget.TextView;
 
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.SessionManager;
-import com.example.icf.tripappclient.activities.LoginActivity;
 import com.example.icf.tripappclient.activities.MainActivity;
 import com.example.icf.tripappclient.service.ServiceUtils;
 
 import io.swagger.client.model.TicketType;
-import io.swagger.client.model.User;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,7 +68,7 @@ public class TicketPurchase extends Fragment {
                 int num = Integer.parseInt(mySpinner.getSelectedItem().toString());
                 purchase.setNumberOfPassangers(num);
 
-                Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketPurchaseService.add(purchase);
+                Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketPurchaseService.add(session.getUser().getId(), purchase);
                 call.enqueue(new Callback<io.swagger.client.model.TicketPurchase>() {
 
                     @Override

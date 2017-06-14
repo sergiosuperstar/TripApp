@@ -28,6 +28,7 @@ import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @ApiModel(description = "")
 public class User implements Serializable{
@@ -50,6 +51,8 @@ public class User implements Serializable{
   private String role = null;
   @SerializedName("balance")
   private Double balance = null;
+  @SerializedName("refreshToken")
+  private UUID refreshToken = null;
 
   /**
    **/
@@ -141,6 +144,13 @@ public class User implements Serializable{
     this.balance = balance;
   }
 
+  @ApiModelProperty(value = "")
+  public UUID getRefreshToken() {
+    return refreshToken;
+  }
+  public void setRefreshToken(UUID refreshToken) {
+    this.refreshToken = refreshToken;
+  }
 
   @Override
   public boolean equals(Object o) {
