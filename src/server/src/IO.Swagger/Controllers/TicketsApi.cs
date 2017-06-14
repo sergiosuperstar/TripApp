@@ -20,24 +20,21 @@
  * limitations under the License.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Swashbuckle.SwaggerGen.Annotations;
-using IO.Swagger.Models;
 using IO.Swagger.Data;
+using IO.Swagger.Logging;
+using IO.Swagger.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using IO.Swagger.Logging;
+using Swashbuckle.SwaggerGen.Annotations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Security.Claims;
 
 namespace IO.Swagger.Controllers
 {
@@ -74,9 +71,12 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets")]
         [SwaggerOperation("AddTicketPurchase")]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public virtual IActionResult AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
         {
             // TODO FTN: Add validation!
+            var loggedInUserId = long.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            
 
             var hasTypeAndUser = ticketPurchase != null
                                 && ticketPurchase.TypeId != null
@@ -84,11 +84,16 @@ namespace IO.Swagger.Controllers
                                 && ticketPurchase.UserId != null
                                 && ticketPurchase.UserId > 0
                                 && ticketPurchase.NumberOfPassangers > 0;
+
             if (!hasTypeAndUser)
             {
                 return StatusCode(StatusCodes.Status400BadRequest, ticketPurchase);
             }
 
+            if (loggedInUserId != ticketPurchase.UserId)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ticketPurchase);
+            }
 
             try
             {
