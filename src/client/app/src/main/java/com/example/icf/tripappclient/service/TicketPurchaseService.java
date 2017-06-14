@@ -39,7 +39,7 @@ public interface TicketPurchaseService {
             "Content-Type:application/json"
     })
     @POST("tickets/")
-    Call<TicketPurchase> add(@Header("Authorization") long UserId, @Body TicketPurchase ticketPurchase);
+    Call<TicketPurchase> add(@Header("Authorization") String auth, @Body TicketPurchase ticketPurchase);
 
     /*
     @Headers({

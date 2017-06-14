@@ -68,7 +68,7 @@ public class TicketPurchase extends Fragment {
                 int num = Integer.parseInt(mySpinner.getSelectedItem().toString());
                 purchase.setNumberOfPassangers(num);
 
-                Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketPurchaseService.add(session.getUser().getId(), purchase);
+                Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketPurchaseService.add(session.getUser().getId().toString(), purchase);
                 call.enqueue(new Callback<io.swagger.client.model.TicketPurchase>() {
 
                     @Override
