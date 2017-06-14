@@ -36,11 +36,6 @@
 
         <activity android:name=".activities.ContinuousCaptureActivity"></activity>
 
-        <provider
-            android:name="com.example.icf.tripappclient.database.DBContentProvider"
-            android:authorities="com.example.icf.tripappclient" >
-        </provider>
-
     </application>
 
 </manifest>

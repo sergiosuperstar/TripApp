@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.example.icf.tripappclient.activities.LoginActivity;
+import com.example.icf.tripappclient.database.DatabaseHelper;
 import com.example.icf.tripappclient.service.ServiceUtils;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import io.swagger.client.model.User;
 import okhttp3.ResponseBody;
@@ -24,6 +26,7 @@ public class SessionManager {
     private SharedPreferences pref;
     private Editor editor;
     private Context _context;
+    private DatabaseHelper databaseHelper = null;
     private int PRIVATE_MODE = 0;
 
     /*private boolean loggedIn = false;
@@ -99,6 +102,7 @@ public class SessionManager {
     }
 
     public void logOut(){
+
         editor.clear();
         editor.commit();
     }
@@ -164,4 +168,10 @@ public class SessionManager {
 
     }
 
+    public DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper = OpenHelperManager.getHelper(_context, DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
 }

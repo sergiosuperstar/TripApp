@@ -20,6 +20,6 @@ public interface TickeTypeService {
             "Content-Type:application/json"
     })
     @GET("tickets/alltypes")
-    Call<TicketType> get();
+    Call<List<TicketType>> get();
 
 }

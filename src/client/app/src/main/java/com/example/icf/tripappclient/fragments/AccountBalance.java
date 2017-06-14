@@ -13,18 +13,22 @@ import android.widget.TextView;
 
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.SessionManager;
+import com.example.icf.tripappclient.activities.MainActivity;
 import com.example.icf.tripappclient.adapters.PaymentAdapter;
-import com.example.icf.tripappclient.database.DBContentProvider;
-import com.example.icf.tripappclient.database.TrippSQLiteHelper;
+import com.j256.ormlite.dao.Dao;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import io.swagger.client.model.AdapterPayment;
+import io.swagger.client.model.*;
+import io.swagger.client.model.TicketPurchase;
 
 /**
  * Created by Vuletic on 28.4.2017.
@@ -80,44 +84,24 @@ public class AccountBalance extends Fragment {
 
     private void fillData() {
 
-        payments = new ArrayList<AdapterPayment>();
+        payments = new ArrayList<>();
 
-        String[] projection = new String[]{ TrippSQLiteHelper.COLUMN_P_ID,
-                TrippSQLiteHelper.COLUMN_P_TICKET, TrippSQLiteHelper.COLUMN_P_DATE,
-                TrippSQLiteHelper.COLUMN_P_EXPENSE, TrippSQLiteHelper.COLUMN_P_PRICE};
-        //String whereClause = TrippSQLiteHelper.COLUMN_T_END + " < ?";
-        //String[] whereArgs = new String[] { new Date().toString() };
-        String orderBy = TrippSQLiteHelper.COLUMN_P_DATE;
+        final Dao<AdapterPayment, Integer> paymentsDAO = ((MainActivity)getActivity()).getSession().getHelper().getPaymentDAO();
 
-        Cursor cursor = resolver.query(DBContentProvider.CONTENT_URL_P, null, null, null, orderBy);
-
-        if(cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndex(TrippSQLiteHelper.COLUMN_P_ID));
-                double price = cursor.getDouble(cursor.getColumnIndex(TrippSQLiteHelper.COLUMN_P_TICKET));
-                String date = cursor.getString(cursor.getColumnIndex(TrippSQLiteHelper.COLUMN_P_DATE));
-                String name = cursor.getString(cursor.getColumnIndex(TrippSQLiteHelper.COLUMN_P_EXPENSE));
-                boolean expense = cursor.getInt(cursor.getColumnIndex(TrippSQLiteHelper.COLUMN_P_PRICE)) > 0;
-
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY HH:mm", Locale.getDefault());
-                java.util.Date dateStr = null;
-                try {
-                    dateStr = sdf.parse(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                AdapterPayment payment = new AdapterPayment();
-
-                payment.setPaymentId(id);
-                payment.setPrice(price);
-                payment.setEndDateTime(dateStr);
-                payment.setTicketName(name);
-                payment.setIsExpense(expense);
-
-                payments.add(payment);
-            } while (cursor.moveToNext());
+        try {
+            payments = paymentsDAO.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        cursor.close();
 
+        Collections.sort(payments, new CustomComparator());
+
+    }
+
+    private class CustomComparator implements Comparator<AdapterPayment> {
+        @Override
+        public int compare(AdapterPayment o1, AdapterPayment o2) {
+            return o1.getEndDateTime().compareTo(o2.getEndDateTime());
+        }
     }
 }

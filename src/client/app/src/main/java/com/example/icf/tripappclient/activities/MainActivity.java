@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.SessionManager;
+import com.example.icf.tripappclient.database.DatabaseHelper;
 import com.example.icf.tripappclient.fragments.AccountBalance;
 import com.example.icf.tripappclient.fragments.Home;
 import com.example.icf.tripappclient.fragments.TicketHistory;
@@ -28,6 +29,7 @@ import com.example.icf.tripappclient.fragments.TicketPurchase;
 import com.example.icf.tripappclient.service.ServiceUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import java.util.UUID;
 
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity
 
     private SessionManager session;
     private DrawerLayout drawer;
+    private DatabaseHelper databaseHelper = null;
 
     private int selectedTicketTypeId;
     private ProgressDialog progress;
@@ -434,5 +437,18 @@ public class MainActivity extends AppCompatActivity
             super.onActivityResult(requestCode, resultCode, data);
         }
     }*/
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
+    }
+
+    public SessionManager getSession() {
+        return session;
+    }
 
 }

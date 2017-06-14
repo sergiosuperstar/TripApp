@@ -70,7 +70,7 @@ public class TicketInfo extends Fragment {
 
         try {
             ImageView imageView = (ImageView) view.findViewById(R.id.qrExample);
-            Bitmap bitmap = encodeAsBitmap(ticket.getCode().toString());
+            Bitmap bitmap = encodeAsBitmap(ticket.getUUIDCode().toString());
             imageView.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();

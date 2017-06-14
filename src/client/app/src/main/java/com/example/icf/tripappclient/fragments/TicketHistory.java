@@ -12,14 +12,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.icf.tripappclient.R;
+import com.example.icf.tripappclient.activities.MainActivity;
 import com.example.icf.tripappclient.adapters.TicketAdapter;
-import com.example.icf.tripappclient.database.DBContentProvider;
-import com.example.icf.tripappclient.database.TrippSQLiteHelper;
+import com.j256.ormlite.dao.Dao;
+
 import io.swagger.client.model.TicketPurchase;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -82,85 +86,34 @@ public class TicketHistory extends Fragment {
 
     private void fillData() {
 
-        ticketsValid = new ArrayList<TicketPurchase>();
-        ticketsExpired = new ArrayList<TicketPurchase>();
+        ticketsValid = new ArrayList<>();
+        ticketsExpired = new ArrayList<>();
 
-        String[] projection = new String[]{ TrippSQLiteHelper.COLUMN_T_ID,
-                TrippSQLiteHelper.COLUMN_T_CODE, TrippSQLiteHelper.COLUMN_T_PRICE,
-                TrippSQLiteHelper.COLUMN_T_START, TrippSQLiteHelper.COLUMN_T_END,
-                TrippSQLiteHelper.COLUMN_T_PASSANGERS, TrippSQLiteHelper.COLUMN_T_TICKET};
-        String whereClauseExp = TrippSQLiteHelper.COLUMN_T_END + " < ?";
-        String whereClauseVal = TrippSQLiteHelper.COLUMN_T_END + " > ?";
-        String[] whereArgs = new String[] { new Date().toString() };
-        String orderBy = TrippSQLiteHelper.COLUMN_T_START;
+        List<TicketPurchase> tickets = new ArrayList<>();
+        final Dao<TicketPurchase, Integer> ticketDAO = ((MainActivity)getActivity()).getSession().getHelper().getTicketDAO();
 
-        Cursor cursor_valid = resolver.query(DBContentProvider.CONTENT_URL_T, null, whereClauseVal, whereArgs, orderBy);
-        Cursor cursor_expired = resolver.query(DBContentProvider.CONTENT_URL_T, null, whereClauseExp, whereArgs, orderBy);
-
-        if(cursor_valid.moveToFirst()) {
-            do {
-                int id = cursor_valid.getInt(cursor_valid.getColumnIndex(TrippSQLiteHelper.COLUMN_T_ID));
-                String code = cursor_valid.getString(cursor_valid.getColumnIndex(TrippSQLiteHelper.COLUMN_T_CODE));
-                double price = cursor_valid.getDouble(cursor_valid.getColumnIndex(TrippSQLiteHelper.COLUMN_T_PRICE));
-                String start = cursor_valid.getString(cursor_valid.getColumnIndex(TrippSQLiteHelper.COLUMN_T_START));
-                String end = cursor_valid.getString(cursor_valid.getColumnIndex(TrippSQLiteHelper.COLUMN_T_END));
-                int passangers = cursor_valid.getInt(cursor_valid.getColumnIndex(TrippSQLiteHelper.COLUMN_T_PASSANGERS));
-                String type = cursor_valid.getString(cursor_valid.getColumnIndex(TrippSQLiteHelper.COLUMN_T_TICKET));
-
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY HH:mm", Locale.getDefault());
-                java.util.Date dstart = null, dend = null;
-                try {
-                    dstart = sdf.parse(start);
-                    dend = sdf.parse(end);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                TicketPurchase ticket = new TicketPurchase(code);
-                TicketType tt = new TicketType();
-                tt.setName(type);
-                ticket.setId(id);
-                ticket.setPrice(price);
-                ticket.setStartDateTime(dstart);
-                ticket.setEndDateTime(dend);
-                ticket.setNumberOfPassangers(passangers);
-                ticket.setType(tt);
-
-                ticketsValid.add(ticket);
-            } while (cursor_valid.moveToNext());
+        try {
+            tickets = ticketDAO.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        cursor_valid.close();
 
-        if(cursor_expired.moveToFirst()){
-            do {
-                int id = cursor_expired.getInt(cursor_expired.getColumnIndex(TrippSQLiteHelper.COLUMN_T_ID));
-                String code = cursor_expired.getString(cursor_expired.getColumnIndex(TrippSQLiteHelper.COLUMN_T_CODE));
-                double price = cursor_expired.getDouble(cursor_expired.getColumnIndex(TrippSQLiteHelper.COLUMN_T_PRICE));
-                String start = cursor_expired.getString(cursor_expired.getColumnIndex(TrippSQLiteHelper.COLUMN_T_START));
-                String end = cursor_expired.getString(cursor_expired.getColumnIndex(TrippSQLiteHelper.COLUMN_T_END));
-                int passangers = cursor_expired.getInt(cursor_expired.getColumnIndex(TrippSQLiteHelper.COLUMN_T_PASSANGERS));
-                String type = cursor_expired.getString(cursor_expired.getColumnIndex(TrippSQLiteHelper.COLUMN_T_TICKET));
-
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY HH:mm", Locale.getDefault());
-                java.util.Date dstart = null, dend = null;
-                try {
-                    dstart = sdf.parse(start);
-                    dend = sdf.parse(end);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                TicketPurchase ticket = new TicketPurchase(code);
-                TicketType tt = new TicketType();
-                tt.setName(type);
-                ticket.setId(id);
-                ticket.setPrice(price);
-                ticket.setStartDateTime(dstart);
-                ticket.setEndDateTime(dend);
-                ticket.setNumberOfPassangers(passangers);
-                ticket.setType(tt);
-
+        Date currentTime = new Date();
+        for (TicketPurchase ticket: tickets) {
+            if (ticket.getEndDateTime().after(currentTime)) {
+                ticketsValid.add(ticket);
+            } else {
                 ticketsExpired.add(ticket);
-            } while (cursor_expired.moveToNext());
-            cursor_expired.close();
+            }
+        }
+        Collections.sort(ticketsValid, new CustomComparator());
+        Collections.sort(ticketsExpired, new CustomComparator());
+    }
+
+    private class CustomComparator implements Comparator<TicketPurchase> {
+        @Override
+        public int compare(TicketPurchase o1, TicketPurchase o2) {
+            return o1.getEndDateTime().compareTo(o2.getEndDateTime());
         }
     }
 }

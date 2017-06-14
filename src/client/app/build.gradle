@@ -4,6 +4,8 @@ repositories {
     jcenter()
 }
 
+apply plugin: 'com.android.application'
+
 android {
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion 25
@@ -15,6 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -60,10 +63,8 @@ dependencies {
     })
 
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.gson:gson:$gson_version"
     compile "org.apache.httpcomponents:httpcore:$httpcore_version"
     compile "org.apache.httpcomponents:httpmime:$httpmime_version"
-    compile "org.apache.httpcomponents:httpclient-android:$httpclient_version"
     compile "com.android.volley:volley:${volley_version}"
     testCompile "junit:junit:$junit_version"
     testCompile "org.robolectric:robolectric:${robolectric_version}"
@@ -79,8 +80,9 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile group: 'com.j256.ormlite', name: 'ormlite-core', version: '4.48'
+    compile group: 'com.j256.ormlite', name: 'ormlite-android', version: '4.48'
 }
-
 /*dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.overflow_items.espresso:espresso-core:2.2.2', {
