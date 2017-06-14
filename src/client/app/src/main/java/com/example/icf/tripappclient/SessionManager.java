@@ -42,25 +42,6 @@ public class SessionManager {
     }
 
     public void login(LoginActivity activity, String username, String password){
-//
-//        UsersApi api = new UsersApi();
-//
-//        // TODO FTN: Test call - for some reason we are getting time out exception!!!
-//
-//        // TODO FTN: FOUND IT. It should be called on another thread (NOT UI THREAD)!!!
-//        /*try {
-//            String result = api.loginUser(username, password);
-//        } catch (TimeoutException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ApiException e) {
-//            e.printStackTrace();
-//        }*/
-//
-
         final LoginActivity login = activity;
         Call<User> call = ServiceUtils.userService.login(username, password);
         call.enqueue(new Callback<User>() {

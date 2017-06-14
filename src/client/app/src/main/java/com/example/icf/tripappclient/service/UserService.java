@@ -64,7 +64,7 @@ public interface UserService {
             "Content-Type:application/json"
     })
     @PUT("user/{username}")
-    Call<User> add(@Path("username") String username, @Body User user);
+    Call<User> add(@Header("Authorization") long UserId, @Path("username") String username, @Body User user);
 
 
 }
