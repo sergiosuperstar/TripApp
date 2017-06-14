@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.example.icf.tripappclient.activities.LoginActivity;
+import com.example.icf.tripappclient.activities.MainActivity;
+import com.example.icf.tripappclient.fragments.AccountBalance;
 import com.example.icf.tripappclient.service.ServiceUtils;
 
 import io.swagger.client.model.User;
@@ -113,7 +115,9 @@ public class SessionManager {
         return pref.getString("role", "none");
     }
 
-    public void reloadUser(){
+    public void reloadUserBalance(MainActivity activity){
+
+        final MainActivity main = activity;
 
         Call<User> call = ServiceUtils.userService.get(getUser().getUsername());
         call.enqueue(new Callback<User>() {
@@ -133,6 +137,9 @@ public class SessionManager {
                         editor.putString("role", user.getRole());
                         editor.putString("balance", user.getBalance().toString());
                         editor.commit();
+
+                        AccountBalance abFragment = new AccountBalance();   // TODO: neki refresh balance stranice
+                        main.changeFragment(abFragment);
 
                     }
                 }

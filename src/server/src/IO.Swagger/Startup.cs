@@ -101,26 +101,11 @@ namespace IO.Swagger
                             }
                         );
 
-
-                var apiKeyScheme = new ApiKeyScheme()
-                {
-                    Description = "Api key authentication",
-                    Name = "apiKey",
-                    In = "header",
-                    Type = nameof(ApiKeyScheme)
-                };
-
-                options.AddSecurityDefinition("apiKey", apiKeyScheme);
-
                 options.DescribeAllEnumsAsStrings();
-
                 options.OperationFilter<ApiKeyOperationFilter>();
-
                 var comments = new XPathDocument($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
                 options.OperationFilter<XmlCommentsOperationFilter>(comments);
-
                 options.ModelFilter<XmlCommentsModelFilter>(comments);
-
             });
 
             services.AddSingleton<IConfiguration>(Configuration);

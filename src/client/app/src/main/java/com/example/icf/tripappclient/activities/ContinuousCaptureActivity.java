@@ -49,7 +49,6 @@ public class ContinuousCaptureActivity extends Activity {
             lastText = result.getText();
             */
 
-            //TODO: testiraj da li se gasi ekran - dvd
             Toast.makeText(that, "Scanned", Toast.LENGTH_SHORT).show();
 
             final TextView passengerCount = (TextView) findViewById(R.id.scanned_ticket_number_value);
@@ -69,18 +68,22 @@ public class ContinuousCaptureActivity extends Activity {
                         io.swagger.client.model.TicketPurchase ticket = response.body();
                         beepManager.playBeepSound();
                         validity.setText("Valid");
-                        passengerCount.setText(ticket.getNumberOfPassangers());
+                        passengerCount.setText(ticket.getNumberOfPassangers().toString());
                         validThrough.setText(ticket.getEndDateTimeString());
 
                     } else if (response.code() == 406){
 
                         beepManager.playBeepSound();
                         validity.setText("Expired");
+                        passengerCount.setText("");
+                        validThrough.setText("");
 
 
                     } else{
                         beepManager.playBeepSound();
                         validity.setText("Invalid");
+                        passengerCount.setText("");
+                        validThrough.setText("");
                     }
                 }
 
@@ -88,6 +91,8 @@ public class ContinuousCaptureActivity extends Activity {
                 public void onFailure(Call<io.swagger.client.model.TicketPurchase> call, Throwable t) {
                     beepManager.playBeepSound();
                     validity.setText("Server error");
+                    passengerCount.setText("");
+                    validThrough.setText("");
                 }
             });
 

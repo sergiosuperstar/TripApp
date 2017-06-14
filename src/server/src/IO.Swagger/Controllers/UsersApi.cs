@@ -27,9 +27,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.SwaggerGen.Annotations;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 
@@ -241,6 +243,34 @@ namespace IO.Swagger.Controllers
                 _logger.LogError(LoggingEvents.UPDATE_ITEM, "UpdateUser({username}) NOT UPDATED", username);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
+
+        /// <summary>
+        /// searches users
+        /// </summary>
+        /// <remarks>By passing in the appropriate options, you can search for available users in the system </remarks>
+        /// <param name="searchString">pass an optional search string for looking up users</param>
+        /// <param name="skip">number of records to skip for pagination</param>
+        /// <param name="limit">maximum number of records to return</param>
+        /// <response code="200">search results matching criteria</response>
+        /// <response code="400">bad input parameter</response>
+        [HttpGet]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/user")]
+        [SwaggerOperation("SearchUsers")]
+        [SwaggerResponse(200, type: typeof(List<User>))]
+        public virtual IActionResult SearchUsers([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
+        {
+            try
+            {
+                var users = _context.Users;
+                return new ObjectResult(users);
+            }
+            catch (Exception)
+            {
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchUsers({searchString}) NOT FOUND", searchString);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
     }
 }
