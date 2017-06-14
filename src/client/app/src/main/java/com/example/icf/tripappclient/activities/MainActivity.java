@@ -203,10 +203,10 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_add){
-           /* View view = findViewById(R.id.addMoney);
-            scanVoucher(view);*/
+            View view = findViewById(R.id.addMoney);
+            scanVoucher(view);
 
-           mockCode();
+           //mockCode();
         }
 
 
@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    protected void mockCode() {
+    /*protected void mockCode() {
         PurchaseCode code = new PurchaseCode();
         code.setCode(UUID.fromString("33994bf3-0489-4897-9b87-853c76124ee1"));
         code.setUser(session.getUser());
@@ -356,7 +356,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
-
+*/
 
 
 }

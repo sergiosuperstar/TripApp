@@ -119,7 +119,7 @@ public class SessionManager {
 
         final MainActivity main = activity;
 
-        Call<User> call = ServiceUtils.userService.get(getUser().getUsername());
+        Call<User> call = ServiceUtils.userService.get(getUser().getId().toString(), getUser().getUsername());
         call.enqueue(new Callback<User>() {
 
             @Override

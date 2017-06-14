@@ -64,13 +64,13 @@ public class AccountBalance extends Fragment {
 
     }
 
-    @Override
+   /* @Override
     public void onResume() {
         super.onResume();
 
         TextView balance = (TextView) getView().findViewById(R.id.balanceValue);
         balance.setText(String.format("%.2f", session.getUser().getBalance()));
 
-    }
+    }*/
 
 }
