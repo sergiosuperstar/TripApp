@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "")
 public class AdapterPayment implements Serializable {
 
-    @DatabaseField(id = true, generatedId = true)
+    @DatabaseField(generatedId = true)
     @SerializedName("paymentId")
     private Integer paymentId = null;
 
@@ -39,7 +39,6 @@ public class AdapterPayment implements Serializable {
     private boolean isExpense = false;
 
     public AdapterPayment() {
-
     }
 
     public AdapterPayment(Double price, Date endDateTime, String ticketName, boolean isExpense) {

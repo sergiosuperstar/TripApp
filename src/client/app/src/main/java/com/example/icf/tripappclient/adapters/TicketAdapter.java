@@ -17,17 +17,18 @@ import java.util.Date;
 import java.util.List;
 
 import io.swagger.client.model.TicketPurchase;
+import io.swagger.client.model.TicketPurchaseLocal;
 
 /**
  * Created by NemanjaM on 1.6.2017.
  */
 
-public class TicketAdapter extends ArrayAdapter<TicketPurchase> {
+public class TicketAdapter extends ArrayAdapter<TicketPurchaseLocal> {
 
     private Context context;
-    private List<TicketPurchase> tickets;
+    private List<TicketPurchaseLocal> tickets;
 
-    public TicketAdapter(Context context, List<TicketPurchase> tickets) {
+    public TicketAdapter(Context context, List<TicketPurchaseLocal> tickets) {
         super(context, R.layout.single_ticket ,tickets);
         this.context = context;
         this.tickets = tickets;
@@ -45,7 +46,7 @@ public class TicketAdapter extends ArrayAdapter<TicketPurchase> {
 
         double cost = tickets.get(position).getPrice();
         Date date = tickets.get(position).getEndDateTime();
-        String ticket = tickets.get(position).getType().getName();
+        String ticket = tickets.get(position).getTypeString();
 
         String dateValue = new SimpleDateFormat("dd.MM.'yy (HH:mm)").format(date);
         String costValue = String.format("%.2f", cost);

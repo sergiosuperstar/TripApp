@@ -23,6 +23,7 @@ import io.swagger.client.api.UsersApi;
 import io.swagger.client.model.AdapterPayment;
 import io.swagger.client.model.PurchaseCode;
 import io.swagger.client.model.TicketPurchase;
+import io.swagger.client.model.TicketPurchaseLocal;
 import io.swagger.client.model.TicketType;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -152,8 +153,11 @@ public class LoginActivity extends AppCompatActivity {
                         String ticketName = ticket.getType().getName();
                         boolean isExpense = true;
                         AdapterPayment payment = new AdapterPayment(price, endDateTime, ticketName, isExpense);
+                        TicketPurchaseLocal ticketLocal = new TicketPurchaseLocal(ticket.getCode().toString(),
+                                price, ticket.getStartDateTime(), endDateTime, ticket.getNumberOfPassangers(),
+                                ticketName, ticket.getUserId());
                         try {
-                            session.getHelper().getTicketDAO().create(ticket);
+                            session.getHelper().getTicketDAO().create(ticketLocal);
                             session.getHelper().getPaymentDAO().create(payment);
                         } catch (SQLException e) {
                             e.printStackTrace();

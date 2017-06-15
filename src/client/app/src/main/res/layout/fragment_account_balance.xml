@@ -75,8 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:layout_marginTop="20dp"
-        android:text="@string/no_active_tickets"
+        android:layout_marginTop="40dp"
+        android:text="@string/no_payment_history"
         android:textSize="@dimen/text_header_medium"
         android:visibility="gone" /><!-- Koristiti za prikaz/sakrivanje labele (iskljucivo: visible/gone) -->
 

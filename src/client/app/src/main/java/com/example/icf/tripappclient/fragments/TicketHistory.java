@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.swagger.client.model.TicketPurchaseLocal;
 import io.swagger.client.model.TicketType;
 
 /**
@@ -36,8 +37,8 @@ import io.swagger.client.model.TicketType;
 
 public class TicketHistory extends Fragment {
 
-    private List<TicketPurchase> ticketsValid;
-    private List<TicketPurchase> ticketsExpired;
+    private List<TicketPurchaseLocal> ticketsValid;
+    private List<TicketPurchaseLocal> ticketsExpired;
     private ListView validTicketsDisplay;
     private ListView expiredTicketsDisplay;
     private TextView noValidTicketsDisplay;
@@ -51,34 +52,43 @@ public class TicketHistory extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.ticket_history_title);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setTitle(R.string.ticket_history_title);
 
         fillData();
 
-//        this.noValidTicketsDisplay = (TextView) ((AppCompatActivity)getActivity()).findViewById(R.id.emptyActiveLabel);
-//        this.noExpiredTicketsDisplay = (TextView) ((AppCompatActivity)getActivity()).findViewById(R.id.emptyHistoryLabel);
-//        this.validTicketsDisplay = (ListView) ((AppCompatActivity)getActivity()).findViewById(R.id.validTicketsList);
-//        this.expiredTicketsDisplay = (ListView) ((AppCompatActivity)getActivity()).findViewById(R.id.expiredTicketsList);
-//
-//        if (ticketsValid.size() > 0) {
-//            this.validTicketsDisplay.setVisibility(View.VISIBLE);
-//            this.noValidTicketsDisplay.setVisibility(View.GONE);
-//            this.validTicketsDisplay.setAdapter(new TicketAdapter((AppCompatActivity) getActivity(), ticketsValid));
-//        } else {
-//            this.validTicketsDisplay.setVisibility(View.GONE);
-//            this.noValidTicketsDisplay.setVisibility(View.VISIBLE);
-//        }
-//        if (ticketsValid.size() > 0) {
-//            this.expiredTicketsDisplay.setVisibility(View.VISIBLE);
-//            this.noExpiredTicketsDisplay.setVisibility(View.GONE);
-//            this.expiredTicketsDisplay.setAdapter(new TicketAdapter((AppCompatActivity)getActivity(), ticketsExpired));
-//        } else {
-//            this.expiredTicketsDisplay.setVisibility(View.GONE);
-//            this.noExpiredTicketsDisplay.setVisibility(View.VISIBLE);
-//        }
 
 
         return inflater.inflate(R.layout.fragment_ticket_history, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        this.noValidTicketsDisplay = (TextView) activity.findViewById(R.id.emptyActiveLabel);
+        this.noExpiredTicketsDisplay = (TextView) activity.findViewById(R.id.emptyHistoryLabel);
+        this.validTicketsDisplay = (ListView) activity.findViewById(R.id.validTicketsList);
+        this.expiredTicketsDisplay = (ListView) activity.findViewById(R.id.expiredTicketsList);
+
+        if (ticketsValid.size() > 0) {
+            this.validTicketsDisplay.setVisibility(View.VISIBLE);
+            this.noValidTicketsDisplay.setVisibility(View.GONE);
+            this.validTicketsDisplay.setAdapter(new TicketAdapter((AppCompatActivity) getActivity(), ticketsValid));
+        } else {
+            this.validTicketsDisplay.setVisibility(View.GONE);
+            this.noValidTicketsDisplay.setVisibility(View.VISIBLE);
+        }
+        if (ticketsValid.size() > 0) {
+            this.expiredTicketsDisplay.setVisibility(View.VISIBLE);
+            this.noExpiredTicketsDisplay.setVisibility(View.GONE);
+            this.expiredTicketsDisplay.setAdapter(new TicketAdapter((AppCompatActivity)getActivity(), ticketsExpired));
+        } else {
+            this.expiredTicketsDisplay.setVisibility(View.GONE);
+            this.noExpiredTicketsDisplay.setVisibility(View.VISIBLE);
+        }
     }
 
     private void fillData() {
@@ -86,8 +96,8 @@ public class TicketHistory extends Fragment {
         ticketsValid = new ArrayList<>();
         ticketsExpired = new ArrayList<>();
 
-        List<TicketPurchase> tickets = new ArrayList<>();
-        final Dao<TicketPurchase, Integer> ticketDAO = ((MainActivity)getActivity()).getSession().getHelper().getTicketDAO();
+        List<TicketPurchaseLocal> tickets = new ArrayList<>();
+        final Dao<TicketPurchaseLocal, Integer> ticketDAO = ((MainActivity)getActivity()).getSession().getHelper().getTicketDAO();
 
         try {
             tickets = ticketDAO.queryForAll();
@@ -96,7 +106,7 @@ public class TicketHistory extends Fragment {
         }
 
         Date currentTime = new Date();
-        for (TicketPurchase ticket: tickets) {
+        for (TicketPurchaseLocal ticket: tickets) {
             if (ticket.getEndDateTime().after(currentTime)) {
                 ticketsValid.add(ticket);
             } else {
@@ -107,9 +117,9 @@ public class TicketHistory extends Fragment {
         Collections.sort(ticketsExpired, new CustomComparator());
     }
 
-    private class CustomComparator implements Comparator<TicketPurchase> {
+    private class CustomComparator implements Comparator<TicketPurchaseLocal> {
         @Override
-        public int compare(TicketPurchase o1, TicketPurchase o2) {
+        public int compare(TicketPurchaseLocal o1, TicketPurchaseLocal o2) {
             return o1.getEndDateTime().compareTo(o2.getEndDateTime());
         }
     }

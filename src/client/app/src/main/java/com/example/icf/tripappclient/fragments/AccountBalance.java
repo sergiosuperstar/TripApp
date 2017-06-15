@@ -56,17 +56,6 @@ public class AccountBalance extends Fragment {
 
         fillData();
 
-//        this.paymentsDisplay = (ListView) ((AppCompatActivity)getActivity()).findViewById(R.id.paymentsList);
-//        this.noPaymentsDisplay = (TextView) ((AppCompatActivity)getActivity()).findViewById(R.id.emptyPaymentsLabel);
-//        if (payments.size() > 0) {
-//            this.paymentsDisplay.setVisibility(View.VISIBLE);
-//            this.noPaymentsDisplay.setVisibility(View.GONE);
-//            this.paymentsDisplay.setAdapter(new PaymentAdapter((AppCompatActivity)getActivity(), payments));
-//        } else {
-//            this.paymentsDisplay.setVisibility(View.GONE);
-//            this.noPaymentsDisplay.setVisibility(View.VISIBLE);
-//        }
-
         return inflater.inflate(R.layout.fragment_account_balance, container, false);
     }
 
@@ -77,6 +66,18 @@ public class AccountBalance extends Fragment {
         TextView balance = (TextView) getView().findViewById(R.id.balanceValue);
         balance.setText(String.format("%.2f", session.getUser().getBalance()));
 
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        this.paymentsDisplay = (ListView) activity.findViewById(R.id.paymentsList);
+        this.noPaymentsDisplay = (TextView) activity.findViewById(R.id.emptyPaymentsLabel);
+        if (payments.size() > 0) {
+            this.paymentsDisplay.setVisibility(View.VISIBLE);
+            this.noPaymentsDisplay.setVisibility(View.GONE);
+            this.paymentsDisplay.setAdapter(new PaymentAdapter((AppCompatActivity)getActivity(), payments));
+        } else {
+            this.paymentsDisplay.setVisibility(View.GONE);
+            this.noPaymentsDisplay.setVisibility(View.VISIBLE);
+        }
     }
 
     private void fillData() {

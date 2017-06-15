@@ -54,7 +54,6 @@ public class TicketType implements Serializable {
 
 
     public TicketType() {
-
     }
 
     /**
@@ -63,7 +62,6 @@ public class TicketType implements Serializable {
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -74,7 +72,6 @@ public class TicketType implements Serializable {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -86,7 +83,6 @@ public class TicketType implements Serializable {
     public Integer getDuration() {
         return duration;
     }
-
     public void setDuration(Integer duration) {
         this.duration = duration;
     }
@@ -97,7 +93,6 @@ public class TicketType implements Serializable {
     public Double getPrice() {
         return price;
     }
-
     public void setPrice(Double price) {
         this.price = price;
     }

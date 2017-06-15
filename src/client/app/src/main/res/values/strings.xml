@@ -55,7 +55,7 @@
     <string name="current_state">Balance:</string>
     <string name="payment_history">Payment history:</string>
     <string name="button_add_money">Add money</string>
-    <string name="no_payment_history">There is no payment history to be displayed</string>
+    <string name="no_payment_history">There are no payments to be displayed</string>
 
     <string name="active_label">Active tickets:</string>
     <string name="expired_label">Expired tickets:</string>

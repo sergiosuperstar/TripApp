@@ -13,7 +13,7 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 
 import io.swagger.client.model.AdapterPayment;
-import io.swagger.client.model.TicketPurchase;
+import io.swagger.client.model.TicketPurchaseLocal;
 import io.swagger.client.model.TicketType;
 
 /**
@@ -23,15 +23,15 @@ import io.swagger.client.model.TicketType;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "trippApp.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private Dao<TicketType, Integer> ticketTypeDAO = null;
     private Dao<AdapterPayment, Integer> paymentDAO = null;
-    private Dao<TicketPurchase, Integer> ticketDAO = null;
+    private Dao<TicketPurchaseLocal, Integer> ticketDAO = null;
 
     private RuntimeExceptionDao<TicketType, Integer> ticketTypeRuntimeDAO = null;
     private RuntimeExceptionDao<AdapterPayment, Integer> paymentRuntimeDAO = null;
-    private RuntimeExceptionDao<TicketPurchase, Integer> ticketRuntimeDAO = null;
+    private RuntimeExceptionDao<TicketPurchaseLocal, Integer> ticketRuntimeDAO = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
@@ -42,7 +42,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, TicketType.class);
             TableUtils.createTable(connectionSource, AdapterPayment.class);
-            TableUtils.createTable(connectionSource, TicketPurchase.class);
+            TableUtils.createTable(connectionSource, TicketPurchaseLocal.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,7 +53,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable(connectionSource, TicketType.class, true);
             TableUtils.dropTable(connectionSource, AdapterPayment.class, true);
-            TableUtils.dropTable(connectionSource, TicketPurchase.class, true);
+            TableUtils.dropTable(connectionSource, TicketPurchaseLocal.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,7 +64,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.clearTable(getConnectionSource(), TicketType.class);
             TableUtils.clearTable(getConnectionSource(), AdapterPayment.class);
-            TableUtils.clearTable(getConnectionSource(), TicketPurchase.class);
+            TableUtils.clearTable(getConnectionSource(), TicketPurchaseLocal.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         this.paymentDAO = paymentDAO;
     }
 
-    public void setTicketDAO(Dao<TicketPurchase, Integer> ticketDAO) {
+    public void setTicketDAO(Dao<TicketPurchaseLocal, Integer> ticketDAO) {
         this.ticketDAO = ticketDAO;
     }
 
@@ -101,7 +101,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         this.paymentRuntimeDAO = paymentRuntimeDAO;
     }
 
-    public void setTicketRuntimeDAO(RuntimeExceptionDao<TicketPurchase, Integer> ticketRuntimeDAO) {
+    public void setTicketRuntimeDAO(RuntimeExceptionDao<TicketPurchaseLocal, Integer> ticketRuntimeDAO) {
         this.ticketRuntimeDAO = ticketRuntimeDAO;
     }
 
@@ -127,10 +127,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return paymentDAO;
     }
 
-    public Dao<TicketPurchase, Integer> getTicketDAO() {
+    public Dao<TicketPurchaseLocal, Integer> getTicketDAO() {
         if (ticketDAO == null) {
             try {
-                ticketDAO = getDao(TicketPurchase.class);
+                ticketDAO = getDao(TicketPurchaseLocal.class);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -152,9 +152,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return paymentRuntimeDAO;
     }
 
-    public RuntimeExceptionDao<TicketPurchase, Integer> getTicketRuntimeDAO() {
+    public RuntimeExceptionDao<TicketPurchaseLocal, Integer> getTicketRuntimeDAO() {
         if (ticketRuntimeDAO == null) {
-            ticketRuntimeDAO = getRuntimeExceptionDao(TicketPurchase.class);
+            ticketRuntimeDAO = getRuntimeExceptionDao(TicketPurchaseLocal.class);
         }
         return ticketRuntimeDAO;
     }
