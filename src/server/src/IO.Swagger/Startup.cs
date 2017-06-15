@@ -121,11 +121,15 @@ namespace IO.Swagger
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+
             loggerFactory.AddConsole(Configuration.GetSection(LoggingConfigurationSectionKey));
             loggerFactory.AddDebug();
 
             TripAppDbInitializer.Seed(app.ApplicationServices);
-
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
             app.UseApiKeyAuthentication();
             app.UseMvc();
             app.UseDefaultFiles();
