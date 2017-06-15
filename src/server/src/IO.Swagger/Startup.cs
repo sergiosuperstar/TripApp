@@ -20,39 +20,52 @@
  * limitations under the License.
  */
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml.XPath;
+using IO.Swagger.Data;
+using IO.Swagger.Models;
+using IO.Swagger.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.Swagger.Model;
 using Swashbuckle.SwaggerGen.Annotations;
-using IO.Swagger.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using IO.Swagger.Models;
+using System;
+using System.IO;
+using System.Xml.XPath;
 
 namespace IO.Swagger
 {
+    /// <summary>
+    /// Startup class is triggered by environment in order to start web app.
+    /// </summary>
     public class Startup
     {
+        /// Configuration key for logging section
         public const string LoggingConfigurationSectionKey = "Logging";
 
+        /// Configuration key for application settings section
         public const string AppSettingsConfigurationSectionKey = "AppSettings";
 
+        /// Configuration key for minutes until ticket starts section
         public const string AppSettingsMinutesUntilTicketStartKey = "MinutesUntilTicketStart";
 
         private readonly IHostingEnvironment _hostingEnv;
 
+        /// <summary>
+        /// App configuration.
+        /// </summary>
         public IConfigurationRoot Configuration { get; }
 
+        /// <summary>
+        /// This is web app startup class constructor.
+        /// Use it to set configuration for your web app.
+        /// </summary>
+        /// <param name="env">Hosting environment instance.</param>
         public Startup(IHostingEnvironment env)
         {
             _hostingEnv = env;
@@ -64,41 +77,48 @@ namespace IO.Swagger
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
-  
-    
-        // This method gets called by the runtime. Use this method to add services to the container.
+
+
+        /// This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TripAppContext>(opt => opt.UseInMemoryDatabase());
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-            // Add framework services.
+
             services.AddMvc()
                 .AddJsonOptions(
-                    opts => { opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); });
-            
+                    opts => {
+                        opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        opts.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
+                    });
+
             services.AddSwaggerGen();
-            
+
             services.ConfigureSwaggerGen(options =>
             {
                 options.SingleApiVersion(new Info
-                {
-                    Version = "v1",
-                    Title = "IO.Swagger",
-                    Description = "IO.Swagger (ASP.NET Core 1.0)"
-                });
+                            {
+                                Version = "v1",
+                                Title = "IO.Swagger",
+                                Description = "IO.Swagger (ASP.NET Core 1.0)",
+                            }
+                        );
 
                 options.DescribeAllEnumsAsStrings();
-
+                options.OperationFilter<ApiKeyOperationFilter>();
                 var comments = new XPathDocument($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
                 options.OperationFilter<XmlCommentsOperationFilter>(comments);
                 options.ModelFilter<XmlCommentsModelFilter>(comments);
-
             });
 
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddTransient<IApiKeyValidator, SimpleApiKeyValidator>();
+            services.AddTransient<ApiKeyAuthenticationOptions>();
+            services.AddTransient<ApiKeyOptions>();
+            services.AddTransient<IOptions<ApiKeyAuthenticationOptions>, ApiKeyOptions>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection(LoggingConfigurationSectionKey));
@@ -106,11 +126,11 @@ namespace IO.Swagger
 
             TripAppDbInitializer.Seed(app.ApplicationServices);
 
+            app.UseApiKeyAuthentication();
             app.UseMvc();
-            
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+            
             app.UseSwagger();
             app.UseSwaggerUi();
         }

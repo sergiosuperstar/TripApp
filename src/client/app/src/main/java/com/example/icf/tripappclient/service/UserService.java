@@ -24,7 +24,7 @@ public interface UserService {
             "Content-Type:application/json"
     })
     @GET("user/{username}")
-    Call<User> get(@Path("username") String username);
+    Call<User> get(@Header("Authorization") String auth, @Path("username") String username);
 
 
     @Headers({
@@ -64,7 +64,7 @@ public interface UserService {
             "Content-Type:application/json"
     })
     @PUT("user/{username}")
-    Call<User> add(@Path("username") String username, @Body User user);
+    Call<User> add(@Header("Authorization") long UserId, @Path("username") String username, @Body User user);
 
 
 }

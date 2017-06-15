@@ -36,6 +36,7 @@ using Microsoft.AspNetCore.Http;
 using IO.Swagger.Data;
 using Microsoft.Extensions.Logging;
 using IO.Swagger.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IO.Swagger.Controllers
 { 
@@ -68,6 +69,7 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets/types")]
         [SwaggerOperation("AddTicketType")]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public IActionResult AddTicketType([FromBody]TicketType ticketType)
         {
             // TODO ftn: Add validation to the ticketType parameter!!!

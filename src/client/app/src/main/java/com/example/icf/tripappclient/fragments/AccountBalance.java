@@ -42,11 +42,8 @@ public class AccountBalance extends Fragment {
     private ListView paymentsDisplay;
     private TextView noPaymentsDisplay;
 
-    private ContentResolver resolver;
-
     public AccountBalance() {
         // Required empty public constructor
-        resolver = getContext().getContentResolver();
     }
 
     @Override
@@ -104,4 +101,14 @@ public class AccountBalance extends Fragment {
             return o1.getEndDateTime().compareTo(o2.getEndDateTime());
         }
     }
+
+   /* @Override
+    public void onResume() {
+        super.onResume();
+
+        TextView balance = (TextView) getView().findViewById(R.id.balanceValue);
+        balance.setText(String.format("%.2f", session.getUser().getBalance()));
+
+    }*/
+
 }

@@ -43,11 +43,8 @@ public class TicketHistory extends Fragment {
     private TextView noValidTicketsDisplay;
     private TextView noExpiredTicketsDisplay;
 
-    private ContentResolver resolver;
-
     public TicketHistory() {
         // Required empty public constructor
-        resolver = getContext().getContentResolver();
     }
 
     @Override

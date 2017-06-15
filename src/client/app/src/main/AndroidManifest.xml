@@ -34,7 +34,10 @@
                 android:value="com.example.icf.tripappclient.activities.MainActivity" />
         </activity>
 
-        <activity android:name=".activities.ContinuousCaptureActivity"></activity>
+        <activity android:name=".activities.ContinuousCaptureActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
 
     </application>
 

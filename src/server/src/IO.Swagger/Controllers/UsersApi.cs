@@ -20,29 +20,25 @@
  * limitations under the License.
  */
 
+using IO.Swagger.Data;
+using IO.Swagger.Logging;
+using IO.Swagger.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Swashbuckle.SwaggerGen.Annotations;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Swashbuckle.SwaggerGen.Annotations;
-using IO.Swagger.Models;
-using IO.Swagger.Data;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using IO.Swagger.Logging;
+using System.Security.Claims;
 
 namespace IO.Swagger.Controllers
 {
     /// <summary>
-    /// 
+    /// Users API 
     /// </summary>
     public class UsersApiController : Controller
     {
@@ -62,7 +58,7 @@ namespace IO.Swagger.Controllers
         }
 
         /// <summary>
-        /// Creates user
+        /// Creates / Registers user
         /// </summary>
         /// <remarks>This can be done by any user.</remarks>
         /// <param name="user">Created user object</param>
@@ -84,6 +80,11 @@ namespace IO.Swagger.Controllers
             try
             {
                 user.Password = _hasher.HashPassword(null, user.Password);
+                // Ensure token is created:
+                if (user.RefreshToken == null)
+                {
+                    user.RefreshToken = Guid.NewGuid();
+                }
                 _context.Users.Add(user);
                 _context.SaveChanges();
                 user.Password = null;
@@ -108,11 +109,11 @@ namespace IO.Swagger.Controllers
         [HttpDelete]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
         [SwaggerOperation("DeleteUser")]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public virtual void DeleteUser([FromRoute]string username)
         {
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Gets user by username
@@ -125,8 +126,18 @@ namespace IO.Swagger.Controllers
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
         [SwaggerOperation("GetUserByUsername")]
         [SwaggerResponse(200, type: typeof(User))]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public virtual IActionResult GetUserByUsername([FromRoute]string username)
         {
+            // EXAMPLE: How to use logged in user identity:
+            var userName = User.Identity.Name;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userFirstName = User.FindFirst(ClaimTypes.GivenName).Value;
+            var userLastName = User.FindFirst(ClaimTypes.Surname).Value;
+
+            // TODO: Check if your role allows you to get user by username?
+            // if (!User.IsInRole("administrator")){ return StatusCode(StatusCodes.YOU HAVE NO RIGHT....
+
             try
             {
                 var user = _context.Users.FirstOrDefault(u => u.Username == username);
@@ -148,7 +159,6 @@ namespace IO.Swagger.Controllers
         /// <summary>
         /// Logs user into the system
         /// </summary>
-
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <response code="200">successful operation</response>
@@ -187,6 +197,7 @@ namespace IO.Swagger.Controllers
         [HttpGet]
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/logout")]
         [SwaggerOperation("LogoutUser")]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public IActionResult LogoutUser()
         {
             // TODO FTN: Add support for security - read user token or whatever!
@@ -207,6 +218,7 @@ namespace IO.Swagger.Controllers
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/user/{username}")]
         [SwaggerOperation("UpdateUser")]
         [SwaggerResponse(200, type: typeof(User))]
+        [Authorize(ActiveAuthenticationSchemes = "apikey")]
         public virtual IActionResult UpdateUser([FromRoute]string username, [FromBody]User user)
         {
             // TODO ftn: Add validation to the user parameter!!!
@@ -220,6 +232,8 @@ namespace IO.Swagger.Controllers
             try
             {
                 user.Password = _hasher.HashPassword(null, user.Password);
+                // Ensure token is changed:
+                user.RefreshToken = Guid.NewGuid();
                 _context.Entry(existingUser).CurrentValues.SetValues(user);
                 _context.SaveChanges();
                 return Ok(user);
@@ -229,6 +243,34 @@ namespace IO.Swagger.Controllers
                 _logger.LogError(LoggingEvents.UPDATE_ITEM, "UpdateUser({username}) NOT UPDATED", username);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
+
+        /// <summary>
+        /// searches users
+        /// </summary>
+        /// <remarks>By passing in the appropriate options, you can search for available users in the system </remarks>
+        /// <param name="searchString">pass an optional search string for looking up users</param>
+        /// <param name="skip">number of records to skip for pagination</param>
+        /// <param name="limit">maximum number of records to return</param>
+        /// <response code="200">search results matching criteria</response>
+        /// <response code="400">bad input parameter</response>
+        [HttpGet]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/user")]
+        [SwaggerOperation("SearchUsers")]
+        [SwaggerResponse(200, type: typeof(List<User>))]
+        public virtual IActionResult SearchUsers([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
+        {
+            try
+            {
+                var users = _context.Users;
+                return new ObjectResult(users);
+            }
+            catch (Exception)
+            {
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchUsers({searchString}) NOT FOUND", searchString);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
     }
 }

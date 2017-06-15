@@ -8,6 +8,8 @@ import android.content.SharedPreferences.Editor;
 
 import com.example.icf.tripappclient.activities.LoginActivity;
 import com.example.icf.tripappclient.database.DatabaseHelper;
+import com.example.icf.tripappclient.activities.MainActivity;
+import com.example.icf.tripappclient.fragments.AccountBalance;
 import com.example.icf.tripappclient.service.ServiceUtils;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
@@ -43,25 +45,6 @@ public class SessionManager {
     }
 
     public void login(LoginActivity activity, String username, String password){
-//
-//        UsersApi api = new UsersApi();
-//
-//        // TODO FTN: Test call - for some reason we are getting time out exception!!!
-//
-//        // TODO FTN: FOUND IT. It should be called on another thread (NOT UI THREAD)!!!
-//        /*try {
-//            String result = api.loginUser(username, password);
-//        } catch (TimeoutException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ApiException e) {
-//            e.printStackTrace();
-//        }*/
-//
-
         final LoginActivity login = activity;
         Call<User> call = ServiceUtils.userService.login(username, password);
         call.enqueue(new Callback<User>() {
@@ -136,9 +119,11 @@ public class SessionManager {
         return pref.getString("role", "none");
     }
 
-    public void reloadUser(){
+    public void reloadUserBalance(MainActivity activity){
 
-        Call<User> call = ServiceUtils.userService.get(getUser().getUsername());
+        final MainActivity main = activity;
+
+        Call<User> call = ServiceUtils.userService.get(getUser().getId().toString(), getUser().getUsername());
         call.enqueue(new Callback<User>() {
 
             @Override
@@ -156,6 +141,9 @@ public class SessionManager {
                         editor.putString("role", user.getRole());
                         editor.putString("balance", user.getBalance().toString());
                         editor.commit();
+
+                        AccountBalance abFragment = new AccountBalance();
+                        main.changeFragment(abFragment);
 
                     }
                 }

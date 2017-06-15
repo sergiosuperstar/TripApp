@@ -30,11 +30,8 @@ public class Home extends Fragment {
     private List<TicketType> ticketTypes;
     private GridView ticketsDisplay;
 
-    private ContentResolver resolver;
-
     public Home() {
         // Required empty public constructor
-        resolver = getContext().getContentResolver();
     }
 
     @Override
