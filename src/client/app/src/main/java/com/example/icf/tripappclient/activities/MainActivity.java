@@ -205,6 +205,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_add){
             View view = findViewById(R.id.addMoney);
             scanVoucher(view);
+
+           //mockCode();
         }
 
 
@@ -303,8 +305,6 @@ public class MainActivity extends AppCompatActivity
                             if (resp){
                                 Toast.makeText(a, "Successfully added funds.", Toast.LENGTH_LONG).show();
                                 session.reloadUserBalance((MainActivity) that);
-                               /* AccountBalance abFragment = new AccountBalance();   // TODO: neki refresh balance stranice
-                                changeFragment(abFragment);*/
                             }else{
                                 Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
                             }
@@ -335,6 +335,26 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /*protected void mockCode() {
+        PurchaseCode code = new PurchaseCode();
+        code.setCode(UUID.fromString("33994bf3-0489-4897-9b87-853c76124ee1"));
+        code.setUser(session.getUser());
+        Call<Boolean> call = ServiceUtils.purchaseCodeService.put(code);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.code() == 200) {
+                    Boolean resp = response.body();
+                    session.reloadUserBalance((MainActivity) that);
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+            }
+        });
+    }
+*/
 
 
 }

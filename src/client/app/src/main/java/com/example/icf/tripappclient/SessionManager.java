@@ -119,7 +119,7 @@ public class SessionManager {
 
         final MainActivity main = activity;
 
-        Call<User> call = ServiceUtils.userService.get(getUser().getUsername());
+        Call<User> call = ServiceUtils.userService.get(getUser().getId().toString(), getUser().getUsername());
         call.enqueue(new Callback<User>() {
 
             @Override
@@ -138,7 +138,7 @@ public class SessionManager {
                         editor.putString("balance", user.getBalance().toString());
                         editor.commit();
 
-                        AccountBalance abFragment = new AccountBalance();   // TODO: neki refresh balance stranice
+                        AccountBalance abFragment = new AccountBalance();
                         main.changeFragment(abFragment);
 
                     }

@@ -24,7 +24,7 @@ public interface UserService {
             "Content-Type:application/json"
     })
     @GET("user/{username}")
-    Call<User> get(@Path("username") String username);
+    Call<User> get(@Header("Authorization") String auth, @Path("username") String username);
 
 
     @Headers({

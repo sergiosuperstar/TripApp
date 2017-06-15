@@ -2,6 +2,7 @@ package com.example.icf.tripappclient.activities;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -55,9 +56,21 @@ public class ContinuousCaptureActivity extends Activity {
             final TextView validity = (TextView) findViewById(R.id.scanned_ticket_validity_value);
             final TextView validThrough = (TextView) findViewById(R.id.scanned_ticket_date_value);
 
+            validity.setTypeface(null, Typeface.BOLD);
+
             TicketValidation validation = new TicketValidation();
-            validation.setController(session.getUser());
-            validation.setTicket(new io.swagger.client.model.TicketPurchase(result.getText()));
+            TicketPurchase ticket;
+            try {
+                ticket = new io.swagger.client.model.TicketPurchase(result.getText());
+            }catch (Exception e){
+                beepManager.playBeepSound();
+                validity.setText("INVALID");
+                validity.setTextColor(Color.RED);
+                passengerCount.setText("");
+                validThrough.setText("");
+                return;
+            }
+            validation.setTicket(ticket);
 
             Call<TicketPurchase> call = ServiceUtils.ticketValidationService.add(validation);
             call.enqueue(new Callback<TicketPurchase>() {
@@ -67,21 +80,24 @@ public class ContinuousCaptureActivity extends Activity {
                     if (response.code() == 200) {   // uspelo
                         io.swagger.client.model.TicketPurchase ticket = response.body();
                         beepManager.playBeepSound();
-                        validity.setText("Valid");
+                        validity.setText("VALID");
+                        validity.setTextColor(Color.parseColor("#32CD32"));
                         passengerCount.setText(ticket.getNumberOfPassangers().toString());
                         validThrough.setText(ticket.getEndDateTimeString());
 
                     } else if (response.code() == 406){
 
                         beepManager.playBeepSound();
-                        validity.setText("Expired");
+                        validity.setText("EXPIRED");
+                        validity.setTextColor(Color.RED);
                         passengerCount.setText("");
                         validThrough.setText("");
 
 
                     } else{
                         beepManager.playBeepSound();
-                        validity.setText("Invalid");
+                        validity.setText("INVALID");
+                        validity.setTextColor(Color.RED);
                         passengerCount.setText("");
                         validThrough.setText("");
                     }
