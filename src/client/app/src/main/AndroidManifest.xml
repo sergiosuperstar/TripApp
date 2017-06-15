@@ -36,7 +36,10 @@
 
         <activity android:name=".activities.ContinuousCaptureActivity"
             android:screenOrientation="portrait">
+        </activity>
 
+        <activity android:name=".activities.VoucherScannerActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <provider
