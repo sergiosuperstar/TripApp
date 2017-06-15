@@ -27,6 +27,7 @@ import com.example.icf.tripappclient.fragments.TicketHistory;
 import com.example.icf.tripappclient.fragments.TicketInfo;
 import com.example.icf.tripappclient.fragments.TicketPurchase;
 import com.example.icf.tripappclient.service.ServiceUtils;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -98,6 +99,10 @@ public class MainActivity extends AppCompatActivity
         Home homeFragment = new Home();
         fragmentTransaction.add(R.id.fragment_container, homeFragment);
         fragmentTransaction.commit();
+
+        // DO NOT CHANGE TOPIC NAME FROM 'news'!
+        // IT MAY TAKE 24HRS TO CREATE IT AGAIN!
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
     }
 
     @Override
