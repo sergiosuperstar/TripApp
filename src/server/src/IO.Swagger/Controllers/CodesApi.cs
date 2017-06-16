@@ -192,7 +192,7 @@ namespace IO.Swagger.Controllers
             {
                 code.Used = true;
                 code.User = _context.Users.FirstOrDefault(u => u.Id == purchaseCode.UserId);
-                code.UsageDateTime = DateTime.Now;
+                code.UsageDateTime = DateTime.Now.ToUniversalTime();
                 code.User.Balance += code.Value;
                 _context.Entry(code).State = EntityState.Modified;
                 _context.Entry(code.User).State = EntityState.Modified;
