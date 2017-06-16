@@ -24,7 +24,8 @@
     "Microsoft.EntityFrameworkCore": "1.1.2",
     "Microsoft.EntityFrameworkCore.InMemory": "1.1.2",
     "Swashbuckle.SwaggerGen": "6.0.0-beta901",
-    "Swashbuckle.SwaggerUi": "6.0.0-beta901"
+    "Swashbuckle.SwaggerUi": "6.0.0-beta901",
+    "Microsoft.AspNetCore.Mvc.Core": "1.0.1"
   },
 
   "tools": {
