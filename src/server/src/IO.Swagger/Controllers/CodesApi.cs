@@ -191,11 +191,11 @@ namespace IO.Swagger.Controllers
             try
             {
                 code.Used = true;
-                code.User = _context.Users.FirstOrDefault(u => u.Username == purchaseCode.User.Username);
+                code.User = _context.Users.FirstOrDefault(u => u.Id == purchaseCode.UserId);
                 code.UsageDateTime = DateTime.Now;
                 code.User.Balance += code.Value;
                 _context.Entry(code).State = EntityState.Modified;
-                _context.Entry(code.User).State = EntityState.Unchanged;
+                _context.Entry(code.User).State = EntityState.Modified;
                 _context.SaveChanges();
                 return new ObjectResult(true);
                 //return Ok(purchaseCode);
