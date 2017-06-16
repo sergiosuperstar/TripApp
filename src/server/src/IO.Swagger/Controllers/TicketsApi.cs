@@ -39,7 +39,7 @@ using System.Security.Claims;
 namespace IO.Swagger.Controllers
 {
     /// <summary>
-    /// 
+    /// Ticket purchase controller
     /// </summary>
     public class TicketsApiController : Controller
     {

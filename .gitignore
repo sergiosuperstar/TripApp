@@ -64,3 +64,4 @@ src/server/src/IO.Swagger/Properties/PublishProfiles/*
 ServiceDefinition.build.csdef
 *.azurePubxml
 /src/server/src/IO.Swagger/Properties/PublishProfiles
+/src/client/.idea/vcs.xml
