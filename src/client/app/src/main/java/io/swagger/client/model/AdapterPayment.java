@@ -5,6 +5,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.swagger.annotations.ApiModel;
@@ -77,6 +79,10 @@ public class AdapterPayment implements Serializable {
     }
     public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
+    }
+    public String getEndDateTimeString(){
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        return df.format(endDateTime);
     }
 
     /**

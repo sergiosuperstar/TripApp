@@ -14,7 +14,6 @@ import android.widget.GridView;
 
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.activities.MainActivity;
-import com.example.icf.tripappclient.adapters.PurchaseAdapter;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
@@ -27,9 +26,6 @@ import io.swagger.client.model.*;
 
 public class Home extends Fragment {
 
-    private List<TicketType> ticketTypes;
-    private GridView ticketsDisplay;
-
     public Home() {
         // Required empty public constructor
     }
@@ -40,24 +36,7 @@ public class Home extends Fragment {
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.home_title);
 
-        fillData();
-
-//        this.ticketsDisplay = (GridView) ((AppCompatActivity)getActivity()).findViewById(R.id.tickets_grid);
-//        this.ticketsDisplay.setAdapter(new PurchaseAdapter((AppCompatActivity)getActivity(), ticketTypes));
-
         return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-
-    private void fillData() {
-        ticketTypes = new ArrayList<>();
-        final Dao<TicketType, Integer> ticketTypeDAO = ((MainActivity)getActivity()).getSession().getHelper().getTicketTypeDAO();
-
-        try {
-            ticketTypes = ticketTypeDAO.queryForAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        Collections.sort(ticketTypes, new CustomComparator());
     }
 
     private class CustomComparator implements Comparator<TicketType> {

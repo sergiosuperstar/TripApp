@@ -23,13 +23,11 @@ import io.swagger.client.model.TicketType;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "trippApp.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
-    private Dao<TicketType, Integer> ticketTypeDAO = null;
     private Dao<AdapterPayment, Integer> paymentDAO = null;
     private Dao<TicketPurchaseLocal, Integer> ticketDAO = null;
 
-    private RuntimeExceptionDao<TicketType, Integer> ticketTypeRuntimeDAO = null;
     private RuntimeExceptionDao<AdapterPayment, Integer> paymentRuntimeDAO = null;
     private RuntimeExceptionDao<TicketPurchaseLocal, Integer> ticketRuntimeDAO = null;
 
@@ -40,7 +38,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, TicketType.class);
             TableUtils.createTable(connectionSource, AdapterPayment.class);
             TableUtils.createTable(connectionSource, TicketPurchaseLocal.class);
         } catch (SQLException e) {
@@ -51,7 +48,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, TicketType.class, true);
             TableUtils.dropTable(connectionSource, AdapterPayment.class, true);
             TableUtils.dropTable(connectionSource, TicketPurchaseLocal.class, true);
             onCreate(database, connectionSource);
@@ -62,7 +58,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public void emptyDatabase() {
         try {
-            TableUtils.clearTable(getConnectionSource(), TicketType.class);
             TableUtils.clearTable(getConnectionSource(), AdapterPayment.class);
             TableUtils.clearTable(getConnectionSource(), TicketPurchaseLocal.class);
         } catch (SQLException e) {
@@ -74,15 +69,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void close() {
         super.close();
         ticketDAO = null;
-        ticketTypeDAO = null;
         paymentDAO = null;
         ticketRuntimeDAO = null;
-        ticketTypeRuntimeDAO = null;
         paymentRuntimeDAO = null;
-    }
-
-    public void setTicketTypeDAO(Dao<TicketType, Integer> ticketTypeDAO) {
-        this.ticketTypeDAO = ticketTypeDAO;
     }
 
     public void setPaymentDAO(Dao<AdapterPayment, Integer> paymentDAO) {
@@ -93,27 +82,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         this.ticketDAO = ticketDAO;
     }
 
-    public void setTicketTypeRuntimeDAO(RuntimeExceptionDao<TicketType, Integer> ticketTypeRuntimeDAO) {
-        this.ticketTypeRuntimeDAO = ticketTypeRuntimeDAO;
-    }
-
     public void setPaymentRuntimeDAO(RuntimeExceptionDao<AdapterPayment, Integer> paymentRuntimeDAO) {
         this.paymentRuntimeDAO = paymentRuntimeDAO;
     }
 
     public void setTicketRuntimeDAO(RuntimeExceptionDao<TicketPurchaseLocal, Integer> ticketRuntimeDAO) {
         this.ticketRuntimeDAO = ticketRuntimeDAO;
-    }
-
-    public Dao<TicketType, Integer> getTicketTypeDAO() {
-        if (ticketTypeDAO == null) {
-            try {
-                ticketTypeDAO = getDao(TicketType.class);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return ticketTypeDAO;
     }
 
     public Dao<AdapterPayment, Integer> getPaymentDAO() {
@@ -136,13 +110,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return ticketDAO;
-    }
-
-    public RuntimeExceptionDao<TicketType, Integer> getTicketTypeRuntimeDAO() {
-        if (ticketDAO == null) {
-            ticketDAO = getRuntimeExceptionDao(TicketType.class);
-        }
-        return ticketTypeRuntimeDAO;
     }
 
     public RuntimeExceptionDao<AdapterPayment, Integer> getPaymentRuntimeDAO() {

@@ -80,34 +80,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void prepareDatabase() {
         session.getHelper().emptyDatabase();
-        fillTicketTypes();
         fillUserPayments();
         fillUserTickets();
-    }
-
-    private void fillTicketTypes() {
-        Call<List<TicketType>> call = ServiceUtils.tickeTypeService.get();
-        call.enqueue(new Callback<List<TicketType>>() {
-            @Override
-            public void onResponse(Call<List<TicketType>> call, Response<List<TicketType>> response) {
-                if (response.code() == 200) {
-                    List<TicketType> ticketTypes = response.body();
-                    for (TicketType ticket: ticketTypes) {
-                        try {
-                            session.getHelper().getTicketTypeDAO().create(ticket);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } else {
-                    closeApplication();
-                }
-            }
-            @Override
-            public void onFailure(Call<List<TicketType>> call, Throwable t) {
-                closeApplication();
-            }
-        });
     }
 
     private void fillUserPayments() {
@@ -141,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void fillUserTickets() {
-        Call<List<TicketPurchase>> call = ServiceUtils.userTicketsService.get("all"+session.getUser().getId());
+        Call<List<TicketPurchase>> call = ServiceUtils.userTicketsService.get("all:"+session.getUser().getId());
         call.enqueue(new Callback<List<TicketPurchase>>() {
             @Override
             public void onResponse(Call<List<TicketPurchase>> call, Response<List<TicketPurchase>> response) {

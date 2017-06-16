@@ -4,10 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="15dp" >
+    android:paddingTop="7dp" >
 
     <TextView
-        android:id="@+id/payment_sign_plus"
+        android:id="@+id/payment_sign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/payment_ticket"
@@ -16,75 +16,36 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="3dp"
         android:textColor="@color/green"
-        android:textSize="@dimen/text_header_small"
-        android:visibility="visible" />
+        android:textSize="@dimen/text_header_small" />
 
     <TextView
-        android:id="@+id/payment_sign_minus"
+        android:id="@+id/payment_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/payment_ticket"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="3dp"
-        android:text="-"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="3dp"
-        android:textColor="@color/red"
-        android:textSize="@dimen/text_header_medium"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/payment_value_plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/payment_sign_plus"
+        android:layout_toRightOf="@+id/payment_sign"
         android:layout_alignBaseline="@+id/payment_ticket"
         android:layout_marginRight="3dp"
         android:gravity="end"
         android:text="998,50"
         android:textSize="@dimen/text_header_small"
-        android:textColor="@color/green"
-        android:visibility="visible" />
+        android:textColor="@color/green" />
 
     <TextView
-        android:id="@+id/payment_value_minus"
+        android:id="@+id/payment_currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/payment_sign_minus"
-        android:layout_alignBaseline="@+id/payment_ticket"
-        android:layout_marginRight="3dp"
-        android:gravity="end"
-        android:text="998,50"
-        android:textSize="@dimen/text_header_small"
-        android:textColor="@color/red"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/payment_currency_minus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/payment_value_minus"
+        android:layout_toRightOf="@+id/payment_value"
         android:layout_alignBaseline="@+id/payment_ticket"
         android:layout_marginLeft="2dp"
+        android:layout_marginRight="5dp"
         android:text="@string/eur"
-        android:textSize="@dimen/text_label_small"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/payment_currency_plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/payment_value_plus"
-        android:layout_alignBaseline="@+id/payment_ticket"
-        android:layout_marginLeft="2dp"
-        android:text="@string/eur"
-        android:textSize="@dimen/text_label_small"
-        android:visibility="visible" />
+        android:textSize="@dimen/text_label_small" />
 
     <TextView
         android:id="@+id/payment_ticket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/payment_currency"
         android:layout_toLeftOf="@+id/payment_date"
         android:gravity="center_horizontal"
         android:layout_alignBottom="@+id/payment_date"
@@ -96,17 +57,18 @@
         android:id="@+id/payment_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="120dp"
+        android:maxWidth="115dp"
+        android:layout_marginLeft="5dp"
         android:layout_alignParentRight="true"
         android:gravity="center"
-        android:text="88.88.8888 (28:88)"
+        android:text="88.88.8888. (28:88)"
         android:textSize="@dimen/text_header_small"/>
 
     <View
         android:id="@+id/payment_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="7dp"
         android:layout_below="@+id/payment_date"
         android:background="@color/lightGrey" />
 

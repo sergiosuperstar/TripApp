@@ -1,6 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="7dp" >
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/payment_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/payment_ticket"
+        android:layout_alignParentLeft="true"
+        android:text="-"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="3dp"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_header_medium" />
+
+    <TextView
+        android:id="@+id/payment_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/payment_sign"
+        android:layout_alignBaseline="@+id/payment_ticket"
+        android:layout_marginRight="3dp"
+        android:gravity="end"
+        android:text="998,50"
+        android:textSize="@dimen/text_header_small"
+        android:textColor="@color/red" />
+
+    <TextView
+        android:id="@+id/payment_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/payment_value"
+        android:layout_alignBaseline="@+id/payment_ticket"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/eur"
+        android:textSize="@dimen/text_label_small" />
+
+    <TextView
+        android:id="@+id/payment_ticket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/payment_currency"
+        android:layout_toLeftOf="@+id/payment_date"
+        android:gravity="center_horizontal"
+        android:layout_alignBottom="@+id/payment_date"
+        android:layout_marginBottom="10dp"
+        android:text="Month ticket"
+        android:textSize="@dimen/text_header_small"/>
+
+    <TextView
+        android:id="@+id/payment_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="115dp"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="88.88.8888. (28:88)"
+        android:textSize="@dimen/text_header_small"/>
+
+    <View
+        android:id="@+id/payment_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="7dp"
+        android:layout_below="@+id/payment_date"
+        android:background="@color/lightGrey" />
+
+</RelativeLayout>

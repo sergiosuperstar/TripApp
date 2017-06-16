@@ -11,9 +11,6 @@ import android.widget.TextView;
 
 import com.example.icf.tripappclient.R;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class PaymentAdapter extends ArrayAdapter<AdapterPayment> {
     private List<AdapterPayment> payments;
 
     public PaymentAdapter(Context context, List<AdapterPayment> payments) {
-        super(context, R.layout.single_payment ,payments);
+        super(context, R.layout.single_payment_plus,payments);
         this.context = context;
         this.payments = payments;
     }
@@ -38,47 +35,36 @@ public class PaymentAdapter extends ArrayAdapter<AdapterPayment> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.single_payment, parent, false);
-
-        TextView sign_minus = (TextView) view.findViewById(R.id.payment_sign_minus);
-        TextView sign_plus = (TextView) view.findViewById(R.id.payment_sign_minus);
-        TextView value_minus = (TextView) view.findViewById(R.id.payment_value_minus);
-        TextView value_plus = (TextView) view.findViewById(R.id.payment_value_plus);
-        TextView currency_minus = (TextView) view.findViewById(R.id.payment_currency_minus);
-        TextView currency_plus = (TextView) view.findViewById(R.id.payment_currency_plus);
-        TextView type_ticket = (TextView) view.findViewById(R.id.payment_ticket);
-        TextView date_value = (TextView) view.findViewById(R.id.payment_date);
+        View view = null;
 
         boolean isExpense = payments.get(position).getIsExpense();
         double value = payments.get(position).getPrice();
         Date date = payments.get(position).getEndDateTime();
 
         String valueString = String.format("%.2f", value);
-        String dateString = new SimpleDateFormat("dd.MM.'yy (HH:mm)").format(date);
+        //String dateString = new SimpleDateFormat("dd.MM.'yy (HH:mm)").format(date);
+        String dateString = payments.get(position).getEndDateTimeString();
         String ticket;
 
         if (isExpense) {
-            ticket = " ";
-            sign_minus.setVisibility(View.VISIBLE);
-            sign_plus.setVisibility(View.GONE);
-            value_minus.setVisibility(View.VISIBLE);
-            value_plus.setVisibility(View.GONE);
-            currency_minus.setVisibility(View.VISIBLE);
-            currency_plus.setVisibility(View.GONE);
-
-            type_ticket.setText(ticket);
-            value_minus.setText(valueString);
+            view = inflater.inflate(R.layout.single_payment_minus, parent, false);
         } else {
-            ticket = payments.get(position).getTicketName();
-            sign_minus.setVisibility(View.GONE);
-            sign_plus.setVisibility(View.VISIBLE);
-            value_minus.setVisibility(View.GONE);
-            value_plus.setVisibility(View.VISIBLE);
-            currency_minus.setVisibility(View.GONE);
-            currency_plus.setVisibility(View.VISIBLE);
+            view = inflater.inflate(R.layout.single_payment_plus, parent, false);
+        }
 
+        TextView value_price = (TextView) view.findViewById(R.id.payment_value);
+        TextView type_ticket = (TextView) view.findViewById(R.id.payment_ticket);
+        TextView date_value = (TextView) view.findViewById(R.id.payment_date);
+
+
+        if (isExpense) {
+            ticket = payments.get(position).getTicketName();
             type_ticket.setText(ticket);
-            value_plus.setText(valueString);
+            value_price.setText(valueString);
+        } else {
+            ticket = " ";
+            type_ticket.setText(ticket);
+            value_price.setText(valueString);
         }
         date_value.setText(dateString);
 
