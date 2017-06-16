@@ -74,6 +74,7 @@
     <string name="tickets_history">Tickets history</string>
     <string name="tickets_history_desc">Display tickets occurred in the chosen period</string>
     <string name="scanned_ticket_validity_label">Ticket is:</string>
+    <string name="title_activity_map">MapActivity</string>
 
 
 </resources>

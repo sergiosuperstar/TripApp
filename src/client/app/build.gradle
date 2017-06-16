@@ -77,6 +77,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.google.firebase:firebase-messaging:10.0.1'
+    compile 'com.google.android.gms:play-services:10.0.1'
 }
 
 /*dependencies {
@@ -88,6 +89,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }*/
+
 
 
 apply plugin: 'com.google.gms.google-services'
