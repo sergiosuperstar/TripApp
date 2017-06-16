@@ -52,7 +52,7 @@ public class VoucherScannerActivity extends Activity {
             PurchaseCode code = new PurchaseCode();
             try {
                 code.setCode(UUID.fromString(scanned));
-                code.setUser(session.getUser());
+                code.setUserId(session.getUser().getId());
             }catch(Exception e){
                 Toast.makeText(that, "Failed to add funds. ", Toast.LENGTH_LONG).show();
             }

@@ -71,6 +71,7 @@ public class ContinuousCaptureActivity extends Activity {
                 return;
             }
             validation.setTicket(ticket);
+            validation.setController(session.getUser());
 
             Call<TicketPurchase> call = ServiceUtils.ticketValidationService.add(validation);
             call.enqueue(new Callback<TicketPurchase>() {
