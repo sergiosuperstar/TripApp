@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
 import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
@@ -124,10 +125,18 @@ public class TicketPurchase implements Serializable {
     return startDateTime;
   }
   public void setStartDateTime(Date startDateTime) {
+
     this.startDateTime = startDateTime;
   }
   public String getStartDateTimeString(){
     DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    // Uncomment for testing:
+    // df.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+    // DateFormat dfLokal = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    // dfLokal.setTimeZone(TimeZone.getDefault());
+    // String gmtTime = df.format(startDateTime);
+    // String lokalTime = dfLokal.format(startDateTime);
     return df.format(startDateTime);
   }
 

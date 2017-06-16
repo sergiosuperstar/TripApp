@@ -11,12 +11,6 @@ import android.widget.Toast;
 import com.example.icf.tripappclient.R;
 import com.example.icf.tripappclient.SessionManager;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
-
-import io.swagger.client.ApiException;
-import io.swagger.client.api.UsersApi;
-
 public class LoginActivity extends AppCompatActivity {
 
     private SessionManager session;
