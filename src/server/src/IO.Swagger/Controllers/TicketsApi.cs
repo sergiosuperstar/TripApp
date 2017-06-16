@@ -23,6 +23,7 @@
 using IO.Swagger.Data;
 using IO.Swagger.Logging;
 using IO.Swagger.Models;
+using IO.Swagger.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace IO.Swagger.Controllers
 {
@@ -46,6 +48,8 @@ namespace IO.Swagger.Controllers
         private readonly TripAppContext _context;
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
+        private readonly FCMNotificationService _notificationService;
+        private readonly bool _newBuyerIsBIGNews = false;
 
         /// <summary>
         /// Constructor method.
@@ -53,11 +57,14 @@ namespace IO.Swagger.Controllers
         /// <param name="context"></param>
         /// <param name="configuration"></param>
         /// <param name="logger"></param>
-        public TicketsApiController(TripAppContext context, IConfiguration configuration, ILogger<TicketsApiController> logger)
+        /// <param name="notificationService"></param>
+        public TicketsApiController(TripAppContext context, IConfiguration configuration, ILogger<TicketsApiController> logger, FCMNotificationService notificationService)
         {
             _context = context;
             _configuration = configuration;
             _logger = logger;
+            _notificationService = notificationService;
+            _newBuyerIsBIGNews = _configuration.GetSection(Startup.AppSettingsConfigurationSectionKey).GetValue<bool>(Startup.AppSettingsNewBuyerIsANews);
         }
 
         /// <summary>
@@ -72,11 +79,13 @@ namespace IO.Swagger.Controllers
         [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets")]
         [SwaggerOperation("AddTicketPurchase")]
         [Authorize(ActiveAuthenticationSchemes = "apikey")]
-        public virtual IActionResult AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
+        public virtual async Task<IActionResult> AddTicketPurchase([FromBody]TicketPurchase ticketPurchase)
         {
             // TODO FTN: Add validation!
             var loggedInUserId = long.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            
+            var buyerUsername = User.FindFirst(ClaimTypes.Name).Value;
+            var buyerFirstName = User.FindFirst(ClaimTypes.GivenName).Value;
+            string deviceId = null;
 
             var hasTypeAndUser = ticketPurchase != null
                                 && ticketPurchase.TypeId != null
@@ -101,7 +110,9 @@ namespace IO.Swagger.Controllers
                 {
                     return StatusCode(StatusCodes.Status409Conflict, ticketPurchase); // 409 already exists!
                 }
-                //TODO: skinuti useru novac ili vratiti gresku ako nema dovoljno
+
+                deviceId = Request.Headers["DeviceID"];
+
                 var type = _context.Types.First(t => t.Id == ticketPurchase.TypeId);
                 var user = _context.Users.First(u => u.Id == ticketPurchase.UserId);
 
@@ -120,13 +131,40 @@ namespace IO.Swagger.Controllers
                 _context.SaveChanges();
 
                 ticketPurchase = _context.Purchases.Include(u => u.User).First(p => p.Id == ticketPurchase.Id);
-                return StatusCode(StatusCodes.Status201Created, ticketPurchase);
+                
             }
             catch (Exception)
             {
                 _logger.LogError(LoggingEvents.INSERT_ITEM, "AddTicketPurchase({ticketPurchase}) NOT ADDED", ticketPurchase);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+
+            if (_newBuyerIsBIGNews)
+            {
+                var notification = new Notification()
+                {
+                    Title = "We have a new ticket buyer!",
+                    Message = $"User: {buyerUsername} have bought a ticket of type id: '{ticketPurchase.TypeId}'! YEEEAAAH!",
+                    Topic = "news"
+                };
+
+                var result = await _notificationService.Send(notification);
+            }
+
+            if (!string.IsNullOrEmpty(deviceId))
+            {
+                var notification = new Notification()
+                {
+                    Title = "Your have bought a ticket. Congrats!",
+                    Message = $"Hello {buyerFirstName}. Your ticket '{ticketPurchase.Code}' is ready!",
+                    DeviceID = deviceId
+                };
+
+                var result = await _notificationService.Send(notification);
+                Response.Headers.Add("DeviceID", deviceId);
+            }
+
+            return StatusCode(StatusCodes.Status201Created, ticketPurchase);
         }
 
 

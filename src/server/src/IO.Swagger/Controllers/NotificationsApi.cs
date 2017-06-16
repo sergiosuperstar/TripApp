@@ -1,6 +1,7 @@
 ﻿using IO.Swagger.Data;
 using IO.Swagger.Logging;
 using IO.Swagger.Models;
+using IO.Swagger.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +22,11 @@ namespace IO.Swagger.Controllers
     /// </summary>
     public class NotificationsApi : Controller
     {
-        private const string API_URL_FCM = "https://fcm.googleapis.com/fcm/send";
-        private const string TRIPAPP_FCM_SERVER_API_KEY = "AAAAjdb4JLs:APA91bHgPgB4kCNiYJgTf45eYDRk6hmzSFYRmneaqFHxDVwss2QX9B4iD4WucB5bGXyEluq5H0ZrADtIyM-xFrv9jYszb2mVV3kwDOxyesEkYsV2aLVqFN1LMaJXy77QFwU97zq5wb89";
-        private const string TRIPAPP_FCM_SENDER_ID = "609196975291";
 
         private readonly TripAppContext _context;
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
+        private readonly FCMNotificationService _notificationService;
 
 
         /// <summary>
@@ -36,11 +35,13 @@ namespace IO.Swagger.Controllers
         /// <param name="context"></param>
         /// <param name="configuration"></param>
         /// <param name="logger"></param>
-        public NotificationsApi(TripAppContext context, IConfiguration configuration, ILogger<TicketsApiController> logger)
+        /// <param name="notificationService"></param>
+        public NotificationsApi(TripAppContext context, IConfiguration configuration, ILogger<TicketsApiController> logger, FCMNotificationService notificationService)
         {
             _context = context;
             _configuration = configuration;
             _logger = logger;
+            _notificationService = notificationService;
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace IO.Swagger.Controllers
 
             try
             {
-                var result = await SendNotification(notification);
+                var result = await _notificationService.Send(notification);
                 return Ok();
             }
             catch (Exception)
@@ -78,42 +79,6 @@ namespace IO.Swagger.Controllers
                 _logger.LogError(LoggingEvents.INSERT_ITEM, $"Send({notification}) FAILED.", notification);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-        }
-
-        private async Task<bool> SendNotification(Notification notification)
-        {
-            //FCMPushNotification result = new FCMPushNotification();
-            try
-            {
-                //result.Successful = true;
-                //result.Error = null;
-                // var value = message;
-                var client = new HttpClient();
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", string.Format("key={0}", TRIPAPP_FCM_SERVER_API_KEY));
-                // client.DefaultRequestHeaders.TryAddWithoutValidation("Sender", string.Format("key={0}", TRIPAPP_FCM_SENDER_ID));
-                
-                var message = new
-                {
-                    // to = YOUR_FCM_DEVICE_ID, // Uncoment this if you want to test for single device
-                    to = "/topics/" + notification.Topic, // this is for topic 
-                    notification = new
-                    {
-                        title = notification.Title,
-                        body = notification.Message,
-                        //icon="myicon"
-                    }
-                };
-
-                var json = JsonConvert.SerializeObject(message);
-
-                var result = await client.PostAsync(API_URL_FCM, 
-                    new StringContent(json, Encoding.UTF8, @"application/json"));
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            return true;
         }
 
     }

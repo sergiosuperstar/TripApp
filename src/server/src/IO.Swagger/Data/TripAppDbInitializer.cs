@@ -75,7 +75,7 @@ namespace IO.Swagger.Data
 
             // Validations:
             TicketValidation validation = new TicketValidation(1,DateTime.Now.AddMinutes(2).ToUniversalTime(), true, purchase, controller);
-            context.Validations.Add(validation);
+            //context.Validations.Add(validation);
 
             context.SaveChanges();
         }
