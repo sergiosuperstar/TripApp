@@ -1,5 +1,7 @@
 package com.example.icf.tripappclient.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,10 @@ public class TicketPurchase extends Fragment {
 
     private SessionManager session;
     private TicketType type;
+    private int PRIVATE_MODE = 0;
+    private Context _context;
+    private SharedPreferences pref;
+    private String notificationToken;
 
     public TicketPurchase() {
 
@@ -45,6 +51,10 @@ public class TicketPurchase extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        _context = getActivity().getApplicationContext();
+        pref = _context.getSharedPreferences("notification", PRIVATE_MODE);
+        notificationToken = pref.getString("token", null);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.ticket_purchase_title);
 
@@ -68,7 +78,7 @@ public class TicketPurchase extends Fragment {
                 int num = Integer.parseInt(mySpinner.getSelectedItem().toString());
                 purchase.setNumberOfPassangers(num);
 
-                Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketPurchaseService.add(session.getUser().getId().toString(), purchase);
+                Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketPurchaseService.add(session.getUser().getId().toString(), notificationToken, purchase);
                 call.enqueue(new Callback<io.swagger.client.model.TicketPurchase>() {
 
                     @Override
