@@ -95,7 +95,7 @@ namespace IO.Swagger.Controllers
             {
                 ticketValidation.Ticket = ticket;
                 ticketValidation.IsValid = true;
-                ticketValidation.ValidationDateTime = DateTime.Now;
+                ticketValidation.ValidationDateTime = DateTime.Now.ToUniversalTime();
 
                 Random r = new Random();
                 int rInt = r.Next(1, 1000000000);
