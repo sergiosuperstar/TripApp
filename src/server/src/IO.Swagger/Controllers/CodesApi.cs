@@ -195,7 +195,7 @@ namespace IO.Swagger.Controllers
                 code.UsageDateTime = DateTime.Now;
                 code.User.Balance += code.Value;
                 _context.Entry(code).State = EntityState.Modified;
-                _context.Entry(code.User).State = EntityState.Modified;
+                _context.Entry(code.User).State = EntityState.Unchanged;
                 _context.SaveChanges();
                 return new ObjectResult(true);
                 //return Ok(purchaseCode);
