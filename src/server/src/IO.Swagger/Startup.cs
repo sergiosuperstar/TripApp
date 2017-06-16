@@ -126,6 +126,10 @@ namespace IO.Swagger
             loggerFactory.AddDebug();
 
             TripAppDbInitializer.Seed(app.ApplicationServices);
+
+            // Force development environment always ON
+            // TODO: remove when not needed anymore!
+            env.EnvironmentName = EnvironmentName.Development;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
