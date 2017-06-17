@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.CheckBox;
 
 import com.example.icf.tripappclient.R;
 import com.google.android.gms.maps.CameraUpdate;
@@ -40,6 +41,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        CheckBox check1 = (CheckBox) findViewById(R.id.line1box);
+        CheckBox check2 = (CheckBox) findViewById(R.id.line2box);
+
+        check1.setChecked(true);
+        check2.setChecked(true);
 
         line1Stations.add(new MarkerOptions().position(new LatLng(45.26562909804279, 19.805066588040745)).title("Majevica"));
         line1Stations.add(new MarkerOptions().position(new LatLng(45.25904408732439, 19.809529783841526)).title("Detelinara"));
@@ -133,5 +140,32 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
 
+    }
+
+    public void onCheckboxClicked(View view){
+        boolean checked = ((CheckBox) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.line1box:
+                if (checked) {
+                    line1.setVisible(true);
+                }else {
+                   line1.setVisible(false);
+                    for(Marker marker: line1Markers){
+                        marker.setVisible(false);
+                    }
+                }
+                    break;
+            case R.id.line2box:
+                if (checked) {
+                    line2.setVisible(true);
+                }else{
+                    line2.setVisible(false);
+                    for(Marker marker: line2Markers){
+                        marker.setVisible(false);
+                    }
+                }
+                break;
+        }
     }
 }

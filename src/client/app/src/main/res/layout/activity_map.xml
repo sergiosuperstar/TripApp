@@ -13,7 +13,49 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/linesLayout"
+        android:layout_alignParentTop="true"
         tools:context="com.example.icf.tripappclient.activities.MapActivity"
         />
+
+    <TableLayout
+        android:id="@+id/linesLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:orientation="horizontal">
+
+        <TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#cacaca"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#c0c0c0"/>
+        </TableRow>
+
+        <TableRow>
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/line1box"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="   Line 1"
+                android:textSize="20sp"
+                android:onClick="onCheckboxClicked"/>
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/line2box"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="   Line 2"
+                android:textSize="20sp"
+                android:onClick="onCheckboxClicked"/>
+        </TableRow>
+
+    </TableLayout>
+
 
 </RelativeLayout>
