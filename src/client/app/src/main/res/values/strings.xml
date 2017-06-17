@@ -37,6 +37,7 @@
     <string name="ticket_history_title">All tickets</string>
     <string name="ticket_purchase_title">Buy ticket</string>
     <string name="account_balance_title">Account balance</string>
+    <string name="ticket_scanned_title">Scanned tickets</string>
 
     <string name="login">Login</string>
     <string name="register">Register</string>
@@ -63,6 +64,12 @@
     <string name="payment_history">Payment history:</string>
     <string name="button_add_money">Add money</string>
     <string name="no_payment_history">There are no payments to be displayed</string>
+
+    <string name="expired_label_big">EXPIRED</string>
+    <string name="valid_label_big">VALID</string>
+
+    <string name="scanned_label">Tickets you have scanned:</string>
+    <string name="no_scanned_tickets">There are no scanned tickets to be displayed</string>
 
     <string name="active_label">Active tickets:</string>
     <string name="expired_label">Expired tickets:</string>

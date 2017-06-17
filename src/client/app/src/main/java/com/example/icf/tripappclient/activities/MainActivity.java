@@ -26,6 +26,7 @@ import com.example.icf.tripappclient.fragments.Home;
 import com.example.icf.tripappclient.fragments.TicketHistory;
 import com.example.icf.tripappclient.fragments.TicketInfo;
 import com.example.icf.tripappclient.fragments.TicketPurchase;
+import com.example.icf.tripappclient.fragments.TicketScanned;
 import com.example.icf.tripappclient.service.ServiceUtils;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -205,6 +206,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_camera) {
             Intent intent = new Intent(this, ContinuousCaptureActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_scanned) {
+            TicketScanned tsFragment = new TicketScanned();
+            changeFragment(tsFragment);
         } else if (id == R.id.nav_ticket_history) {
             TicketHistory thFragment = new TicketHistory();
             changeFragment(thFragment);

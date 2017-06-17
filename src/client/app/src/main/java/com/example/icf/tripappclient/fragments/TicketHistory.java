@@ -76,7 +76,7 @@ public class TicketHistory extends Fragment {
         if (ticketsValid.size() > 0) {
             this.validTicketsDisplay.setVisibility(View.VISIBLE);
             this.noValidTicketsDisplay.setVisibility(View.GONE);
-            this.validTicketsDisplay.setAdapter(new TicketAdapter((AppCompatActivity) getActivity(), ticketsValid));
+            this.validTicketsDisplay.setAdapter(new TicketAdapter(activity, ticketsValid));
         } else {
             this.validTicketsDisplay.setVisibility(View.GONE);
             this.noValidTicketsDisplay.setVisibility(View.VISIBLE);
@@ -84,7 +84,7 @@ public class TicketHistory extends Fragment {
         if (ticketsExpired.size() > 0) {
             this.expiredTicketsDisplay.setVisibility(View.VISIBLE);
             this.noExpiredTicketsDisplay.setVisibility(View.GONE);
-            this.expiredTicketsDisplay.setAdapter(new TicketAdapter((AppCompatActivity)getActivity(), ticketsExpired));
+            this.expiredTicketsDisplay.setAdapter(new TicketAdapter(activity, ticketsExpired));
         } else {
             this.expiredTicketsDisplay.setVisibility(View.GONE);
             this.noExpiredTicketsDisplay.setVisibility(View.VISIBLE);

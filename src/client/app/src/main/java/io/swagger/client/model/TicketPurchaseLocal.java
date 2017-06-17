@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "")
 public class TicketPurchaseLocal implements Serializable {
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(id = true)
     @SerializedName("id")
     private Integer id = null;
 
@@ -56,9 +56,10 @@ public class TicketPurchaseLocal implements Serializable {
     public TicketPurchaseLocal() {
     }
 
-    public TicketPurchaseLocal(String code, Double price, Date startDateTime,
+    public TicketPurchaseLocal(Integer id, String code, Double price, Date startDateTime,
                                Date endDateTime, Integer numberOfPassangers,
                                String typeString, Long userId) {
+        this.id = id;
         this.code = code;
         this.price = price;
         this.startDateTime = startDateTime;

@@ -73,7 +73,7 @@ public class AccountBalance extends Fragment {
         if (payments.size() > 0) {
             this.paymentsDisplay.setVisibility(View.VISIBLE);
             this.noPaymentsDisplay.setVisibility(View.GONE);
-            this.paymentsDisplay.setAdapter(new PaymentAdapter((AppCompatActivity)getActivity(), payments));
+            this.paymentsDisplay.setAdapter(new PaymentAdapter(activity, payments));
         } else {
             this.paymentsDisplay.setVisibility(View.GONE);
             this.noPaymentsDisplay.setVisibility(View.VISIBLE);

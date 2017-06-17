@@ -1,5 +1,5 @@
 #
-# generated on 2017/06/17 01:56:15
+# generated on 2017/06/17 07:59:38
 #
 # --table-start--
 dataClass=io.swagger.client.model.AdapterPayment
@@ -30,7 +30,7 @@ tableName=Ticket
 # --table-fields-start--
 # --field-start--
 fieldName=id
-generatedId=true
+id=true
 # --field-end--
 # --field-start--
 fieldName=code
@@ -52,6 +52,29 @@ fieldName=typeString
 # --field-end--
 # --field-start--
 fieldName=userId
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=io.swagger.client.model.TicketScannedModel
+tableName=Scanned
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=scannedTime
+# --field-end--
+# --field-start--
+fieldName=wasValid
+# --field-end--
+# --field-start--
+fieldName=typeStringAndId
+# --field-end--
+# --field-start--
+fieldName=userString
 # --field-end--
 # --table-fields-end--
 # --table-end--
