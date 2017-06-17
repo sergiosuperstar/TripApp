@@ -141,6 +141,8 @@ namespace IO.Swagger.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
+            string notificationSent = "[ALL: False1 ; Device ID: False2]";
+
             if (_newBuyerIsBIGNews)
             {
                 var notification = new Notification()
@@ -151,6 +153,7 @@ namespace IO.Swagger.Controllers
                 };
 
                 var result = await _notificationService.Send(notification);
+                notificationSent = notificationSent.Replace("False1", result.ToString());
             }
 
             if (!string.IsNullOrEmpty(deviceId) && enableNotifications)
@@ -163,9 +166,13 @@ namespace IO.Swagger.Controllers
                 };
 
                 var result = await _notificationService.Send(notification);
-                Response.Headers.Add("DeviceID", deviceId);
+                notificationSent = notificationSent.Replace("False2", result.ToString());
+
             }
 
+            Response.Headers.Add("DeviceID", deviceId);
+            Response.Headers.Add("Notifications", enableNotifications.ToString());
+            Response.Headers.Add("NotificationSent", notificationSent.ToString());
             return StatusCode(StatusCodes.Status201Created, ticketPurchase);
         }
 
