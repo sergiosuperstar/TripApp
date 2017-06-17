@@ -1,14 +1,21 @@
 package com.example.icf.tripappclient.activities;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
+import com.example.icf.tripappclient.PermissionUtils;
 import com.example.icf.tripappclient.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,7 +32,8 @@ import java.util.ArrayList;
 
 import static com.example.icf.tripappclient.R.id.map;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnPolylineClickListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnPolylineClickListener,
+        GoogleMap.OnMyLocationButtonClickListener,  ActivityCompat.OnRequestPermissionsResultCallback{
 
     private GoogleMap map;
     private Polyline line1;
@@ -36,6 +44,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private ArrayList<Marker> line1Markers = new ArrayList<>();
     private ArrayList<Marker> line2Markers = new ArrayList<>();
+
+    private boolean mPermissionDenied = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +85,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         this.map = map;
 
         CameraUpdate center=
-                CameraUpdateFactory.newLatLng(new LatLng(45.2542, 19.8325));
+                CameraUpdateFactory.newLatLng(new LatLng(45.22013157293705, 19.830729963895237));
 
         map.moveCamera(center);
 
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         map.moveCamera(center);
-        map.animateCamera(CameraUpdateFactory.zoomTo( 13.5f ));
+        map.animateCamera(CameraUpdateFactory.zoomTo( 13.2f ));
 
         line1 = map.addPolyline(new PolylineOptions()
                 .clickable(true)
@@ -118,6 +128,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
         map.setOnPolylineClickListener(this);
+        map.setOnMyLocationButtonClickListener(this);
+        enableLocation();
 
     }
 
@@ -167,5 +179,58 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
                 break;
         }
+    }
+
+    private void enableLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            PermissionUtils.requestPermission(this, 1,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } else if (map != null) {
+            // Access to the location has been granted to the app.
+            map.setMyLocationEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        return false;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode != 1) {
+            return;
+        }
+
+        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Enable the my location layer if the permission has been granted.
+            enableLocation();
+        } else {
+            // Display the missing permission error dialog when the fragments resume.
+            mPermissionDenied = true;
+        }
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        if (mPermissionDenied) {
+            // Permission was not granted, display error dialog.
+            showMissingPermissionError();
+            mPermissionDenied = false;
+        }
+    }
+
+    /**
+     * Displays a dialog with error message explaining that the location permission is missing.
+     */
+    private void showMissingPermissionError() {
+        PermissionUtils.PermissionDeniedDialog
+                .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
 }
