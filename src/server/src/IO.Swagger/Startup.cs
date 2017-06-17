@@ -22,6 +22,7 @@
 
 using IO.Swagger.Data;
 using IO.Swagger.Models;
+using IO.Swagger.Notifications;
 using IO.Swagger.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,6 +54,9 @@ namespace IO.Swagger
 
         /// Configuration key for minutes until ticket starts section
         public const string AppSettingsMinutesUntilTicketStartKey = "MinutesUntilTicketStart";
+
+        /// Configuration key for new buyer notification sent to all
+        public const string AppSettingsNewBuyerIsANews = "NewBuyerIsANews";
 
         private readonly IHostingEnvironment _hostingEnv;
 
@@ -116,16 +120,25 @@ namespace IO.Swagger
             services.AddTransient<ApiKeyAuthenticationOptions>();
             services.AddTransient<ApiKeyOptions>();
             services.AddTransient<IOptions<ApiKeyAuthenticationOptions>, ApiKeyOptions>();
+            services.AddSingleton<FCMNotificationService>();
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+
             loggerFactory.AddConsole(Configuration.GetSection(LoggingConfigurationSectionKey));
             loggerFactory.AddDebug();
 
             TripAppDbInitializer.Seed(app.ApplicationServices);
 
+            // Force development environment always ON
+            // TODO: remove when not needed anymore!
+            env.EnvironmentName = EnvironmentName.Development;
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
             app.UseApiKeyAuthentication();
             app.UseMvc();
             app.UseDefaultFiles();

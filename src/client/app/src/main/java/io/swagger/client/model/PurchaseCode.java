@@ -47,6 +47,16 @@ public class PurchaseCode {
   private Boolean used = null;
   @SerializedName("user")
   private User user = null;
+  @SerializedName("userId")
+  private Long userId = null;
+
+  @ApiModelProperty(value = "")
+  public Long getUserId() {
+    return userId;
+  }
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
    **/

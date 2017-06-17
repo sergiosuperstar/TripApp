@@ -71,6 +71,7 @@ public class ContinuousCaptureActivity extends Activity {
                 return;
             }
             validation.setTicket(ticket);
+            validation.setController(session.getUser());
 
             Call<TicketPurchase> call = ServiceUtils.ticketValidationService.add(validation);
             call.enqueue(new Callback<TicketPurchase>() {
@@ -133,8 +134,7 @@ public class ContinuousCaptureActivity extends Activity {
 
         passengerCountLabel.setText("Number of passengers:");
         validityLabel.setText("Ticket status:");
-        validThroughLabel.setText("Valid through");
-
+        validThroughLabel.setText("Valid through:");
 
         barcodeView = (DecoratedBarcodeView) findViewById(R.id.barcode_scanner);
         barcodeView.decodeContinuous(callback);

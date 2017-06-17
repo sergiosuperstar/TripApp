@@ -27,6 +27,7 @@ import com.example.icf.tripappclient.fragments.TicketHistory;
 import com.example.icf.tripappclient.fragments.TicketInfo;
 import com.example.icf.tripappclient.fragments.TicketPurchase;
 import com.example.icf.tripappclient.service.ServiceUtils;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -99,6 +100,17 @@ public class MainActivity extends AppCompatActivity
         Home homeFragment = new Home();
         fragmentTransaction.add(R.id.fragment_container, homeFragment);
         fragmentTransaction.commit();
+
+        // DO NOT CHANGE TOPIC NAME FROM 'news'!
+        // IT MAY TAKE 24HRS TO CREATE IT AGAIN!
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
+
+        Boolean isBalance = getIntent().getBooleanExtra("balance", false);
+
+        if(isBalance){
+            session.reloadUserBalance(this);
+        }
+
     }
 
     @Override
@@ -206,8 +218,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_add){
             View view = findViewById(R.id.addMoney);
             scanVoucher(view);
-
            //mockCode();
+        }else if (id == R.id.nav_map) {
+            Intent intent = new Intent(this, MapActivity.class);
+            startActivity(intent);
         }
 
 
@@ -217,7 +231,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void buyOneHourTicket(View view) {
-        TicketType type = new TicketType();    // TODO: ne hardkoridirano, nego iz baze
+        TicketType type = new TicketType();
         type.setId(1);
         type.setDuration(1);
         type.setPrice(1.2);
@@ -284,42 +298,7 @@ public class MainActivity extends AppCompatActivity
             if(result.getContents() == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                final AppCompatActivity a = this;
 
-                PurchaseCode code = new PurchaseCode();
-                try {
-                    code.setCode(UUID.fromString(result.getContents()));
-                    code.setUser(session.getUser());
-                }catch(Exception e){
-                    Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
-                }
-
-                Call<Boolean> call = ServiceUtils.purchaseCodeService.put(code);
-                call.enqueue(new Callback<Boolean>() {
-
-                    @Override
-                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                        if (response.code() == 200) {
-                            Boolean resp = response.body();
-
-                            if (resp){
-                                Toast.makeText(a, "Successfully added funds.", Toast.LENGTH_LONG).show();
-                                session.reloadUserBalance((MainActivity) that);
-                            }else{
-                                Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
-                            }
-
-                        } else {
-                            Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Boolean> call, Throwable t) {
-                        Toast.makeText(a, "Failed to add funds. ", Toast.LENGTH_LONG).show();
-                    }
-                });
             }
         } else {
             // This is important, otherwise the result will not be passed to the fragment
@@ -328,11 +307,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void scanVoucher(View view){
-        IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-        integrator.setPrompt("Scan voucher");
-        integrator.setOrientationLocked(false);
-        integrator.initiateScan();
+        Intent intent = new Intent(this, VoucherScannerActivity.class);
+        startActivity(intent);
 
     }
 

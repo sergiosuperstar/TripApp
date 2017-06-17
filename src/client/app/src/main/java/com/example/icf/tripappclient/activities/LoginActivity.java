@@ -15,16 +15,11 @@ import com.example.icf.tripappclient.service.ServiceUtils;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
-import io.swagger.client.ApiException;
-import io.swagger.client.api.UsersApi;
 import io.swagger.client.model.AdapterPayment;
 import io.swagger.client.model.PurchaseCode;
 import io.swagger.client.model.TicketPurchase;
 import io.swagger.client.model.TicketPurchaseLocal;
-import io.swagger.client.model.TicketType;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -32,7 +32,7 @@ namespace IO.Swagger.Data
             User admin = new User(1,"admin", "Pera", "Administratovic","admin@tripapp.com", defaultPass, "333-123", "administrator", 2000.0d);
             context.Users.Add(admin);
 
-            User passenger = new User(2, "a", "Darinka", "Putnik", "daracar@tripapp.com", defaultPass, "333-444", "passenger", 1000.0d);
+            User passenger = new User(2, "a", "Darinka", "Putnik", "daracar@tripapp.com", defaultPass, "333-444", "passenger", 0.0d);
             context.Users.Add(passenger);
 
             User controller = new User(3, "ctrl", "Milos", "Nagib", "mrgud@tripapp.com", defaultPass, "333-555", "controller", 3000.0d);
@@ -68,14 +68,14 @@ namespace IO.Swagger.Data
             TicketPurchase purchase2 = new TicketPurchase(751, Guid.NewGuid(), 30.0d, DateTime.Now.AddHours(-3), DateTime.Now.AddHours(-2), 2, typeHour, passenger);
             TicketPurchase purchase3 = new TicketPurchase(752, Guid.NewGuid(), 30.0d, DateTime.Now.AddHours(-12), DateTime.Now.AddHours(12), 1, typeDay, passenger);
             TicketPurchase purchase4 = new TicketPurchase(753, Guid.NewGuid(), 30.0d, DateTime.Now, DateTime.Now.AddHours(24*30), 1, typeMonth, passenger);
-            context.Purchases.Add(purchase);
-            context.Purchases.Add(purchase2);
-            context.Purchases.Add(purchase3);
-            context.Purchases.Add(purchase4);
+            //context.Purchases.Add(purchase);
+            //context.Purchases.Add(purchase2);
+            //context.Purchases.Add(purchase3);
+            //context.Purchases.Add(purchase4);
 
             // Validations:
-            TicketValidation validation = new TicketValidation(1,DateTime.Now.AddMinutes(2), true, purchase, controller);
-            context.Validations.Add(validation);
+            TicketValidation validation = new TicketValidation(1,DateTime.Now.AddMinutes(2).ToUniversalTime(), true, purchase, controller);
+            //context.Validations.Add(validation);
 
             context.SaveChanges();
         }
