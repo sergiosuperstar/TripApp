@@ -146,5 +146,38 @@ namespace IO.Swagger.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+
+        /// <summary>
+        /// searches tickets validations
+        /// </summary>
+        /// <remarks>By passing in the appropriate options, you can search for available ticket validations in the system </remarks>
+        /// <param name="searchString">pass an optional search string for looking up ticket validations</param>
+        /// <param name="skip">number of records to skip for pagination</param>
+        /// <param name="limit">maximum number of records to return</param>
+        /// <response code="200">search results matching criteria</response>
+        /// <response code="400">bad input parameter</response>
+        [HttpGet]
+        [Route("/sergiosuperstar/TripAppSimple/1.0.0/tickets/validation/controller")]
+        [SwaggerOperation("SearchValidations")]
+        [SwaggerResponse(200, type: typeof(List<TicketValidation>))]
+        public virtual IActionResult SearchControlerValidations([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery]int? limit)
+        {
+            int id;
+            if (!int.TryParse(searchString, out id))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            try
+            {
+                var validations = _context.Validations.Where(c => c.Controller.Id == id).ToList();
+                return new ObjectResult(validations);
+            }
+            catch (Exception)
+            {
+                _logger.LogError(LoggingEvents.LIST_ITEMS, "SearchValidations({searchString}) NOT FOUND", searchString);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

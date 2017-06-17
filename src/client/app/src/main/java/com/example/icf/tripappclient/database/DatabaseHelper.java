@@ -14,6 +14,7 @@ import java.sql.SQLException;
 
 import io.swagger.client.model.AdapterPayment;
 import io.swagger.client.model.TicketPurchaseLocal;
+import io.swagger.client.model.TicketScannedModel;
 import io.swagger.client.model.TicketType;
 
 /**
@@ -23,13 +24,15 @@ import io.swagger.client.model.TicketType;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "trippApp.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private Dao<AdapterPayment, Integer> paymentDAO = null;
     private Dao<TicketPurchaseLocal, Integer> ticketDAO = null;
+    private Dao<TicketScannedModel, Integer> scannedDAO = null;
 
     private RuntimeExceptionDao<AdapterPayment, Integer> paymentRuntimeDAO = null;
     private RuntimeExceptionDao<TicketPurchaseLocal, Integer> ticketRuntimeDAO = null;
+    private RuntimeExceptionDao<TicketScannedModel, Integer> scannedRuntimeDAO = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
@@ -40,6 +43,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, AdapterPayment.class);
             TableUtils.createTable(connectionSource, TicketPurchaseLocal.class);
+            TableUtils.createTable(connectionSource, TicketScannedModel.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,6 +54,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable(connectionSource, AdapterPayment.class, true);
             TableUtils.dropTable(connectionSource, TicketPurchaseLocal.class, true);
+            TableUtils.dropTable(connectionSource, TicketScannedModel.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,6 +65,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.clearTable(getConnectionSource(), AdapterPayment.class);
             TableUtils.clearTable(getConnectionSource(), TicketPurchaseLocal.class);
+            TableUtils.clearTable(getConnectionSource(), TicketScannedModel.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,8 +76,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         super.close();
         ticketDAO = null;
         paymentDAO = null;
+        scannedDAO = null;
         ticketRuntimeDAO = null;
         paymentRuntimeDAO = null;
+        scannedRuntimeDAO = null;
     }
 
     public void setPaymentDAO(Dao<AdapterPayment, Integer> paymentDAO) {
@@ -82,12 +90,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         this.ticketDAO = ticketDAO;
     }
 
+    public void setScannedDAO(Dao<TicketScannedModel, Integer> scannedDAO) {
+        this.scannedDAO = scannedDAO;
+    }
+
     public void setPaymentRuntimeDAO(RuntimeExceptionDao<AdapterPayment, Integer> paymentRuntimeDAO) {
         this.paymentRuntimeDAO = paymentRuntimeDAO;
     }
 
     public void setTicketRuntimeDAO(RuntimeExceptionDao<TicketPurchaseLocal, Integer> ticketRuntimeDAO) {
         this.ticketRuntimeDAO = ticketRuntimeDAO;
+    }
+
+    public void setScannedRuntimeDAO(RuntimeExceptionDao<TicketScannedModel, Integer> scannedRuntimeDAO) {
+        this.scannedRuntimeDAO = scannedRuntimeDAO;
     }
 
     public Dao<AdapterPayment, Integer> getPaymentDAO() {
@@ -112,6 +128,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return ticketDAO;
     }
 
+    public Dao<TicketScannedModel, Integer> getScannedDAO() {
+        if (scannedDAO == null) {
+            try {
+                scannedDAO = getDao(TicketScannedModel.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return scannedDAO;
+    }
+
     public RuntimeExceptionDao<AdapterPayment, Integer> getPaymentRuntimeDAO() {
         if (paymentRuntimeDAO == null) {
             paymentRuntimeDAO = getRuntimeExceptionDao(AdapterPayment.class);
@@ -124,5 +151,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             ticketRuntimeDAO = getRuntimeExceptionDao(TicketPurchaseLocal.class);
         }
         return ticketRuntimeDAO;
+    }
+
+    public RuntimeExceptionDao<TicketScannedModel, Integer> getScannedRuntimeDAO() {
+        if (scannedRuntimeDAO == null) {
+            scannedRuntimeDAO = getRuntimeExceptionDao(TicketScannedModel.class);
+        }
+        return scannedRuntimeDAO;
     }
 }
