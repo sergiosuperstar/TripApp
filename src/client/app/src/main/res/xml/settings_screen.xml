@@ -28,6 +28,7 @@
 
     <PreferenceCategory
         android:id="@+id/history_category"
+        android:key="history_category"
         android:title="@string/history">
 
         <ListPreference
@@ -36,7 +37,7 @@
             android:title="@string/payments_history"
             android:entries="@array/history_display"
             android:entryValues="@array/history_values"
-            android:defaultValue="21"
+            android:defaultValue="30"
             android:summary="@string/payments_history_desc"/>
 
         <ListPreference
@@ -45,9 +46,17 @@
             android:title="@string/tickets_history"
             android:entries="@array/history_display"
             android:entryValues="@array/history_values"
-            android:defaultValue="21"
+            android:defaultValue="30"
             android:summary="@string/tickets_history_desc"/>
 
+        <ListPreference
+            android:id="@+id/scanned_historys"
+            android:key="scanned_history"
+            android:title="@string/scanned_history"
+            android:entries="@array/history_display"
+            android:entryValues="@array/history_values"
+            android:defaultValue="30"
+            android:summary="@string/scanned_history_desc"/>
 
     </PreferenceCategory>
 

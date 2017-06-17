@@ -1,10 +1,12 @@
 package com.example.icf.tripappclient.fragments;
 
 import android.content.ContentResolver;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +23,11 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -81,6 +85,12 @@ public class AccountBalance extends Fragment {
     }
 
     private void fillData() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(((AppCompatActivity) getActivity()).getApplicationContext());
+        int pref = 0 - Integer.parseInt(preferences.getString("payments_history", "30"));
+
+        Calendar current = new GregorianCalendar();
+        current.add(Calendar.DATE, pref);
+        Date margin = current.getTime();
 
         payments = new ArrayList<>();
 
@@ -92,6 +102,9 @@ public class AccountBalance extends Fragment {
             e.printStackTrace();
         }
 
+        if (pref < 998) {
+            payments = filterByDate(payments, margin);
+        }
         Collections.sort(payments, new CustomComparator());
 
     }
@@ -101,6 +114,16 @@ public class AccountBalance extends Fragment {
         public int compare(AdapterPayment o1, AdapterPayment o2) {
             return o1.getEndDateTime().compareTo(o2.getEndDateTime());
         }
+    }
+
+    private List<AdapterPayment> filterByDate(List<AdapterPayment> list, Date date) {
+        List<AdapterPayment> result = new ArrayList<>();
+        for (AdapterPayment element: list) {
+            if (element.getEndDateTime().after(date)) {
+                result.add(element);
+            }
+        }
+        return result;
     }
 
    /* @Override

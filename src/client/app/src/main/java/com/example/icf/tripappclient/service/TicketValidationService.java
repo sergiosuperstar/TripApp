@@ -6,6 +6,7 @@ import io.swagger.client.model.TicketPurchase;
 import io.swagger.client.model.TicketValidation;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -27,7 +28,7 @@ public interface TicketValidationService {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
-    @POST("tickets/validation/controller")
-    Call<List<TicketValidation>> getValidations(@Query("searchString") long controllerId);
+    @GET("tickets/validation/controller/")
+    Call<List<TicketValidation>> getValidations(@Query("searchString") String controllerId);
 
 }

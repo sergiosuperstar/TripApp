@@ -1,10 +1,12 @@
 package com.example.icf.tripappclient.fragments;
 
 import android.content.ContentResolver;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +24,11 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -92,6 +96,12 @@ public class TicketHistory extends Fragment {
     }
 
     private void fillData() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(((AppCompatActivity) getActivity()).getApplicationContext());
+        int pref = 0 - Integer.parseInt(preferences.getString("tickets_history", "30"));
+
+        Calendar current = new GregorianCalendar();
+        current.add(Calendar.DATE, pref);
+        Date margin = current.getTime();
 
         ticketsValid = new ArrayList<>();
         ticketsExpired = new ArrayList<>();
@@ -113,6 +123,10 @@ public class TicketHistory extends Fragment {
                 ticketsExpired.add(ticket);
             }
         }
+
+        if (pref < 998) {
+            ticketsExpired = filterByDate(ticketsExpired, margin);
+        }
         Collections.sort(ticketsValid, new CustomComparator());
         Collections.sort(ticketsExpired, new CustomComparator());
     }
@@ -122,5 +136,15 @@ public class TicketHistory extends Fragment {
         public int compare(TicketPurchaseLocal o1, TicketPurchaseLocal o2) {
             return o1.getEndDateTime().compareTo(o2.getEndDateTime());
         }
+    }
+
+    private List<TicketPurchaseLocal> filterByDate(List<TicketPurchaseLocal> list, Date date) {
+        List<TicketPurchaseLocal> result = new ArrayList<>();
+        for (TicketPurchaseLocal element: list) {
+            if (element.getEndDateTime().after(date)) {
+                result.add(element);
+            }
+        }
+        return result;
     }
 }

@@ -1,9 +1,11 @@
 package com.example.icf.tripappclient.fragments;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +19,11 @@ import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import io.swagger.client.model.TicketScannedModel;
@@ -69,6 +74,12 @@ public class TicketScanned extends Fragment {
     }
 
     private void fillData() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(((AppCompatActivity) getActivity()).getApplicationContext());
+        int pref = 0 - Integer.parseInt(preferences.getString("scanned_history", "30"));
+
+        Calendar current = new GregorianCalendar();
+        current.add(Calendar.DATE, pref);
+        Date margin = current.getTime();
 
         ticketsScanned = new ArrayList<>();
 
@@ -81,6 +92,9 @@ public class TicketScanned extends Fragment {
             e.printStackTrace();
         }
 
+        if (pref < 998) {
+            ticketsScanned = filterByDate(ticketsScanned, margin);
+        }
         Collections.sort(ticketsScanned, new CustomComparator());
     }
 
@@ -89,5 +103,15 @@ public class TicketScanned extends Fragment {
         public int compare(TicketScannedModel o1, TicketScannedModel o2) {
             return o1. getScannedTime().compareTo(o2.getScannedTime());
         }
+    }
+
+    private List<TicketScannedModel> filterByDate(List<TicketScannedModel> list, Date date) {
+        List<TicketScannedModel> result = new ArrayList<>();
+        for (TicketScannedModel element: list) {
+            if (element.getScannedTime().after(date)) {
+                result.add(element);
+            }
+        }
+        return result;
     }
 }

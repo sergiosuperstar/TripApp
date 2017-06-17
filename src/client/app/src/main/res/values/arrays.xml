@@ -35,20 +35,18 @@
 
     <string-array name="history_values">
         <item>7</item>
-        <item>14</item>
-        <item>21</item>
         <item>30</item>
         <item>90</item>
         <item>180</item>
         <item>360</item>
+        <item>1000</item>
     </string-array>
     <string-array name="history_display">
         <item>1 week</item>
-        <item>2 weeks</item>
-        <item>3 weeks</item>
         <item>1 month</item>
         <item>3 months</item>
         <item>6 months</item>
         <item>1 year</item>
+        <item>Show all</item>
     </string-array>
 </resources>

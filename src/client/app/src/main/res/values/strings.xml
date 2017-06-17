@@ -80,6 +80,9 @@
     <string name="payments_history_desc">Display payments occurred in the chosen period</string>
     <string name="tickets_history">Tickets history</string>
     <string name="tickets_history_desc">Display tickets occurred in the chosen period</string>
+    <string name="scanned_history">Scanned tickets history</string>
+    <string name="scanned_history_desc">Display scanned tickets occurred in the chosen period</string>
+
     <string name="scanned_ticket_validity_label">Ticket is:</string>
     <string name="title_activity_map">MapActivity</string>
 

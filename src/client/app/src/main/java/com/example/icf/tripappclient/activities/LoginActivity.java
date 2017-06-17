@@ -114,21 +114,27 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void fillUserTickets() {
-        Call<List<TicketValidation>> call = ServiceUtils.ticketValidationService.getValidations(session.getUser().getId());
+    private void fillScannedTickets() {
+        Call<List<TicketValidation>> call = ServiceUtils.ticketValidationService.getValidations(session.getUser().getId().toString());
         call.enqueue(new Callback<List<TicketValidation>>() {
             @Override
             public void onResponse(Call<List<TicketValidation>> call, Response<List<TicketValidation>> response) {
                 if (response.code() == 200) {
                     List<TicketValidation> validations = response.body();
                     for (TicketValidation validation: validations) {
-                        String ticketType = validation.getTicket().getType().getName();
-                        int ticketId = validation.getTicket().getId();
-                        String userSurname = validation.getTicket().getUser().getLastName();
-                        String userLetter = validation.getTicket().getUser().getFirstName().substring(0,1);
 
-                        String ticketMix = ticketType + " (" + ticketId + ")";
-                        String userMix = userLetter + ". " + userSurname;
+                        String ticketMix = "";
+                        String userMix = "";
+
+                        if (validation.getTicket() != null) {
+                            String ticketType = validation.getTicket().getType().getName();
+                            int ticketId = validation.getTicket().getId();
+                            String userSurname = validation.getTicket().getUser().getLastName();
+                            String userLetter = validation.getTicket().getUser().getFirstName().substring(0, 1);
+
+                            ticketMix = ticketType + " (" + ticketId + ")";
+                            userMix = userLetter + ". " + userSurname;
+                        }
 
                         TicketScannedModel scannedTicket = new TicketScannedModel(
                                 validation.getValidationDateTime(), validation.getIsValid(), ticketMix, userMix);
@@ -149,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void fillScannedTickets() {
+    private void fillUserTickets() {
         Call<List<TicketPurchase>> call = ServiceUtils.userTicketsService.get("all:"+session.getUser().getId());
         call.enqueue(new Callback<List<TicketPurchase>>() {
             @Override
@@ -161,7 +167,8 @@ public class LoginActivity extends AppCompatActivity {
                         Date endDateTime = ticket.getEndDateTime();
                         String ticketName = ticket.getType().getName();
                         boolean isExpense = true;
-                        AdapterPayment payment = new AdapterPayment(price, endDateTime, ticketName, isExpense);
+                        AdapterPayment payment = new AdapterPayment(price, ticket.getStartDateTime(),
+                                ticketName, isExpense);
                         TicketPurchaseLocal ticketLocal = new TicketPurchaseLocal(ticket.getId(),
                                 ticket.getCode().toString(), price, ticket.getStartDateTime(),
                                 endDateTime, ticket.getNumberOfPassangers(), ticketName,
