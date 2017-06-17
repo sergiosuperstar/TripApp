@@ -102,7 +102,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         new LatLng(45.25185407508154, 19.83716726553098),
                         new LatLng(45.25408972262825, 19.842317106839573)));
 
-        line1.setColor(Color.argb(150, 0, 255, 0));
+        line1.setColor(Color.argb(127, 0, 255, 0));
 
         line2 = map.addPolyline(new PolylineOptions()
                 .clickable(true)
@@ -113,7 +113,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         new LatLng(45.247865944733604, 19.839227202054417),
                         new LatLng(45.250283026858014, 19.847724440213597)));
 
-        line2.setColor(Color.argb(150, 255, 0, 0));
+        line2.setColor(Color.argb(127, 255, 0, 0));
 
         for(MarkerOptions marker: line1Stations){
             Marker mark = map.addMarker(marker);
