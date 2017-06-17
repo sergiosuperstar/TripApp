@@ -86,6 +86,7 @@ namespace IO.Swagger.Controllers
             var buyerUsername = User.FindFirst(ClaimTypes.Name).Value;
             var buyerFirstName = User.FindFirst(ClaimTypes.GivenName).Value;
             string deviceId = null;
+            bool enableNotifications = true;
 
             var hasTypeAndUser = ticketPurchase != null
                                 && ticketPurchase.TypeId != null
@@ -112,6 +113,7 @@ namespace IO.Swagger.Controllers
                 }
 
                 deviceId = Request.Headers["DeviceID"];
+                enableNotifications = Request.Headers["Notifications"].Any() ? Request.Headers["Notifications"] != "false" : true;
 
                 var type = _context.Types.First(t => t.Id == ticketPurchase.TypeId);
                 var user = _context.Users.First(u => u.Id == ticketPurchase.UserId);
@@ -139,6 +141,8 @@ namespace IO.Swagger.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
+            string notificationSent = "[ALL: False1 ; Device ID: False2]";
+
             if (_newBuyerIsBIGNews)
             {
                 var notification = new Notification()
@@ -149,9 +153,10 @@ namespace IO.Swagger.Controllers
                 };
 
                 var result = await _notificationService.Send(notification);
+                notificationSent = notificationSent.Replace("False1", result.ToString());
             }
 
-            if (!string.IsNullOrEmpty(deviceId))
+            if (!string.IsNullOrEmpty(deviceId) && enableNotifications)
             {
                 var notification = new Notification()
                 {
@@ -161,9 +166,13 @@ namespace IO.Swagger.Controllers
                 };
 
                 var result = await _notificationService.Send(notification);
-                Response.Headers.Add("DeviceID", deviceId);
+                notificationSent = notificationSent.Replace("False2", result.ToString());
+
             }
 
+            Response.Headers.Add("DeviceID", deviceId);
+            Response.Headers.Add("Notifications", enableNotifications.ToString());
+            Response.Headers.Add("NotificationSent", notificationSent.ToString());
             return StatusCode(StatusCodes.Status201Created, ticketPurchase);
         }
 

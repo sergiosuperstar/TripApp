@@ -66,5 +66,11 @@ public interface UserService {
     @PUT("user/{username}")
     Call<User> add(@Header("Authorization") long UserId, @Path("username") String username, @Body User user);
 
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
 
+    @POST("user/")
+    Call<User> register(@Body User user);
 }

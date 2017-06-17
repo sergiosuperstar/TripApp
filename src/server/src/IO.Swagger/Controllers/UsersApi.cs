@@ -78,6 +78,12 @@ namespace IO.Swagger.Controllers
 
             try
             {
+                // QUICK DIRTY FIX AS SEED HAVE FIXED ID's so USER will get used one!:
+                Random r = new Random();
+                int rInt = r.Next(1, 1000000000);
+                user.Id = rInt;
+                // END OF QUICK DIRTY FIX.
+
                 user.Password = _hasher.HashPassword(null, user.Password);
                 // Ensure token is created:
                 if (user.RefreshToken == null)

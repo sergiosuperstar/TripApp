@@ -54,6 +54,11 @@ public class LoginActivity extends AppCompatActivity {
         session.login(this, username, password);
     }
 
+    public void registerClicked(View view){
+        Intent iRegister = new Intent(getApplicationContext(), RegisterActivity.class);
+        startActivity(iRegister);
+    }
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(Intent.ACTION_MAIN);

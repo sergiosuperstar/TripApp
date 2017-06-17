@@ -31,13 +31,7 @@ import com.example.icf.tripappclient.service.ServiceUtils;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
-import java.util.UUID;
-
-import io.swagger.client.model.PurchaseCode;
 import io.swagger.client.model.TicketType;
-import io.swagger.client.model.TicketValidation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,7 +42,6 @@ public class MainActivity extends AppCompatActivity
     private SessionManager session;
     private DrawerLayout drawer;
 
-    private int selectedTicketTypeId;
     private ProgressDialog progress;
 
     private Activity that = this;
@@ -111,7 +104,6 @@ public class MainActivity extends AppCompatActivity
         if(isBalance){
             session.reloadUserBalance(this);
         }
-
     }
 
     @Override
@@ -265,7 +257,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void buyMonthDayTicket(View view) {
-        selectedTicketTypeId = 1;
         TicketType type = new TicketType();
         type.setId(4);
         type.setDuration(24*30);
@@ -291,7 +282,7 @@ public class MainActivity extends AppCompatActivity
             TicketInfo tiFragment = TicketInfo.newInstance(ticket);
             changeFragment(tiFragment);
         } else {
-            Toast.makeText(this, "Purchase failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Purchase failed or not enough credits", Toast.LENGTH_LONG).show();
         }
     }
 
