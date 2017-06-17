@@ -7,6 +7,8 @@
     <string name="ticket_month_u"><u>Month ticket</u></string>
 
     <string name="login_failed">Wrong credentials, try again.</string>
+    <string name="registration_successful">Registration successful. Please log in.</string>
+    <string name="registration_failed">Registration failed or username already exists!</string>
     <string name="loading">Loading</string>
     <string name="please_wait">Collecting data. Please wait...</string>
 
@@ -37,8 +39,13 @@
     <string name="account_balance_title">Account balance</string>
 
     <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="newUser">Welcome new user</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
+
+    <string name="firstName">First name</string>
+    <string name="lastName">Last name</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

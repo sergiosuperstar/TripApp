@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity
             TicketInfo tiFragment = TicketInfo.newInstance(ticket);
             changeFragment(tiFragment);
         } else {
-            Toast.makeText(this, "Purchase failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Purchase failed or not enough credits", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.example.icf.tripappclient.activities.LoginActivity;
+import com.example.icf.tripappclient.activities.RegisterActivity;
 import com.example.icf.tripappclient.database.DatabaseHelper;
 import com.example.icf.tripappclient.activities.MainActivity;
 import com.example.icf.tripappclient.fragments.AccountBalance;
@@ -74,6 +75,44 @@ public class SessionManager {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 login.respond(false);
+            }
+        });
+
+        return;
+    }
+
+    public void register(RegisterActivity activity, String username, String password, String firstName, String lastName) {
+        final RegisterActivity register = activity;
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        newUser.setRole("passenger");
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+
+        // Set just in case...
+        newUser.setEmail("");
+        newUser.setBalance(0.0);
+        newUser.setPhone("");
+
+        Call<User> call = ServiceUtils.userService.register(newUser);
+        call.enqueue(new Callback<User>() {
+
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.code() == 201) {
+                    User user = response.body();
+                    if (user != null) {
+                        register.respond(true);
+                    }
+                } else {
+                    register.respond(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                register.respond(false);
             }
         });
 

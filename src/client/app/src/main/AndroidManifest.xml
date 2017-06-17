@@ -26,7 +26,7 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:noHistory="true"></activity>
+            android:noHistory="true" />
         <activity android:name=".activities.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -34,10 +34,10 @@
         </activity>
         <activity
             android:name=".activities.ContinuousCaptureActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.VoucherScannerActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <service android:name=".service.TripAppFirebaseMessagingService">
             <intent-filter>
@@ -62,8 +62,9 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCWkWoyNAF33Mphdmrq69yt6dqhh0kB70g"/>
+            android:value="AIzaSyCWkWoyNAF33Mphdmrq69yt6dqhh0kB70g" />
 
+        <activity android:name=".activities.RegisterActivity"></activity>
     </application>
 
 </manifest>

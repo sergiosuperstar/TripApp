@@ -47,9 +47,6 @@ android {
 ext {
     swagger_annotations_version = "1.5.0"
     gson_version = "2.3.1"
-    httpmime_version = "4.5.2"
-    httpcore_version = "4.4.4"
-    httpclient_version = "4.3.3"
     volley_version = "1.0.0"
     junit_version = "4.12"
     robolectric_version = "3.0"
@@ -64,13 +61,14 @@ dependencies {
 
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
 
-    compile "org.apache.httpcomponents:httpcore:$httpcore_version"
-    compile "org.apache.httpcomponents:httpmime:$httpmime_version"
-
     compile "com.android.volley:volley:${volley_version}"
     testCompile "junit:junit:$junit_version"
     testCompile "org.robolectric:robolectric:${robolectric_version}"
     testCompile "net.jodah:concurrentunit:${concurrent_unit_version}"
+
+    compile group: 'com.j256.ormlite', name: 'ormlite-core', version: '4.48'
+    compile group: 'com.j256.ormlite', name: 'ormlite-android', version: '4.48'
+
     compile 'com.journeyapps:zxing-android-embedded:3.5.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -82,10 +80,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.android.support:recyclerview-v7:25.3.1'
-
-    compile group: 'com.j256.ormlite', name: 'ormlite-core', version: '4.48'
-    compile group: 'com.j256.ormlite', name: 'ormlite-android', version: '4.48'
-
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.google.android.gms:play-services-location:10.0.1'
     compile 'com.google.android.gms:play-services-maps:10.0.1'
