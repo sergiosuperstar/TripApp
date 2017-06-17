@@ -17,18 +17,13 @@
   - Upravljaju nalozima kontrolera i po potrebi putnika.
   - Upravljaju linijama prevoza i redom vožnje.
 
- ## Linije i red vožnje ##
+ ## Mapa linija ##
  
   Aplikacija sadrži i pregled svih linija prevoza na mapi. Postoji mogućnost pregleda pojedinačnih linija na mapi.
-  Aplikacija sadrži red vožnje po linijama sa vremenskom tabelom polazaka.
 
  ## Notifikacije ##
  
-  - Aplikacija šalje notifikacije kada je karta postala aktivna (5 minuta posle kupovine, da bi se izbegla kupovina kada počne kontrola).
-  - Aplikacija šalje notifikacije 10 minuta pre isteka aktivne karte u trajanju od 1 sat.
-  - Aplikacija šalje notifikacije 1 sat pre isteka dnevne karte.
-  - Aplikacija šalje notifikacije 1 dan pre isteka nedeljne karte.
-  - Aplikacija šalje notifikacije 3 dana pre isteka mesečne karte.
+  - Aplikacija šalje notifikacije 5 minuta pre isteka aktivne karte u trajanju od 1 sat.
 
 # Uloge #
 
@@ -51,18 +46,13 @@
 
 ## Detail view ##
 
-- Putnik
-- Kontrolor
 - Karta detaljno
 
 ## Settings ##
 
-- Menjanje formata vremena i datuma
-- Menjanje redosleda karata?
-- Ukljucivanje/iskljucivanje zvucnih signala (npr. Za neispravnu kartu)
+- Ukljucivanje/iskljucivanje notifikacija i podešavanje zvuka i vibracije
 - Send usage statistics
 - Koliko unazad da pamti karte
-- Remember me
 
 ## About ##
 
