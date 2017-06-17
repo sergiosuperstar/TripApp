@@ -86,6 +86,7 @@ namespace IO.Swagger.Controllers
             var buyerUsername = User.FindFirst(ClaimTypes.Name).Value;
             var buyerFirstName = User.FindFirst(ClaimTypes.GivenName).Value;
             string deviceId = null;
+            bool enableNotifications = true;
 
             var hasTypeAndUser = ticketPurchase != null
                                 && ticketPurchase.TypeId != null
@@ -112,6 +113,7 @@ namespace IO.Swagger.Controllers
                 }
 
                 deviceId = Request.Headers["DeviceID"];
+                enableNotifications = Request.Headers["Notifications"].Any() ? Request.Headers["Notifications"] != "false" : true;
 
                 var type = _context.Types.First(t => t.Id == ticketPurchase.TypeId);
                 var user = _context.Users.First(u => u.Id == ticketPurchase.UserId);
@@ -151,7 +153,7 @@ namespace IO.Swagger.Controllers
                 var result = await _notificationService.Send(notification);
             }
 
-            if (!string.IsNullOrEmpty(deviceId))
+            if (!string.IsNullOrEmpty(deviceId) && enableNotifications)
             {
                 var notification = new Notification()
                 {

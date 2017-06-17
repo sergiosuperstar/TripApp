@@ -3,6 +3,7 @@ package com.example.icf.tripappclient.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ public class TicketPurchase extends Fragment {
     private Context _context;
     private SharedPreferences pref;
     private String notificationToken;
+    private Boolean notificationsEnabled;
 
     public TicketPurchase() {
 
@@ -55,6 +57,9 @@ public class TicketPurchase extends Fragment {
         _context = getActivity().getApplicationContext();
         pref = _context.getSharedPreferences("notification", PRIVATE_MODE);
         notificationToken = pref.getString("token", null);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(_context);
+        notificationsEnabled = sharedPref.getBoolean("notifications_on", true);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.ticket_purchase_title);
 
@@ -78,7 +83,7 @@ public class TicketPurchase extends Fragment {
                 int num = Integer.parseInt(mySpinner.getSelectedItem().toString());
                 purchase.setNumberOfPassangers(num);
 
-                Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketPurchaseService.add(session.getUser().getId().toString(), notificationToken, purchase);
+                Call<io.swagger.client.model.TicketPurchase> call = ServiceUtils.ticketPurchaseService.add(session.getUser().getId().toString(), notificationToken, notificationsEnabled, purchase);
                 call.enqueue(new Callback<io.swagger.client.model.TicketPurchase>() {
 
                     @Override
