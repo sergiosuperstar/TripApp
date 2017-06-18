@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_main) {  /* MOZDA NE TREBA NEW FRAGMENT NEGO IH CUVATI KAO POLJA */
             Home homeFragment = new Home();
             changeFragment(homeFragment);
-        /*} else if (id == R.id.nav_ticket_info) {
+        } else if (id == R.id.nav_ticket_info) {
 
             progress.setMessage("Collecting data. Please wait...");
             progress.show();
@@ -176,8 +176,8 @@ public class MainActivity extends AppCompatActivity
                 public void onResponse(Call<io.swagger.client.model.TicketPurchase> call, Response<io.swagger.client.model.TicketPurchase> response) {
                     if (response.code() == 200) {
                         progress.dismiss();
-                        //TicketInfo tiFragment = TicketInfo.newInstance(response.body());
-                        //changeFragment(tiFragment);
+                        TicketInfo tiFragment = TicketInfo.newInstance(new TicketPurchaseLocal(response.body()));
+                        changeFragment(tiFragment);
                     } else {
                         progress.dismiss();
                         Toast.makeText(that, "No active tickets", Toast.LENGTH_LONG).show();
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity
                 }
             });
 
-        */
+
         } else if (id == R.id.nav_ticket_balance) {
             AccountBalance abFragment = new AccountBalance();
             changeFragment(abFragment);
