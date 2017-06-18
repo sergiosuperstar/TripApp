@@ -165,7 +165,7 @@ namespace IO.Swagger.Controllers
             }
             try
             {
-                var validations = _context.Validations.Include(c => c.Controller).Include(t => t.Ticket).Include(tt => tt.Ticket.Type).Where(u => u.Controller.Id == id);
+                var validations = _context.Validations.Include(c => c.Controller).Include(t => t.Ticket).Include(tt => tt.Ticket.Type).Include(tt => tt.Ticket.User).Where(u => u.Controller.Id == id);
                 return new ObjectResult(validations);
             }
             catch (Exception)
