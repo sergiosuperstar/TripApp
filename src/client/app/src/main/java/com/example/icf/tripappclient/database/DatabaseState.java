@@ -68,12 +68,129 @@ public class DatabaseState {
         });
     }
 
+    public void refillPayments() {
+        Call<List<PurchaseCode>> callPlus = ServiceUtils.purchaseCodeService.get(session.getUser().getId().toString());
+        callPlus.enqueue(new Callback<List<PurchaseCode>>() {
+            @Override
+            public void onResponse(Call<List<PurchaseCode>> call, Response<List<PurchaseCode>> response) {
+                if (response.code() == 200) {
+                    List<PurchaseCode> purchaseCodes = response.body();
+                    refillUserPaymentsFromTickets(purchaseCodes);
+                } else {
+                    closeApplication();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<PurchaseCode>> call, Throwable t) {
+                closeApplication();
+            }
+        });
+    }
+
+    private void refillUserPaymentsFromTickets(List<PurchaseCode> paymentsFromCodes) {
+        final List<PurchaseCode> balancePaymentCodes = paymentsFromCodes;
+        Call<List<TicketPurchase>> call = ServiceUtils.userTicketsService.get("all:"+session.getUser().getId());
+        call.enqueue(new Callback<List<TicketPurchase>>() {
+            @Override
+            public void onResponse(Call<List<TicketPurchase>> call, Response<List<TicketPurchase>> response) {
+                if (response.code() == 200) {
+                    databaseHelper.emptyPayments();
+                    List<TicketPurchase> tickets = response.body();
+                    for (TicketPurchase ticket: tickets) {
+                        Double price = ticket.getPrice() * ticket.getNumberOfPassangers();
+                        Date endDateTime = ticket.getEndDateTime();
+                        String ticketName = ticket.getType().getName();
+                        boolean isExpense = true;
+                        AdapterPayment payment = new AdapterPayment(price, ticket.getStartDateTime(),
+                                ticketName, isExpense);
+                        try {
+                            databaseHelper.getPaymentDAO().create(payment);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    for (PurchaseCode purchaseCode: balancePaymentCodes) {
+                        Double price = purchaseCode.getValue();
+                        Date endDateTime = purchaseCode.getUsageDateTime();
+                        String ticketName = "";
+                        boolean isExpense = false;
+                        AdapterPayment payment = new AdapterPayment(price, endDateTime, ticketName, isExpense);
+                        try {
+                            databaseHelper.getPaymentDAO().create(payment);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    closeApplication();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<TicketPurchase>> call, Throwable t) {
+                closeApplication();
+            }
+        });
+    }
+
     private void fillScannedTickets() {
         Call<List<TicketValidation>> call = ServiceUtils.ticketValidationService.getValidations(session.getUser().getId().toString());
         call.enqueue(new Callback<List<TicketValidation>>() {
             @Override
             public void onResponse(Call<List<TicketValidation>> call, Response<List<TicketValidation>> response) {
                 if (response.code() == 200) {
+                    List<TicketValidation> validations = response.body();
+                    for (TicketValidation validation: validations) {
+
+                        String ticketMix = "";
+                        String userMix = "";
+
+                        if (validation.getTicket() != null) {
+                            TicketType ticketType = validation.getTicket().getType();
+                            String ticketTypeName = "";
+                            if (ticketType != null){
+                                ticketTypeName = ticketType.getName();
+                            }
+                            int ticketId = validation.getTicket().getId();
+
+                            User validationUser = validation.getTicket().getUser();
+
+                            String userSurname = "";
+                            String userLetter = "";
+                            if (validationUser != null) {
+                                userSurname = validation.getTicket().getUser().getLastName();
+                                userLetter = validation.getTicket().getUser().getFirstName().substring(0, 1);
+                            }
+
+                            ticketMix = ticketTypeName + " (" + ticketId + ")";
+                            userMix = userLetter + ". " + userSurname;
+                        }
+
+                        TicketScannedModel scannedTicket = new TicketScannedModel(
+                                validation.getValidationDateTime(), validation.getIsValid(), ticketMix, userMix);
+                        try {
+                            databaseHelper.getScannedDAO().create(scannedTicket);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    closeApplication();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<TicketValidation>> call, Throwable t) {
+                closeApplication();
+            }
+        });
+    }
+
+    public void refillScannedTickets() {
+        Call<List<TicketValidation>> call = ServiceUtils.ticketValidationService.getValidations(session.getUser().getId().toString());
+        call.enqueue(new Callback<List<TicketValidation>>() {
+            @Override
+            public void onResponse(Call<List<TicketValidation>> call, Response<List<TicketValidation>> response) {
+                if (response.code() == 200) {
+                    databaseHelper.emptyScannedTickets();
                     List<TicketValidation> validations = response.body();
                     for (TicketValidation validation: validations) {
 
@@ -156,21 +273,43 @@ public class DatabaseState {
         });
     }
 
-
-    public void refillPayments() {
-        databaseHelper.emptyPayments();
-        fillUserPayments();
-    }
-
     public void refillTickets() {
-        databaseHelper.emptyTickets();
-        fillUserTickets();
+        Call<List<TicketPurchase>> call = ServiceUtils.userTicketsService.get("all:"+session.getUser().getId());
+        call.enqueue(new Callback<List<TicketPurchase>>() {
+            @Override
+            public void onResponse(Call<List<TicketPurchase>> call, Response<List<TicketPurchase>> response) {
+                if (response.code() == 200) {
+                    databaseHelper.emptyTickets();
+                    List<TicketPurchase> tickets = response.body();
+                    for (TicketPurchase ticket: tickets) {
+                        Double price = ticket.getPrice() * ticket.getNumberOfPassangers();
+                        Date endDateTime = ticket.getEndDateTime();
+                        String ticketName = ticket.getType().getName();
+                        boolean isExpense = true;
+                        AdapterPayment payment = new AdapterPayment(price, ticket.getStartDateTime(),
+                                ticketName, isExpense);
+                        TicketPurchaseLocal ticketLocal = new TicketPurchaseLocal(ticket.getId(),
+                                ticket.getCode().toString(), price, ticket.getStartDateTime(),
+                                endDateTime, ticket.getNumberOfPassangers(), ticketName,
+                                ticket.getUserId());
+                        try {
+                            databaseHelper.getTicketDAO().create(ticketLocal);
+                            databaseHelper.getPaymentDAO().create(payment);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    closeApplication();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<TicketPurchase>> call, Throwable t) {
+                closeApplication();
+            }
+        });
     }
 
-    public void refillScannedTickets() {
-        databaseHelper.emptyScannedTickets();
-        fillScannedTickets();
-    }
 
     public void emptyPayments() {
         databaseHelper.emptyPayments();
