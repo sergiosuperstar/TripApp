@@ -22,23 +22,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Swashbuckle.SwaggerGen.Annotations;
 using IO.Swagger.Models;
 using Microsoft.AspNetCore.Http;
 using IO.Swagger.Data;
 using Microsoft.Extensions.Logging;
 using IO.Swagger.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace IO.Swagger.Controllers
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
@@ -170,7 +165,7 @@ namespace IO.Swagger.Controllers
             }
             try
             {
-                var validations = _context.Validations.Where(c => c.Controller.Id == id).ToList();
+                var validations = _context.Validations.Include(c => c.Controller).Include(t => t.Ticket).Where(u => u.Controller.Id == id);
                 return new ObjectResult(validations);
             }
             catch (Exception)
