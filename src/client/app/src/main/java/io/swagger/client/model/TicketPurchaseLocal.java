@@ -1,5 +1,6 @@
 package io.swagger.client.model;
 
+import com.example.icf.tripappclient.SessionManager;
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -120,7 +121,7 @@ public class TicketPurchaseLocal implements Serializable {
     }
 
     public String getStartDateTimeString() {
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        DateFormat df = new SimpleDateFormat(SessionManager.DATETIME_FORMAT);
         return df.format(startDateTime);
     }
 
@@ -135,7 +136,7 @@ public class TicketPurchaseLocal implements Serializable {
     }
 
     public String getEndDateTimeString() {
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        DateFormat df = new SimpleDateFormat(SessionManager.DATETIME_FORMAT);
         return df.format(endDateTime);
     }
 

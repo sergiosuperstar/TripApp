@@ -27,6 +27,8 @@ import retrofit2.Response;
 
 public class SessionManager {
 
+    public static String DATETIME_FORMAT = "dd.MM.yyyy HH:mm";
+
     private DatabaseState databaseState;
     private SharedPreferences pref;
     private Editor editor;

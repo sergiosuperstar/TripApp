@@ -1,5 +1,6 @@
 package io.swagger.client.model;
 
+import com.example.icf.tripappclient.SessionManager;
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -55,7 +56,7 @@ public class TicketScannedModel {
     }
 
     public String getScannedTimeString() {
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        DateFormat df = new SimpleDateFormat(SessionManager.DATETIME_FORMAT);
         return df.format(scannedTime);
     }
 

@@ -34,6 +34,8 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.UUID;
 import io.swagger.annotations.*;
+
+import com.example.icf.tripappclient.SessionManager;
 import com.google.gson.annotations.SerializedName;
 
 @ApiModel(description = "")
@@ -129,7 +131,7 @@ public class TicketPurchase implements Serializable {
         this.startDateTime = startDateTime;
     }
     public String getStartDateTimeString(){
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        DateFormat df = new SimpleDateFormat(SessionManager.DATETIME_FORMAT);
         // Uncomment for testing:
         // df.setTimeZone(TimeZone.getTimeZone("UTC"));
 
@@ -150,7 +152,7 @@ public class TicketPurchase implements Serializable {
         this.endDateTime = endDateTime;
     }
     public String getEndDateTimeString(){
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        DateFormat df = new SimpleDateFormat(SessionManager.DATETIME_FORMAT);
         return df.format(endDateTime);
     }
 
