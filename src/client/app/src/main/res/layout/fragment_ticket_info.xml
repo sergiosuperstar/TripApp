@@ -54,7 +54,7 @@
             android:textSize="@dimen/text_value"
             android:textColor="@color/red"
             android:textStyle="bold"
-            android:visibility="gone" /> <!-- Koristiti za prikaz/sakrivanje labele (iskljucivo: visible/gone) -->
+            android:visibility="visible" /> <!-- Koristiti za prikaz/sakrivanje labele (iskljucivo: visible/gone) -->
 
         <TextView
             android:id="@+id/statusValid"
@@ -69,7 +69,7 @@
             android:textSize="@dimen/text_value"
             android:textColor="@color/green"
             android:textStyle="bold"
-            android:visibility="visible" /> <!-- Koristiti za prikaz/sakrivanje labele (iskljucivo: visible/gone) -->
+            android:visibility="gone" /> <!-- Koristiti za prikaz/sakrivanje labele (iskljucivo: visible/gone) -->
     </GridLayout>
 
     <ScrollView

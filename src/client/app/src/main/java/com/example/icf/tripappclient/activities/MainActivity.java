@@ -70,11 +70,11 @@ public class MainActivity extends AppCompatActivity
         toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (drawer.isDrawerVisible(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
+            if (drawer.isDrawerVisible(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                drawer.openDrawer(GravityCompat.START);
+            }
             }
         });
 
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_main) {  /* MOZDA NE TREBA NEW FRAGMENT NEGO IH CUVATI KAO POLJA */
             Home homeFragment = new Home();
             changeFragment(homeFragment);
-        } else if (id == R.id.nav_ticket_info) {
+        /*} else if (id == R.id.nav_ticket_info) {
 
             progress.setMessage("Collecting data. Please wait...");
             progress.show();
@@ -172,8 +172,8 @@ public class MainActivity extends AppCompatActivity
                 public void onResponse(Call<io.swagger.client.model.TicketPurchase> call, Response<io.swagger.client.model.TicketPurchase> response) {
                     if (response.code() == 200) {
                         progress.dismiss();
-                        TicketInfo tiFragment = TicketInfo.newInstance(response.body());
-                        changeFragment(tiFragment);
+                        //TicketInfo tiFragment = TicketInfo.newInstance(response.body());
+                        //changeFragment(tiFragment);
                     } else {
                         progress.dismiss();
                         Toast.makeText(that, "No active tickets", Toast.LENGTH_LONG).show();
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity
                 }
             });
 
-
+        */
         } else if (id == R.id.nav_ticket_balance) {
             AccountBalance abFragment = new AccountBalance();
             changeFragment(abFragment);
@@ -279,8 +279,8 @@ public class MainActivity extends AppCompatActivity
         if (successful) {
             Toast.makeText(this, "Purchase successful", Toast.LENGTH_LONG).show();
             session.setBalance(ticket.getUser().getBalance());
-            TicketInfo tiFragment = TicketInfo.newInstance(ticket);
-            changeFragment(tiFragment);
+            //TicketInfo tiFragment = TicketInfo.newInstance(ticket);
+            //changeFragment(tiFragment);
         } else {
             Toast.makeText(this, "Purchase failed or not enough credits", Toast.LENGTH_LONG).show();
         }

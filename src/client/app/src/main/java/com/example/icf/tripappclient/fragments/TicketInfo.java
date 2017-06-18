@@ -18,7 +18,9 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import io.swagger.client.model.*;
@@ -34,7 +36,8 @@ import static android.graphics.Color.YELLOW;
 
 public class TicketInfo extends Fragment {
 
-    private TicketPurchase ticket;
+    private TicketPurchaseLocal ticket;
+    private boolean isValid;
 
     public TicketInfo() {
         // Required empty public constructor
@@ -42,7 +45,7 @@ public class TicketInfo extends Fragment {
 
     // TODO: iz ovog fragmenta back strelica a ne navbar - dvd
 
-    public static TicketInfo newInstance(TicketPurchase ticket) {
+    public static TicketInfo newInstance(TicketPurchaseLocal ticket) {
         TicketInfo fragment = new TicketInfo();
         Bundle args = new Bundle();
         args.putSerializable("ticket", ticket);
@@ -54,19 +57,24 @@ public class TicketInfo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.ticket_info_title);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.ticket_info_title);
 
-        View view=inflater.inflate(R.layout.fragment_ticket_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_ticket_info, container, false);
 
-        ticket = (TicketPurchase) getArguments().getSerializable("ticket");
+        ticket = (TicketPurchaseLocal) getArguments().getSerializable("ticket");
 
-        Double totalPrice = ticket.getPrice()*ticket.getNumberOfPassangers();
+        Double totalPrice = ticket.getPrice() * ticket.getNumberOfPassangers();
+        String priceTotalDecimal = String.format("%.2f", totalPrice);
+        String priceSingleDecimal = String.format("%.2f", ticket.getPrice());
+
         ((TextView) view.findViewById(R.id.dateFromValue)).setText(ticket.getStartDateTimeString());
         ((TextView) view.findViewById(R.id.dateToValue)).setText(ticket.getEndDateTimeString());
-        ((TextView) view.findViewById(R.id.ticketPriceValue)).setText(totalPrice.toString());
-        ((TextView) view.findViewById(R.id.ticketPriceSingleValue)).setText(ticket.getPrice().toString());
+        ((TextView) view.findViewById(R.id.ticketPriceValue)).setText(priceTotalDecimal.toString());
+        ((TextView) view.findViewById(R.id.ticketPriceSingleValue)).setText(priceSingleDecimal);
         ((TextView) view.findViewById(R.id.ticketsNumberValue)).setText(ticket.getNumberOfPassangers().toString());
-        ((TextView) view.findViewById(R.id.ticketTypeValue)).setText(ticket.getType().getName());
+        ((TextView) view.findViewById(R.id.ticketTypeValue)).setText(ticket.getTypeString());
+
+        isValid = ticket.getEndDateTime().after(new Date());
 
         try {
             ImageView imageView = (ImageView) view.findViewById(R.id.qrExample);
@@ -77,6 +85,23 @@ public class TicketInfo extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        TextView expiredLabel = (TextView) getActivity().findViewById(R.id.statusExpired);
+        TextView validLabel = (TextView) getActivity().findViewById(R.id.statusValid);
+
+        //Date current = new Date();
+        if (isValid) {
+            expiredLabel.setVisibility(View.GONE);
+            validLabel.setVisibility(View.VISIBLE);
+        } else {
+            expiredLabel.setVisibility(View.VISIBLE);
+            validLabel.setVisibility(View.GONE);
+        }
     }
 
     Bitmap encodeAsBitmap(String str) throws WriterException {
@@ -101,5 +126,4 @@ public class TicketInfo extends Fragment {
         bitmap.setPixels(pixels, 0, 150, 0, 0, w, h);
         return bitmap;
     }
-
 }

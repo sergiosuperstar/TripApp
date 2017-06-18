@@ -10,6 +10,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,6 +49,8 @@ public class TicketHistory extends Fragment {
     private TextView noValidTicketsDisplay;
     private TextView noExpiredTicketsDisplay;
 
+    private MainActivity activity;
+
     public TicketHistory() {
         // Required empty public constructor
     }
@@ -56,12 +59,10 @@ public class TicketHistory extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity = (MainActivity) getActivity();
         activity.getSupportActionBar().setTitle(R.string.ticket_history_title);
 
         fillData();
-
-
 
         return inflater.inflate(R.layout.fragment_ticket_history, container, false);
     }
@@ -70,17 +71,18 @@ public class TicketHistory extends Fragment {
     public void onStart() {
         super.onStart();
 
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-
         this.noValidTicketsDisplay = (TextView) activity.findViewById(R.id.emptyActiveLabel);
         this.noExpiredTicketsDisplay = (TextView) activity.findViewById(R.id.emptyHistoryLabel);
         this.validTicketsDisplay = (ListView) activity.findViewById(R.id.validTicketsList);
         this.expiredTicketsDisplay = (ListView) activity.findViewById(R.id.expiredTicketsList);
 
+        AdapterView.OnItemClickListener da = null;
+
         if (ticketsValid.size() > 0) {
             this.validTicketsDisplay.setVisibility(View.VISIBLE);
             this.noValidTicketsDisplay.setVisibility(View.GONE);
             this.validTicketsDisplay.setAdapter(new TicketAdapter(activity, ticketsValid));
+            this.validTicketsDisplay.setOnItemClickListener(new TicketItemListener(ticketsValid));
         } else {
             this.validTicketsDisplay.setVisibility(View.GONE);
             this.noValidTicketsDisplay.setVisibility(View.VISIBLE);
@@ -89,6 +91,7 @@ public class TicketHistory extends Fragment {
             this.expiredTicketsDisplay.setVisibility(View.VISIBLE);
             this.noExpiredTicketsDisplay.setVisibility(View.GONE);
             this.expiredTicketsDisplay.setAdapter(new TicketAdapter(activity, ticketsExpired));
+            this.expiredTicketsDisplay.setOnItemClickListener(new TicketItemListener(ticketsExpired));
         } else {
             this.expiredTicketsDisplay.setVisibility(View.GONE);
             this.noExpiredTicketsDisplay.setVisibility(View.VISIBLE);
@@ -146,5 +149,21 @@ public class TicketHistory extends Fragment {
             }
         }
         return result;
+    }
+
+    private class TicketItemListener implements AdapterView.OnItemClickListener {
+
+        private List<TicketPurchaseLocal> list;
+
+        public TicketItemListener(List<TicketPurchaseLocal> list) {
+            this.list = list;
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            TicketPurchaseLocal item = list.get(i);
+            TicketInfo tiFragment = TicketInfo.newInstance(item);
+            activity.changeFragment(tiFragment);
+        }
     }
 }
