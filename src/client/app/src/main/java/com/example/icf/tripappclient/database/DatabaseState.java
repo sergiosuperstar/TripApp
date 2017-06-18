@@ -15,7 +15,9 @@ import io.swagger.client.model.PurchaseCode;
 import io.swagger.client.model.TicketPurchase;
 import io.swagger.client.model.TicketPurchaseLocal;
 import io.swagger.client.model.TicketScannedModel;
+import io.swagger.client.model.TicketType;
 import io.swagger.client.model.TicketValidation;
+import io.swagger.client.model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -79,12 +81,23 @@ public class DatabaseState {
                         String userMix = "";
 
                         if (validation.getTicket() != null) {
-                            String ticketType = validation.getTicket().getType().getName();
+                            TicketType ticketType = validation.getTicket().getType();
+                            String ticketTypeName = "";
+                            if (ticketType != null){
+                                ticketTypeName = ticketType.getName();
+                            }
                             int ticketId = validation.getTicket().getId();
-                            String userSurname = validation.getTicket().getUser().getLastName();
-                            String userLetter = validation.getTicket().getUser().getFirstName().substring(0, 1);
 
-                            ticketMix = ticketType + " (" + ticketId + ")";
+                            User validationUser = validation.getTicket().getUser();
+
+                            String userSurname = "";
+                            String userLetter = "";
+                            if (validationUser != null) {
+                                userSurname = validation.getTicket().getUser().getLastName();
+                                userLetter = validation.getTicket().getUser().getFirstName().substring(0, 1);
+                            }
+
+                            ticketMix = ticketTypeName + " (" + ticketId + ")";
                             userMix = userLetter + ". " + userSurname;
                         }
 
