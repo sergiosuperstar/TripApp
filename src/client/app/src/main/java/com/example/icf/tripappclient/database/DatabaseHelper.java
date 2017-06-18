@@ -61,6 +61,30 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public void emptyPayments() {
+        try {
+            TableUtils.clearTable(getConnectionSource(), AdapterPayment.class);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emptyTickets() {
+        try {
+            TableUtils.clearTable(getConnectionSource(), TicketPurchaseLocal.class);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emptyScannedTickets() {
+        try {
+            TableUtils.clearTable(getConnectionSource(), TicketScannedModel.class);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void emptyDatabase() {
         try {
             TableUtils.clearTable(getConnectionSource(), AdapterPayment.class);

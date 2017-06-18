@@ -47,10 +47,11 @@ public class TicketAdapter extends ArrayAdapter<TicketPurchaseLocal> {
         double cost = tickets.get(position).getPrice();
         Date date = tickets.get(position).getEndDateTime();
         String ticket = tickets.get(position).getTypeString();
+        int numberOfPassangers = tickets.get(position).getNumberOfPassangers();
 
         String dateValue = tickets.get(position).getEndDateTimeString();
         //String dateValue = new SimpleDateFormat("dd.MM.'yy (HH:mm)").format(date);
-        String costValue = String.format("%.2f", cost);
+        String costValue = String.format("%.2f", cost * numberOfPassangers);
 
         value_date.setText(dateValue);
         value_type.setText(ticket);

@@ -68,6 +68,7 @@ public class VoucherScannerActivity extends Activity {
                         if (resp){
                             Toast.makeText(that, "Successfully added funds.", Toast.LENGTH_LONG).show();
                             //session.reloadUserBalance((MainActivity) that);
+                            session.getDatabaseState().refillPayments();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.putExtra("balance", true);
                             startActivity(intent);

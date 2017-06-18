@@ -102,6 +102,8 @@ public class ContinuousCaptureActivity extends Activity {
                         passengerCount.setText("");
                         validThrough.setText("");
                     }
+
+                    session.getDatabaseState().refillScannedTickets();
                 }
 
                 @Override

@@ -110,7 +110,8 @@ public class TicketHistory extends Fragment {
         ticketsExpired = new ArrayList<>();
 
         List<TicketPurchaseLocal> tickets = new ArrayList<>();
-        final Dao<TicketPurchaseLocal, Integer> ticketDAO = ((MainActivity)getActivity()).getSession().getHelper().getTicketDAO();
+        final Dao<TicketPurchaseLocal, Integer> ticketDAO = ((MainActivity)getActivity())
+                .getSession().getDatabaseState().getDatabaseHelper().getTicketDAO();
 
         try {
             tickets = ticketDAO.queryForAll();
@@ -130,14 +131,21 @@ public class TicketHistory extends Fragment {
         if (pref < 998) {
             ticketsExpired = filterByDate(ticketsExpired, margin);
         }
-        Collections.sort(ticketsValid, new CustomComparator());
-        Collections.sort(ticketsExpired, new CustomComparator());
+        Collections.sort(ticketsValid, new CustomComparatorInc());
+        Collections.sort(ticketsExpired, new CustomComparatorDec());
     }
 
-    private class CustomComparator implements Comparator<TicketPurchaseLocal> {
+    private class CustomComparatorInc implements Comparator<TicketPurchaseLocal> {
         @Override
         public int compare(TicketPurchaseLocal o1, TicketPurchaseLocal o2) {
             return o1.getEndDateTime().compareTo(o2.getEndDateTime());
+        }
+    }
+
+    private class CustomComparatorDec implements Comparator<TicketPurchaseLocal> {
+        @Override
+        public int compare(TicketPurchaseLocal o1, TicketPurchaseLocal o2) {
+            return o2.getEndDateTime().compareTo(o1.getEndDateTime());
         }
     }
 

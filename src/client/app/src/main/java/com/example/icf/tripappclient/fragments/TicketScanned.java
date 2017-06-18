@@ -84,7 +84,8 @@ public class TicketScanned extends Fragment {
         ticketsScanned = new ArrayList<>();
 
         //List<TicketScannedModel> ticketsScanned = new ArrayList<>();
-        final Dao<TicketScannedModel, Integer> scannedDAO = ((MainActivity)getActivity()).getSession().getHelper().getScannedDAO();
+        final Dao<TicketScannedModel, Integer> scannedDAO = ((MainActivity)getActivity())
+                .getSession().getDatabaseState().getDatabaseHelper().getScannedDAO();
 
         try {
             ticketsScanned = scannedDAO.queryForAll();
@@ -95,13 +96,13 @@ public class TicketScanned extends Fragment {
         if (pref < 998) {
             ticketsScanned = filterByDate(ticketsScanned, margin);
         }
-        Collections.sort(ticketsScanned, new CustomComparator());
+        Collections.sort(ticketsScanned, new CustomComparatorDec());
     }
 
-    private class CustomComparator implements Comparator<TicketScannedModel> {
+    private class CustomComparatorDec implements Comparator<TicketScannedModel> {
         @Override
         public int compare(TicketScannedModel o1, TicketScannedModel o2) {
-            return o1. getScannedTime().compareTo(o2.getScannedTime());
+            return o2. getScannedTime().compareTo(o1.getScannedTime());
         }
     }
 

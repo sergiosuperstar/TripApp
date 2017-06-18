@@ -94,7 +94,8 @@ public class AccountBalance extends Fragment {
 
         payments = new ArrayList<>();
 
-        final Dao<AdapterPayment, Integer> paymentsDAO = ((MainActivity)getActivity()).getSession().getHelper().getPaymentDAO();
+        final Dao<AdapterPayment, Integer> paymentsDAO = ((MainActivity)getActivity()).getSession()
+                .getDatabaseState().getDatabaseHelper().getPaymentDAO();
 
         try {
             payments = paymentsDAO.queryForAll();
@@ -105,14 +106,14 @@ public class AccountBalance extends Fragment {
         if (pref < 998) {
             payments = filterByDate(payments, margin);
         }
-        Collections.sort(payments, new CustomComparator());
+        Collections.sort(payments, new CustomComparatorDec());
 
     }
 
-    private class CustomComparator implements Comparator<AdapterPayment> {
+    private class CustomComparatorDec implements Comparator<AdapterPayment> {
         @Override
         public int compare(AdapterPayment o1, AdapterPayment o2) {
-            return o1.getEndDateTime().compareTo(o2.getEndDateTime());
+            return o2.getEndDateTime().compareTo(o1.getEndDateTime());
         }
     }
 

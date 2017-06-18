@@ -10,6 +10,7 @@ import com.example.icf.tripappclient.activities.LoginActivity;
 import com.example.icf.tripappclient.activities.RegisterActivity;
 import com.example.icf.tripappclient.database.DatabaseHelper;
 import com.example.icf.tripappclient.activities.MainActivity;
+import com.example.icf.tripappclient.database.DatabaseState;
 import com.example.icf.tripappclient.fragments.AccountBalance;
 import com.example.icf.tripappclient.service.ServiceUtils;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -26,6 +27,7 @@ import retrofit2.Response;
 
 public class SessionManager {
 
+    private DatabaseState databaseState;
     private SharedPreferences pref;
     private Editor editor;
     private Context _context;
@@ -43,6 +45,7 @@ public class SessionManager {
         this._context = context;
         pref = _context.getSharedPreferences("Session", PRIVATE_MODE);
         editor = pref.edit();
+        databaseState = new DatabaseState(this, _context);
     }
 
     public void login(LoginActivity activity, String username, String password){
@@ -192,13 +195,9 @@ public class SessionManager {
             public void onFailure(Call<User> call, Throwable t) {
             }
         });
-
     }
 
-    public DatabaseHelper getHelper() {
-        if (databaseHelper == null) {
-            databaseHelper = OpenHelperManager.getHelper(_context, DatabaseHelper.class);
-        }
-        return databaseHelper;
+    public DatabaseState getDatabaseState() {
+        return this.databaseState;
     }
 }

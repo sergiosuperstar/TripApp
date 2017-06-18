@@ -31,6 +31,10 @@ import com.example.icf.tripappclient.service.ServiceUtils;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.sql.SQLException;
+
+import io.swagger.client.model.TicketPurchaseLocal;
 import io.swagger.client.model.TicketType;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -279,8 +283,17 @@ public class MainActivity extends AppCompatActivity
         if (successful) {
             Toast.makeText(this, "Purchase successful", Toast.LENGTH_LONG).show();
             session.setBalance(ticket.getUser().getBalance());
-            //TicketInfo tiFragment = TicketInfo.newInstance(ticket);
-            //changeFragment(tiFragment);
+
+            session.getDatabaseState().refillTickets();
+            session.getDatabaseState().refillPayments();
+
+            TicketPurchaseLocal ticketLocal = new TicketPurchaseLocal(ticket.getId(),
+                    ticket.getCode().toString(), ticket.getPrice(), ticket.getStartDateTime(),
+                    ticket.getEndDateTime(), ticket.getNumberOfPassangers(), ticket.getType().getName(),
+                    ticket.getUserId());
+
+            TicketInfo tiFragment = TicketInfo.newInstance(ticketLocal);
+            changeFragment(tiFragment);
         } else {
             Toast.makeText(this, "Purchase failed or not enough credits", Toast.LENGTH_LONG).show();
         }
