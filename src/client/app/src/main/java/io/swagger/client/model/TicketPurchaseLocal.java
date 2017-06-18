@@ -57,6 +57,17 @@ public class TicketPurchaseLocal implements Serializable {
     public TicketPurchaseLocal() {
     }
 
+    public TicketPurchaseLocal(TicketPurchase purch) {
+        this.id = purch.getId();
+        this.code = purch.getCode().toString();
+        this.price = purch.getPrice();
+        this.startDateTime = purch.getStartDateTime();
+        this.endDateTime = purch.getEndDateTime();
+        this.numberOfPassangers = purch.getNumberOfPassangers();
+        this.typeString = purch.getType().getName();
+        this.userId = purch.getUserId();
+    }
+
     public TicketPurchaseLocal(Integer id, String code, Double price, Date startDateTime,
                                Date endDateTime, Integer numberOfPassangers,
                                String typeString, Long userId) {

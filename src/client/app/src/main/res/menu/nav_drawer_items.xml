@@ -6,10 +6,10 @@
             android:id="@+id/nav_main"
             android:icon="@drawable/ic_shopping"
             android:title="Purchase tickets" />
-        <!--<item
+        <item
             android:id="@+id/nav_ticket_info"
             android:icon="@drawable/ic_view_day_black_24dp"
-            android:title="My ticket" />-->
+            android:title="Quick ticket" />
         <item
             android:id="@+id/nav_ticket_history"
 			android:icon="@drawable/list"
